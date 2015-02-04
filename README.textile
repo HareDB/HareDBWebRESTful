@@ -1,2 +1,32 @@
-# WebRESTful
-Web service of HareDB
+h1. HareDBWebRESTful
+
+HareDBWebRESTful is a RESTful web services of HBase, and using the same engine with HareDBHBaseClient.
+
+h3. General Info
+
+For the latest information about HareDBHBaseClient, please visit out website at:
+
+  http://www.haredb.com/
+
+h3. Requirements
+
+- Java 1.6, 1.7
+- Hadoop 2.x
+- HBase 0.98.x
+- Apache Tomcat 7.x or other Web container
+
+h2. Getting Started
+
+* Download and unzip source code, then building war file from source code with "Maven":http://maven.apache.org .
+
+* Run the @mvn clean package -DskipTests@ command to build war. You can also export with eclipse.
+
+* Deploy the war file in your container.
+
+h2. Note
+
+* Q: When I call the API, return "connection is null,please reconnection".
+** A: Please reconnect with the {hostname}/connect API.
+
+* Q: Upload data to hbase fail.
+** A: Please make sure the data file and schema file have already uploaded to your HDFS.
