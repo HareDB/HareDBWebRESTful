@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>haredb</groupId>
+    <artifactId>HareDB_HBaseClient_WebRestful</artifactId>
+    <packaging>war</packaging>
+    <version>1.98.1</version>
+    <name>HareDB_HBaseClient_WebRestful</name>
+    
+   <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <finalName>HareDB_HBaseClient_WebRestful</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<projectNameTemplate>[artifactId]</projectNameTemplate>
+					<jeeversion>6.0</jeeversion>
+					<wtpversion>2.0</wtpversion>
+					<wtpContextName>${web-war.contextName}</wtpContextName>
+					<wtpdefaultserver>Tomcat v7.0 Server at localhost</wtpdefaultserver>
+					<downloadSources>true</downloadSources>
+					<classpathContainers>
+						<classpathContainer>org.eclipse.jst.j2ee.internal.web.container</classpathContainer>
+						<classpathContainer>org.eclipse.jst.j2ee.internal.module.container</classpathContainer>
+					</classpathContainers>
+					<additionalConfig>
+						<file>
+							<name>.settings/org.eclipse.core.resources.prefs</name>
+							<content>
+			                <![CDATA[eclipse.preferences.version=1${line.separator}encoding/<project>=${project.build.sourceEncoding}${line.separator}]]>
+							</content>
+						</file>
+					</additionalConfig>
+					<additionalProjectFacets>
+					</additionalProjectFacets>
+				</configuration>
+			</plugin>
+        </plugins>
+        
+    </build>
+
+    <dependencies>
+    	<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>HareDB_HBaseClient_FacadeAPI</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>HareDB_HBaseClient_Core</artifactId>
+		    <version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>HareDB_Hive_MetaStore</artifactId>
+		    <version>${project.version}</version>
+		</dependency>
+		
+        <dependency>
+             <groupId>com.sun.jersey.jersey-test-framework</groupId>
+             <artifactId>jersey-test-framework-grizzly2</artifactId>
+             <version>1.9</version>
+             <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+			<groupId>com.sun.jersey.jersey-test-framework</groupId>
+			<artifactId>jersey-test-framework-core</artifactId>
+			<version>1.9</version>
+		</dependency>
+		
+        <dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.9</version>
+		</dependency>
+		
+        <dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>1.9</version>
+		</dependency>
+        
+		<dependency>
+		    <groupId>com.sun.jersey</groupId>
+		    <artifactId>jersey-json</artifactId>
+		    <version>1.9</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.3</version>
+		</dependency>
+    </dependencies>
+ 
+</project>
