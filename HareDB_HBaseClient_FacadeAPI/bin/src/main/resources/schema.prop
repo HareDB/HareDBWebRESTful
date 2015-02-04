@@ -1,7 +1,0 @@
-bulkloadseparator=|
-bulkloadfileformat=NORMAL
-bulkloadtablename=table100
-bulkloadoutputfolder=hdfs://host1:9000/result
-bulkloadcolumn=:key,cf:column1,cf:column2
-bulkloadcolumnrowkey=true,false,false
-bulkloadcolumnfamily=cf
