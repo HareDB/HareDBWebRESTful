@@ -20,10 +20,8 @@ h2. Getting Started
 * Download and unzip source code, then building war file from source code with "Maven":http://maven.apache.org .
 
 * Run the Maven command to build war. You can also export with eclipse.
-** @cd HareDB_HBaseClient_FacadeAPI@
-** @mvn clean package -DskipTests@
-** @cd ../HareDB_HBaseClient_WebRestful@
-** @mvn install:install-file -DgroupId=haredb -DartifactId=HareDB_HBaseClient_FacadeAPI -Dversion=1.98.1 -Dpackaging=jar -Dfile=../HareDB_HBaseClient_FacadeAPI/target/HareDB_HBaseClient_FacadeAPI-1.98.1.jar@
+** @cd HareDBWebRESTful@
+** @mvn clean install -DskipTests@
 ** @mvn clean package -DskipTests@
 
 * Deploy the war file in your container.
