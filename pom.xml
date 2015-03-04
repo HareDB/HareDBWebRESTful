@@ -14,6 +14,24 @@
 		<maven>2.2.1</maven>
 	</prerequisites>
 	
+	<repositories>
+	    <repository>
+            <id>cloudera</id>
+            <url>https://repository.cloudera.com/artifactory/repo/</url>
+        </repository>
+		<repository>
+			<id>in-project</id>
+			<name>Project Repository</name>
+			<url>file://${project.basedir}/libs</url>
+		</repository>
+		<repository>
+			<id>objectweb-snapshot</id>
+			<name>ObjectWeb Maven Repository</name>
+			<url>http://maven.objectweb.org/maven2-snapshot</url>
+		</repository>
+		
+	</repositories>
+	
 	<modules>
 		<module>HareDB_HBaseClient_FacadeAPI</module>
 		<module>HareDB_HBaseClient_WebRestful</module>
