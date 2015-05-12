@@ -158,7 +158,7 @@ public class HareBulkLoadDataBySchema extends HareContrivance{
 		bulkFileBean.setLogFilePath("/tmp");
 		bulkFileBean.setFilePath(this.uploadSchemaBean.getDataPath());
 		bulkFileBean.setOutputFolder(this.properties.getProperty("bulkloadoutputfolder"));
-		bulkFileBean.setSeparator("|");
+		bulkFileBean.setSeparator(this.properties.getProperty("bulkloadseparator"));
 		bulkFileBean.setBkResultFilePath(this.uploadSchemaBean.getResultPath());
 		return bulkFileBean;
 	}

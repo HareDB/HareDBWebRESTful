@@ -1,6 +1,6 @@
 bulkloadtype=HFile
-bulkloadexistheader=False
-bulkloadskipbadline=True
+bulkloadexistheader=false
+bulkloadskipbadline=true
 bulkloadcompression=false
 bulkloadjarpath=/WEB-INF/classes/HareDB_Bulkload.jar
 bulkloadfilelocalhdfs=HDFS

@@ -12,6 +12,7 @@ public class MessageInfo implements IBean{
 	protected long responseTime;
 	protected String status;
 	protected String exception;
+	protected String connectionKey;
 	
 	
 	@Override
@@ -47,5 +48,11 @@ public class MessageInfo implements IBean{
 	}
 	public void setException(String exception) {
 		this.exception = exception;
+	}
+	public String getConnectionKey() {
+		return connectionKey;
+	}
+	public void setConnectionKey(String connectionKey) {
+		this.connectionKey = connectionKey;
 	}
 }
