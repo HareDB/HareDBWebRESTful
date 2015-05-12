@@ -44,30 +44,53 @@ public class HareQueryScan {
 					DataCellBean e2 = (DataCellBean)o;
 					while(e1.hasNext()){
 						DataCellBean o1 = e1.next();
-						if(o1.getColumnFamily().equals(e2.getColumnFamily()) && o1.getQualifier().equals(e2.getQualifier())){
+						if(o1.getColumnFamily() != null
+								&& o1.getQualifier() != null) {
+							if(o1.getColumnFamily().equals(e2.getColumnFamily()) 
+									&& o1.getQualifier().equals(e2.getQualifier())){
+								return true;
+							}
+						} else if (o1.getRowkey().equals(e2.getRowkey())) {
 							return true;
 						}
+						
 					}
 					return false;
 				}
 			};
 			int rowCount = 1;
 			int limitCount = 1;
-			
+			DataCellBean cellBean;
+						
 			for(Result r : rs){
-				if(rowCount >= pageSize && limitCount <= limit){
+//				if(rowCount >= pageSize && limitCount <= limit){
+				if(rowCount > (pageSize-1)*limit && limitCount <= limit){
 					List<String> data = new ArrayList<String>();
 					KeyValue keyvalues[] = r.raw();
+					
+					cellBean = new DataCellBean();
+					cellBean.setRowkey(":key");
+					if(!cellHeads.equals(cellBean)){
+						cellHeads.add(cellBean);
+					}
+					
 					for(KeyValue keyvalue:keyvalues){
-						DataCellBean cellBean = new DataCellBean();
+						cellBean = new DataCellBean();
 						cellBean.setColumnFamily(Bytes.toString(keyvalue.getFamily()));
 						cellBean.setQualifier(Bytes.toString(keyvalue.getQualifier()));
+//						cellBean.setRowkey(Bytes.toString(keyvalue.get));
 						if(!cellHeads.equals(cellBean)){
 							cellHeads.add(cellBean);
 						}
 					}
 					for(DataCellBean cellHead : cellHeads){
-						String value = Bytes.toString(r.getValue(Bytes.toBytes(cellHead.getColumnFamily()), Bytes.toBytes(cellHead.getQualifier())));
+						String value;
+						if(cellHead.getRowkey() == null) {
+							value = Bytes.toString(r.getValue(Bytes.toBytes(cellHead.getColumnFamily()), Bytes.toBytes(cellHead.getQualifier())));
+						} else {
+							value = Bytes.toString(r.getRow());
+						}
+						
 						if(value == null){
 							data.add("");
 						}else{
