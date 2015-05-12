@@ -59,11 +59,17 @@ public class HareQueryHareQL extends HareContrivance{
 		        Schema s = driver.getSchema();
 		        ArrayList<String> list = new ArrayList<String>();
 		        long count = 0;
+		        int rowCount = 1;
+				int limitCount = 1;
 		        try {
 		            while (driver.getResults(list)) {
 		                for (String r : list) {
-		                   datas.add(r);
-		                   count++;
+		                	if(rowCount > (page-1)*limit && limitCount <= limit) {
+		                		datas.add(r);
+				                count++;
+				                limitCount++;
+		                	}
+		                	rowCount++;  
 		                }
 		                list.clear();
 		            }

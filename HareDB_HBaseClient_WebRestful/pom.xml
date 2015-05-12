@@ -14,7 +14,7 @@
     <name>WebRestful</name>
     
     <build>
-        <finalName>HareDB_WebRestful</finalName>
+        <finalName>HareDB_WebRestful-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
