@@ -15,15 +15,15 @@
 	</prerequisites>
 	
 	<repositories>
-	    <repository>
-            <id>cloudera</id>
-            <url>https://repository.cloudera.com/artifactory/repo/</url>
-        </repository>
 		<repository>
 			<id>in-project</id>
 			<name>Project Repository</name>
 			<url>file://${project.basedir}/libs</url>
 		</repository>
+		<repository>
+            <id>cloudera</id>
+            <url>https://repository.cloudera.com/artifactory/repo/</url>
+        </repository>
 		<repository>
 			<id>objectweb-snapshot</id>
 			<name>ObjectWeb Maven Repository</name>
@@ -289,6 +289,10 @@
 				  	<groupId>org.apache.hadoop</groupId>
   					<artifactId>hadoop-client</artifactId>
 				</exclusion>
+				<exclusion>
+                    <groupId>org.apache.hadoop</groupId>
+                    <artifactId>hadoop-core</artifactId>
+                </exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -313,6 +317,10 @@
 				  	<groupId>org.apache.hadoop</groupId>
   					<artifactId>hadoop-mapreduce-client-core</artifactId>
 				</exclusion>
+				<exclusion>
+                    <groupId>org.apache.hadoop</groupId>
+                    <artifactId>hadoop-core</artifactId>
+                </exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>

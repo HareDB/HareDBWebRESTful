@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.haredb.client.facade.bean.ConnectionBean;
 import com.haredb.client.facade.bean.MessageInfo;
 import com.haredb.hbaseclient.core.Connection;
+import com.haredb.hbaseclient.core.KerberosPrincipal;
 import com.haredb.hive.metastore.connection.HiveMetaConnectionBean;
 import com.haredb.hive.metastore.connection.HiveMetaConnectionBean.EnumHiveMetaStoreConnectType;
 
@@ -72,7 +73,25 @@ public class ConnectionUtil {
 			this.conn.setRmAdminAddressHostPort(connBean.getRmAdminAddressHostPort());
 			this.conn.setMrJobhistoryAddress(connBean.getMrJobhistoryAddress());
 			this.conn.setYarnNodeManagerAuxServices(prop.getProperty("yarnNodeManagerAuxServices"));
+			
+			this.conn.setRegisterCoprocessorHdfsPath(connBean.getNameNodeHostPort());
+			
+			if(connBean.getSolrZKHosts() != null) {
+				this.conn.setSolrZKHosts(connBean.getSolrZKHosts());
+			}
+			
+			if(connBean.isEnableKerberos()) {
+				setCheckKerberosItem();
+				info = checkProperty();
+				if(info.getStatus().equals(MessageInfo.SUCCESS) == false){
+					return info;
+				}
+				this.conn.setKerberosPrincipal(new KerberosPrincipal(connBean.getHbaseMasterPrincipal(),connBean.getHbaseRegionServerPrincipal(),
+						connBean.getDfsNameNodePrincipal(),connBean.getDfsDataNodePrincipal(),connBean.getHiveMetaStorePrincipal(),
+						connBean.getYarnResourceMgrPrincipal(),connBean.getYarnNodeMgrPrincipal()) );
+			}
 			this.conn.create();
+			
 			
 			if(prop.getProperty("platform").equals("cloudera")){
 				this.conn.setYarnApplicationClasspath(prop.getProperty("yarnApplicationClasspath"));
@@ -176,8 +195,26 @@ public class ConnectionUtil {
 			checkItem.add("metaStoreConnectURL");
 			checkItem.add("metaStoreConnectUserName");
 			checkItem.add("metaStoreConnectPassword");
+			
+			checkItem.add("enableKerberos");
+			
 		}
 		
+	}
+	
+	private void setCheckKerberosItem(){
+		if(checkItem != null) {
+			checkItem.clear();
+		} else {
+			checkItem = new ArrayList<String>();
+		}
+		checkItem.add("hbaseMasterPrincipal");
+		checkItem.add("hbaseRegionServerPrincipal");
+		checkItem.add("dfsNameNodePrincipal");
+		checkItem.add("dfsDataNodePrincipal");
+		checkItem.add("hiveMetaStorePrincipal");
+		checkItem.add("yarnResourceMgrPrincipal");
+		checkItem.add("yarnNodeMgrPrincipal");
 	}
 	
 }
