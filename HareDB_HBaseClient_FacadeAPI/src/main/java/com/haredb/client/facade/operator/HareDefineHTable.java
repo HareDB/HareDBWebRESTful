@@ -21,7 +21,6 @@ public class HareDefineHTable extends HareContrivance{
 	public HareDefineHTable(Connection connection){
 		super(connection);
 		this.connection = connection;
-		this.connection.create();
 	}
 	
 

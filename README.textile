@@ -26,7 +26,16 @@ h2. Getting Started
 
 * Deploy the war file in your container.
 
-h2. Note
+h2. Release Note
+
+* 1.98.1 - Feature: Support
+** HBase API Scan、Put.
+** Backload Data.
+** "HareQL":http://www.haredb.com/HareDB/src_ap/Product_HareDBClient_QL.aspx?l=4 (Sql like language).
+
+* 1.98.05 - Bugs fixed and support kerberos.
+
+h2. Note 
 
 * Q: When I call the API, return "connection is null,please reconnection".
 ** A: Please reconnect with the {hostname}/connect API.

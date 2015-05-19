@@ -11,7 +11,8 @@ public class ConnectionBean {
     private String name;
     private String zookeeperHost;
     private String zookeeperPort;
-    private Map<String, String> maps;
+    private String solrZKHosts;
+	private Map<String, String> maps;
     private String jobTrackerHostPort;
     private String nameNodeHostPort;
     
@@ -36,6 +37,16 @@ public class ConnectionBean {
 	private String metaStoreConnectPassword;
 	private String metaUris;//remote
 	private String hdfsMetaStoreDir;//jack
+	
+	//Kerberos Principal
+	private boolean enableKerberos;
+	private String hbaseMasterPrincipal;
+	private String hbaseRegionServerPrincipal;
+	private String dfsNameNodePrincipal;
+	private String dfsDataNodePrincipal;
+	private String hiveMetaStorePrincipal;
+	private String yarnResourceMgrPrincipal;
+	private String yarnNodeMgrPrincipal;
     
     
 	public String getName() {
@@ -56,6 +67,12 @@ public class ConnectionBean {
 	public void setZookeeperPort(String zookeeperPort) {
 		this.zookeeperPort = zookeeperPort;
 	}
+	public String getSolrZKHosts() {
+	    return this.solrZKHosts;
+	  }
+	  public void setSolrZKHosts(String solrZKHosts) {
+	    this.solrZKHosts = solrZKHosts;
+	  }
 	public Map<String, String> getMaps() {
 		return maps;
 	}
@@ -197,7 +214,54 @@ public class ConnectionBean {
 	}
     
     
-	
+	public boolean isEnableKerberos() {
+		return enableKerberos;
+	}
+	public void setEnableKerberos(boolean enableKerberos) {
+		this.enableKerberos = enableKerberos;
+	}
+	public String getHbaseMasterPrincipal() {
+		return hbaseMasterPrincipal;
+	}
+	public void setHbaseMasterPrincipal(String hbaseMasterPrincipal) {
+		this.hbaseMasterPrincipal = hbaseMasterPrincipal;
+	}
+	public String getHbaseRegionServerPrincipal() {
+		return hbaseRegionServerPrincipal;
+	}
+	public void setHbaseRegionServerPrincipal(String hbaseRegionServerPrincipal) {
+		this.hbaseRegionServerPrincipal = hbaseRegionServerPrincipal;
+	}
+	public String getDfsNameNodePrincipal() {
+		return dfsNameNodePrincipal;
+	}
+	public void setDfsNameNodePrincipal(String dfsNameNodePrincipal) {
+		this.dfsNameNodePrincipal = dfsNameNodePrincipal;
+	}
+	public String getDfsDataNodePrincipal() {
+		return dfsDataNodePrincipal;
+	}
+	public void setDfsDataNodePrincipal(String dfsDataNodePrincipal) {
+		this.dfsDataNodePrincipal = dfsDataNodePrincipal;
+	}
+	public String getHiveMetaStorePrincipal() {
+		return hiveMetaStorePrincipal;
+	}
+	public void setHiveMetaStorePrincipal(String hiveMetaStorePrincipal) {
+		this.hiveMetaStorePrincipal = hiveMetaStorePrincipal;
+	}
+	public String getYarnResourceMgrPrincipal() {
+		return yarnResourceMgrPrincipal;
+	}
+	public void setYarnResourceMgrPrincipal(String yarnResourceMgrPrincipal) {
+		this.yarnResourceMgrPrincipal = yarnResourceMgrPrincipal;
+	}
+	public String getYarnNodeMgrPrincipal() {
+		return yarnNodeMgrPrincipal;
+	}
+	public void setYarnNodeMgrPrincipal(String yarnNodeMgrPrincipal) {
+		this.yarnNodeMgrPrincipal = yarnNodeMgrPrincipal;
+	}
 	
 	
 }

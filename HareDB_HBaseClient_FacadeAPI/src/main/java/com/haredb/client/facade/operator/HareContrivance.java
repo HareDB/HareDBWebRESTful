@@ -24,8 +24,7 @@ public abstract class HareContrivance {
 	
 	public HareContrivance(Connection connection){
 		this.connection = connection;
-		this.config = new Configuration();
-		this.config.set(Connection.nameNodeHostPortString, connection.getNameNodeHostPort());
+		this.config = this.connection.getConfig();
 	}
 		
 	protected boolean checkNull(Object t) {
