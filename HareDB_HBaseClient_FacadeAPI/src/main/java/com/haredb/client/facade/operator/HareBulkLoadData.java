@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.hbase.io.compress.Compression.Algorithm;
-import org.apache.hadoop.hbase.util.Bytes;
 
 import com.haredb.client.facade.bean.BulkFileBean;
 import com.haredb.client.facade.bean.BulkTableBean;
@@ -55,9 +54,7 @@ public class HareBulkLoadData extends HareContrivance{
 		
 
 		TableInfoBean tableInfoBean = new TableInfoBean();
-		super.connection.create();
 		try {
-			//取得ColumnFamilyconnection.create();
 			
 			HareTable hareTable = new HareTable(super.connection, bulkTableBean.getTableName());
 			if(hareTable.exists()){	
@@ -122,12 +119,17 @@ public class HareBulkLoadData extends HareContrivance{
 		if(bulkFileBean.getBkResultFilePath() == null || bulkFileBean.getBkResultFilePath().trim() == "") {
 			throw new RuntimeException("Parameter is empty: resultPath");
 		} else {
-			fileInfoBean.setBkResultFilePath(bulkFileBean.getBkResultFilePath());
+			fileInfoBean.setBkResultFilePath(bulkFileBean.getBkResultFilePath());//hdfs:
 		}
 		
-		
 		BulkloadInvoker bulkloadInvoker =  new BulkloadInvoker(super.connection);
-		bulkloadInvoker.doBulkload(fileInfoBean, tableInfoBean, bulkInfoBean);
+		try{
+			bulkloadInvoker.doBulkload(fileInfoBean, tableInfoBean, bulkInfoBean);
+		} catch (Exception e)
+		{
+			throw new RuntimeException("BulkloadInvoker exception:"+e.getMessage());
+		}
+		
 		return bulkInfoBean.getJobName();
 	}
 	

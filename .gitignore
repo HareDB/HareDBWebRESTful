@@ -3,16 +3,16 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# Package Files #
+*.war
+*.ear
+
 #ignore project file
 *.classpath
 *.project
 .settings/
 target/
-
-# Package Files #
-*.war
-*.ear
-
+bin/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

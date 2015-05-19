@@ -22,15 +22,12 @@ import com.haredb.hbaseclient.core.Connection;
 public class HareBulkLoadDataBySchema extends HareContrivance{
 	private Properties properties=new Properties();
 	private Properties bulkloadProp = new Properties();
-//	private UploadSchemaBean uploadSchemaBean;
 	private String containerRealPath;
 	private String jobName = null;
-	final Connection connection;
 	final UploadSchemaBean uploadSchemaBean;
 		
 	public HareBulkLoadDataBySchema(Connection connection, UploadSchemaBean uploadSchemaBean){
 		super(connection);
-		this.connection=connection;
 		this.uploadSchemaBean=uploadSchemaBean;
 	}
 		
@@ -71,8 +68,7 @@ public class HareBulkLoadDataBySchema extends HareContrivance{
 	}
 	
 	protected void loadSchemaProperties(Connection connection) throws Exception{
-		Configuration config = new Configuration();
-		config.set(Connection.nameNodeHostPortString, connection.getNameNodeHostPort());
+		Configuration config = connection.getConfig();
 			
 		FileSystem fs = FileSystem.get(config);
 	    FSDataInputStream inStream = fs.open(new Path(this.uploadSchemaBean.getSchemaFilePath()));
