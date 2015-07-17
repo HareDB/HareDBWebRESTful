@@ -41,8 +41,9 @@
 		<web-war.contextName>HareDBClient</web-war.contextName>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.junit>4.8.2</version.junit>
+		<version.hadoop.common>2.5.0-cdh5.2.1</version.hadoop.common>
 		<version.hadoop>2.3.0-cdh5.1.0</version.hadoop>
-		<version.hive>0.13.1</version.hive>
+		<version.hive>0.13.0</version.hive>
 		<version.hbase>0.98.6-cdh5.2.1</version.hbase>
 		<version.gson>2.3</version.gson>
 		<version.mysql>5.1.18</version.mysql>
@@ -373,7 +374,7 @@
 		<dependency>                                                                                                                                       
 			<groupId>org.apache.hadoop</groupId>                                                                                                           
 			<artifactId>hadoop-common</artifactId>                                                                                                         
-			<version>${version.hadoop}</version>
+			<version>${version.hadoop.common}</version>
 			<exclusions>
 		        <exclusion>
 		            <groupId>org.mortbay.jetty</groupId>
