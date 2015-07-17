@@ -31,7 +31,7 @@ public class HareBulkLoadDataBySchema extends HareContrivance{
 		this.uploadSchemaBean=uploadSchemaBean;
 	}
 		
-	public BulkloadStatusBean runSchemaBulkload(){
+	public BulkloadStatusBean runSchemaBulkload() throws Exception{
 		long timestamp = System.currentTimeMillis();
 		long startTime = System.currentTimeMillis();
 		this.jobName = "application_" + timestamp;
@@ -56,7 +56,11 @@ public class HareBulkLoadDataBySchema extends HareContrivance{
 					MessageInfo info = new MessageInfo();
 					info.setStatus(MessageInfo.ERROR);
 					info.setException(e.getMessage());
-					bulkload.writeFileToHdfs(info, uploadSchemaBean.getResultPath(),true);
+					try {
+						bulkload.writeFileToHdfs(info, uploadSchemaBean.getResultPath(),true);
+					} catch (Exception e1) {
+						throw new RuntimeException(e1);
+					}
 				}	
 			}
 			

@@ -220,4 +220,9 @@ public class HareMetaStoreOperatorTest {
 		}
 	}
 
+	@Test
+	public void test1(){
+		
+	}
+	
 }
