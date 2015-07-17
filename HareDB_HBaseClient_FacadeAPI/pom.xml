@@ -114,7 +114,10 @@
 		    <groupId>${project.groupId}</groupId>
 		    <artifactId>HareDB_HBase_MetaStore</artifactId>
 		</dependency>
-		
+		<dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>HareDB_HBase_Index</artifactId>
+		</dependency>
 	</dependencies>
 	
 </project>

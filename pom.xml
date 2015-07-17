@@ -20,6 +20,8 @@
 			<name>Project Repository</name>
 			<url>file://${project.basedir}/libs</url>
 		</repository>
+		
+		<!--  
 		<repository>
             <id>cloudera</id>
             <url>https://repository.cloudera.com/artifactory/repo/</url>
@@ -29,6 +31,7 @@
 			<name>ObjectWeb Maven Repository</name>
 			<url>http://maven.objectweb.org/maven2-snapshot</url>
 		</repository>
+		-->
 		
 	</repositories>
 	
@@ -473,7 +476,11 @@
 		    <artifactId>HareDB_HBase_MetaStore</artifactId>
 		    <version>${project.version}</version>
 		</dependency>
-		
+		<dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>HareDB_HBase_Index</artifactId>
+		    <version>${project.version}</version>
+		</dependency>
 		
 		<dependency>
              <groupId>com.sun.jersey.jersey-test-framework</groupId>
