@@ -21,7 +21,7 @@
 			<url>file://${project.basedir}/libs</url>
 		</repository>
 		
-		<!--  
+		 
 		<repository>
             <id>cloudera</id>
             <url>https://repository.cloudera.com/artifactory/repo/</url>
@@ -31,7 +31,7 @@
 			<name>ObjectWeb Maven Repository</name>
 			<url>http://maven.objectweb.org/maven2-snapshot</url>
 		</repository>
-		-->
+		
 		
 	</repositories>
 	
@@ -48,6 +48,7 @@
 		<version.hadoop>2.3.0-cdh5.1.0</version.hadoop>
 		<version.hive>0.13.0</version.hive>
 		<version.hbase>0.98.6-cdh5.2.1</version.hbase>
+		<version.common>1.9.2</version.common>
 		<version.gson>2.3</version.gson>
 		<version.mysql>5.1.18</version.mysql>
 		<version.xstream>1.4.4</version.xstream>
@@ -98,6 +99,12 @@
 	
 <dependencyManagement>
 	<dependencies>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>${version.common}</version>
+		</dependency>
+	
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
