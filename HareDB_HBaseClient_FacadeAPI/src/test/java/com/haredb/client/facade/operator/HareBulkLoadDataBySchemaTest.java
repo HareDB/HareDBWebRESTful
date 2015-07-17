@@ -62,7 +62,12 @@ public class HareBulkLoadDataBySchemaTest {
 		
 		HareBulkLoadDataBySchema bulkloadBySchema = new HareBulkLoadDataBySchema(connection, schemaBean);
 		
-		bulkloadBySchema.runSchemaBulkload();
+		try {
+			bulkloadBySchema.runSchemaBulkload();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Test

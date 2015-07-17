@@ -8,6 +8,7 @@ public class MessageInfo implements IBean{
 	public static final String ERROR="error";
 	public static final String SUCCESS="success";
 	public static final String OTHER="other";
+	public static final String RUNNING="running";
 	
 	protected long responseTime;
 	protected String status;

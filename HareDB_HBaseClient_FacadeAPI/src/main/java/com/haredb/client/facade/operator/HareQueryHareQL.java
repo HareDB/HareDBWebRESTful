@@ -20,20 +20,93 @@ import com.haredb.hive.ql.HareDriver;
 public class HareQueryHareQL extends HareContrivance{
 	private HiveMetaConnectionBean hiveMetaConnectionBean;
 	private String fileName="result.txt";
+	private HiveConf hiveConf = null;
 	
 	public HareQueryHareQL(Connection connection, HiveMetaConnectionBean hiveMetaConnectionBean){
 		super(connection);
 		this.hiveMetaConnectionBean = hiveMetaConnectionBean;
+		initHiveConf();
 	}
-	public HareQLResultStatusBean executeHareQL(String tempFilePath, String sql, int page, int limit){
-		HiveConf hiveConf = this.getHiveConf();
+	
+	public HareQLResultStatusBean executeHareQL(String tempFilePath, String sql, int page, int limit) throws Exception{
 		if(tempFilePath != null){
 			hiveConf.set(HareQLConfiguration.QUERYTEMPFILEPATH, tempFilePath);
 		}
-		return this.runHareQL(hiveConf, sql, page, limit);
+		return this.runHareQL(sql, page, limit);
 	}
 	
-	private HareQLResultStatusBean runHareQL(HiveConf hiveConf, String sql, int page, int limit){
+	/**
+	 * Execute HareQL with new thread
+	 * 
+	 * @param tempFilePath
+	 * @param sql
+	 * @param page
+	 * @param limit
+	 * @return
+	 * @throws Exception
+	 */
+	public HareQLResultStatusBean submitHareQL(final String tempFilePath, final String sql, final int page, final int limit) throws Exception{
+		HareQLResultStatusBean resultStatus = new HareQLResultStatusBean();
+		if(tempFilePath != null){
+			hiveConf.set(HareQLConfiguration.QUERYTEMPFILEPATH, tempFilePath);
+		}
+		long startTime = System.currentTimeMillis();
+		Thread bkLoadThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				
+				try {
+					runHareQL(sql, page, limit);
+				}catch(Exception e) {
+					MessageInfo info = new MessageInfo();
+					info.setStatus(MessageInfo.ERROR);
+					info.setException(e.getMessage());
+					try {
+						writeFileToHdfs(info, tempFilePath,fileName,true);
+					} catch (Exception e1) {
+						throw new RuntimeException(e1);
+					}
+				}	
+			}
+			
+		});
+		bkLoadThread.start();
+		long endTime = System.currentTimeMillis();
+		
+		resultStatus.setStatus(MessageInfo.SUCCESS);
+		resultStatus.setResponseTime(endTime - startTime);
+		return resultStatus;
+	}
+	
+	/**
+	 * get Hare Query Status
+	 * 
+	 * @param tempFilePath
+	 * @return
+	 */
+	public HareQLResultStatusBean getHareQLStatus(String tempFilePath) {
+		HareQLResultStatusBean resultStatus = new HareQLResultStatusBean();
+		try {
+			if (tempFilePath == null) {
+				resultStatus.setStatus(MessageInfo.ERROR);
+				resultStatus.setException("File Path is null !");
+			} else {
+				boolean result = this.checkFileExist(tempFilePath,
+						this.fileName);
+				if (result == false) {
+					resultStatus.setStatus(MessageInfo.RUNNING);
+				} else {
+					resultStatus.setStatus(MessageInfo.SUCCESS);
+				}
+			}
+		} catch (Exception e) {
+			resultStatus.setStatus(MessageInfo.ERROR);
+			resultStatus.setException(e.getMessage());
+		}
+		return resultStatus;
+	}
+	
+	private HareQLResultStatusBean runHareQL(String sql, int page, int limit) throws Exception{
 		 HareQLResultStatusBean resultStatus = new HareQLResultStatusBean();
 		 String resultFilePath = null;
 			try{
@@ -100,8 +173,9 @@ public class HareQueryHareQL extends HareContrivance{
 			return resultStatus;
 	}
 	
-	private HiveConf getHiveConf(){
-		HiveConf hiveConf = new HiveConf();
+	private void initHiveConf(){
+		
+		this.hiveConf = new HiveConf();
 		hiveConf.addResource(this.connection.getConfig());
 
 		hiveConf.set("hive.dbname", "default");
@@ -127,6 +201,5 @@ public class HareQueryHareQL extends HareContrivance{
 		hiveConf.set("hbase.client.retries.number", "1");
 		hiveConf.set(HareQLConfiguration.SECONDRESULTBEANSPLITSIZE, "500");
 		hiveConf.set(HareQLConfiguration.FIRSTRESULTBEANSPLITSIZE, "1000");
-		return hiveConf;
 	}
 }

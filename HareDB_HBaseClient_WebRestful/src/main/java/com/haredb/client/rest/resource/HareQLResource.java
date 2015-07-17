@@ -20,6 +20,7 @@ public class HareQLResource {
 	public HareQLResource(){
 
 	}
+	
 	@POST
 	@Path("query")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -38,5 +39,38 @@ public class HareQLResource {
 		return hrsBean;
 	}
 	
+	@POST
+	@Path("submit")
+	@Produces(MediaType.APPLICATION_JSON)
+	public HareQLResultStatusBean submitHareQL(@Context HttpServletRequest request, HareQLQueryBean queryBean) {
+		HareQLResultStatusBean hrsBean;
+		try {
+			ConnectionUtil connectionUtil = new ConnectionUtil();
+			HareQueryHareQL hareQL = new HareQueryHareQL(connectionUtil.getConnection(request), connectionUtil.getHiveMetaDataConnection(request));
+			hrsBean =hareQL.submitHareQL(queryBean.getTempFilePath(), queryBean.getSql(), queryBean.getPage(), queryBean.getLimit()); 
+		} catch (Exception e) {
+			hrsBean = new HareQLResultStatusBean();
+			hrsBean.setStatus(MessageInfo.ERROR);
+			hrsBean.setException(e.getMessage());
+		}
+		return hrsBean;
+	}
+	
+	@POST
+	@Path("status")
+	@Produces(MediaType.APPLICATION_JSON)
+	public HareQLResultStatusBean hareQueryStatus(@Context HttpServletRequest request, HareQLQueryBean queryBean){
+		HareQLResultStatusBean hrsBean;
+		try {
+			ConnectionUtil connectionUtil = new ConnectionUtil();
+			HareQueryHareQL hareQL = new HareQueryHareQL(connectionUtil.getConnection(request), connectionUtil.getHiveMetaDataConnection(request));
+			hrsBean =hareQL.getHareQLStatus(queryBean.getTempFilePath()); 
+		} catch (Exception e) {
+			hrsBean = new HareQLResultStatusBean();
+			hrsBean.setStatus(MessageInfo.ERROR);
+			hrsBean.setException(e.getMessage());
+		}
+		return hrsBean;
+	}
 	
 }
