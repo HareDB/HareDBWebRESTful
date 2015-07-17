@@ -15,9 +15,6 @@ import com.haredb.hbaseclient.core.HareTable;
 import com.haredb.hbaseclient.core.MetaColumnFamily;
 
 public class HareDefineHTable extends HareContrivance{
-	private Connection connection;
-	
-	
 	public HareDefineHTable(Connection connection){
 		super(connection);
 		this.connection = connection;
