@@ -11,7 +11,7 @@
     <groupId>haredb</groupId>
     <artifactId>HareDB_HBaseClient_WebRestful</artifactId>
     <packaging>war</packaging>
-    <version>1.98.06</version>
+    <version>1.98.6</version>
     <name>WebRestful</name>
     
     <build>
