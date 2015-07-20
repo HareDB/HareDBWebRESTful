@@ -488,6 +488,11 @@
 		    <artifactId>HareDB_HBase_Index</artifactId>
 		    <version>${project.version}</version>
 		</dependency>
+		<dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>HareDB_Hadoop_RPC</artifactId>
+		    <version>${project.version}</version>
+		</dependency>
 		
 		<dependency>
              <groupId>com.sun.jersey.jersey-test-framework</groupId>
