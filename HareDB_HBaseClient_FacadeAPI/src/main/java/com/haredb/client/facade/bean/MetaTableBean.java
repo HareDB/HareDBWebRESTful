@@ -8,7 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class MetaTableBean extends MessageInfo{
 
 	private String hbaseTableName;
-	private List<String> hiveColumnNames;
+	private String metaTableName;
+	private List<String> metaColumnNames;
 	private List<String> hbaseColumnNames;
 	private List<String> dataTypes;
 	
@@ -19,11 +20,17 @@ public class MetaTableBean extends MessageInfo{
 	public void setHbaseTableName(String hbaseTableName) {
 		this.hbaseTableName = hbaseTableName;
 	}
-	public List<String> getHiveColumnNames() {
-		return hiveColumnNames;
+	public String getMetaTableName() {
+		return metaTableName;
 	}
-	public void setHiveColumnNames(List<String> hiveColumnNames) {
-		this.hiveColumnNames = hiveColumnNames;
+	public void setMetaTableName(String metaTableName) {
+		this.metaTableName = metaTableName;
+	}
+	public List<String> getMetaColumnNames() {
+		return metaColumnNames;
+	}
+	public void setMetaColumnNames(List<String> metaColumnNames) {
+		this.metaColumnNames = metaColumnNames;
 	}
 	public List<String> getHbaseColumnNames() {
 		return hbaseColumnNames;

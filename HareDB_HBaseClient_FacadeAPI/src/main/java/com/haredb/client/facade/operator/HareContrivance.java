@@ -5,6 +5,9 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -100,15 +103,11 @@ public abstract class HareContrivance {
 	 */
 	public boolean checkFileExist(String savedPath, String fileName) throws IOException{
 		boolean result = false;
-//		try {
-			Path filePath = new Path(savedPath+"/"+fileName);
-			FileSystem hdfs = FileSystem.get(config);
-			if(hdfs.exists(filePath)){
-				result = true;
-			}
-//		} catch (IOException e) {
-//			throw new RuntimeException(e);
-//		}
+		Path filePath = new Path(savedPath+"/"+fileName);
+		FileSystem hdfs = FileSystem.get(config);
+		if(hdfs.exists(filePath)){
+			result = true;
+		}
 		return result;
 	}
 	
@@ -125,6 +124,13 @@ public abstract class HareContrivance {
 			result = true;
 		}
 		return result;
+	}
+	
+	public String printStackTrace(Exception e){
+		Writer writer = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(writer);
+		e.printStackTrace(printWriter);
+		return writer.toString();
 	}
 	
 }

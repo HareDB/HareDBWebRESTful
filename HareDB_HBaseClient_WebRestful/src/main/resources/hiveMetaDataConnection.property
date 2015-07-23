@@ -1,3 +1,5 @@
+dbname=default
+dbBrand=MYSQL
 connectionType=LOCAL
 connectionDriver=com.mysql.jdbc.Driver
 #connectionURL=jdbc:mysql://192.168.1.214:3306/hare
