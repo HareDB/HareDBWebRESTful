@@ -116,12 +116,9 @@
 		</dependency>
 		<dependency>
 		    <groupId>${project.groupId}</groupId>
-		    <artifactId>HareDB_HBase_Index</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>${project.groupId}</groupId>
 		    <artifactId>HareDB_Hadoop_RPC</artifactId>
 		</dependency>
+		
 	</dependencies>
 	
 </project>

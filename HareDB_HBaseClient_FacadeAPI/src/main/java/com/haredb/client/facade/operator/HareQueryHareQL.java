@@ -9,6 +9,7 @@ import org.apache.hadoop.hive.metastore.api.FieldSchema;
 import org.apache.hadoop.hive.metastore.api.Schema;
 import org.apache.hadoop.hive.ql.processors.CommandProcessorResponse;
 import org.apache.hadoop.hive.ql.session.SessionState;
+import org.apache.hadoop.security.UserGroupInformation;
 
 import com.haredb.HareQLConfiguration;
 import com.haredb.client.facade.bean.HareQLResultStatusBean;
@@ -115,9 +116,9 @@ public class HareQueryHareQL extends HareContrivance{
 				}
 				long startTime = System.currentTimeMillis();
 				List<String> datas = new ArrayList<String>();
-				
 		        
 		        CliSessionState ss = new CliSessionState(hiveConf);
+		        UserGroupInformation.setConfiguration(hiveConf);
 		        SessionState.start(ss);
 		      
 		        HareDriver driver = new HareDriver(hiveConf);
@@ -161,9 +162,10 @@ public class HareQueryHareQL extends HareContrivance{
 				resultStatus.setHeads(heads);
 				resultStatus.setStatus(MessageInfo.SUCCESS);
 				resultStatus.setFileSize(driver.getTempFolderFileSize());
-			}catch(Exception e){
+			}
+			catch(Exception e){
 				resultStatus.setStatus(MessageInfo.ERROR);
-				resultStatus.setException(e.getMessage());
+				resultStatus.setException(printStackTrace(e));
 				return resultStatus;
 			} finally {
 				if(resultFilePath != null) {
@@ -174,7 +176,6 @@ public class HareQueryHareQL extends HareContrivance{
 	}
 	
 	private void initHiveConf(){
-		
 		this.hiveConf = new HiveConf();
 		hiveConf.addResource(this.connection.getConfig());
 
@@ -190,7 +191,6 @@ public class HareQueryHareQL extends HareContrivance{
 		} else {
 			hiveConf.setBoolean(HiveConf.ConfVars.HIVE_WAREHOUSE_SUBDIR_INHERIT_PERMS.varname, true);
 			hiveConf.set("hive.metastore.authorization.storage.checks", "false");
-			hiveConf.set("hive.metastore.warehouse.dir", this.hiveMetaConnectionBean.getEmbedPath() + "/hive/warehouse/");
 			hiveConf.set("hive.metastore.warehouse.dir", this.hiveMetaConnectionBean.getEmbedPath() + "/hive/warehouse/");
 			hiveConf.set("hive.exec.local.scratchdir", this.hiveMetaConnectionBean.getEmbedPath() + "/hive/tmp/hive");
 			hiveConf.set("hive.querylog.location", this.hiveMetaConnectionBean.getEmbedPath() + "/hive/tmp/user/");

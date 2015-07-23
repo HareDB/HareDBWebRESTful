@@ -16,6 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.haredb.client.facade.bean.IBean;
+import com.haredb.client.facade.bean.MetaTableBean;
 import com.haredb.hive.metastore.bean.DataType;
 import com.haredb.hive.metastore.connection.HiveMetaConnectionBean;
 import com.haredb.hive.metastore.connection.HiveMetaConnectionBean.EnumSQLType;
@@ -36,9 +37,14 @@ public class HareMetaStoreOperatorTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		HiveMetaConnectionBean connectionBean = new HiveMetaConnectionBean(EnumSQLType.MYSQL, 
-				"default", "jdbc:mysql://192.168.1.214:3306/hare", 
-				"com.mysql.jdbc.Driver", "root", "123456");
+		HiveMetaConnectionBean connectionBean = new HiveMetaConnectionBean();
+		connectionBean.setHiveConnType(HiveMetaConnectionBean.EnumHiveMetaStoreConnectType.LOCAL);
+		connectionBean.setMetaStoreConnectDriver("com.mysql.jdbc.Driver");
+		connectionBean.setMetaStoreConnectURL("jdbc:mysql://192.168.1.214:3306/hare");
+		connectionBean.setMetaStoreConnectUserName("root");
+		connectionBean.setMetaStoreConnectPassword("123456");
+		connectionBean.setDbName("default");
+		connectionBean.setDbBrand(EnumSQLType.MYSQL);
 		connectionBean.setHdfsMetaStoreDir("hdfs://host1:8020/user/hive/warehouse");
 		metaOperator = new HareMetaStoreOperator(connectionBean);
 	}
@@ -61,6 +67,8 @@ public class HareMetaStoreOperatorTest {
 	 */
 	@Test
 	public void testCreateTable() {
+		MetaTableBean metaTB = new MetaTableBean();
+		
 		List<String> metaColumnNameList = new ArrayList<String>();
 		List<String> hbaseColumnNameList = new ArrayList<String>();
 		List<String> dataTypeList = new ArrayList<String>();
@@ -77,9 +85,15 @@ public class HareMetaStoreOperatorTest {
 		dataTypeList.add(DataType.HIVE_DATATYPE_STRING);
 		dataTypeList.add(DataType.HIVE_DATATYPE_INT);
 		
+		metaTB.setMetaTableName(metaTableName);
+		metaTB.setHbaseTableName(hbaseTableName);
+		metaTB.setMetaColumnNames(metaColumnNameList);
+		metaTB.setHbaseColumnNames(hbaseColumnNameList);
+		metaTB.setDataTypes(dataTypeList);
+		
 		try {
 			System.out.println("create meta table:"+metaTableName+" ,mapping htable:"+hbaseTableName);
-			metaOperator.createTable(metaTableName, hbaseTableName, metaColumnNameList, hbaseColumnNameList, dataTypeList);
+			metaOperator.createTable(metaTB);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -98,6 +112,8 @@ public class HareMetaStoreOperatorTest {
 	 */
 	@Test
 	public void testAlterTable_Datatype() {
+		MetaTableBean metaTB = new MetaTableBean();
+		
 		List<String> metaColumnNameList = new ArrayList<String>();
 		List<String> hbaseColumnNameList = new ArrayList<String>();
 		List<String> dataTypeList = new ArrayList<String>();
@@ -113,9 +129,16 @@ public class HareMetaStoreOperatorTest {
 		dataTypeList.add(DataType.HIVE_DATATYPE_STRING);
 		dataTypeList.add(DataType.HIVE_DATATYPE_STRING);
 		dataTypeList.add(DataType.HIVE_DATATYPE_STRING);
+		
+		metaTB.setMetaTableName(metaTableName);
+		metaTB.setHbaseTableName(hbaseTableName);
+		metaTB.setMetaColumnNames(metaColumnNameList);
+		metaTB.setHbaseColumnNames(hbaseColumnNameList);
+		metaTB.setDataTypes(dataTypeList);
+		
 		try {
 			System.out.println("Alter meta table:"+metaTableName+" ,edit DataType");
-			metaOperator.alterTable(metaTableName, metaColumnNameList, hbaseColumnNameList, dataTypeList);
+			metaOperator.alterTable(metaTB);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -127,6 +150,8 @@ public class HareMetaStoreOperatorTest {
 	 */
 	@Test
 	public void testAlterTable_HTableName() {
+		MetaTableBean metaTB = new MetaTableBean();
+		
 		List<String> metaColumnNameList = new ArrayList<String>();
 		List<String> hbaseColumnNameList = new ArrayList<String>();
 		List<String> dataTypeList = new ArrayList<String>();
@@ -142,9 +167,16 @@ public class HareMetaStoreOperatorTest {
 		dataTypeList.add(DataType.HIVE_DATATYPE_STRING);
 		dataTypeList.add(DataType.HIVE_DATATYPE_STRING);
 		dataTypeList.add(DataType.HIVE_DATATYPE_STRING);
+		
+		metaTB.setMetaTableName(metaTableName);
+		metaTB.setHbaseTableName(hbaseTableName);
+		metaTB.setMetaColumnNames(metaColumnNameList);
+		metaTB.setHbaseColumnNames(hbaseColumnNameList);
+		metaTB.setDataTypes(dataTypeList);
+		
 		try {
 			System.out.println("Alter meta table:"+metaTableName+" ,edit HTableName");
-			metaOperator.alterTable(metaTableName, metaColumnNameList, hbaseColumnNameList, dataTypeList);
+			metaOperator.alterTable(metaTB);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -154,6 +186,8 @@ public class HareMetaStoreOperatorTest {
 	
 	@Test
 	public void testAlterTable_MetaName() {
+		MetaTableBean metaTB = new MetaTableBean();
+		
 		List<String> metaColumnNameList = new ArrayList<String>();
 		List<String> hbaseColumnNameList = new ArrayList<String>();
 		List<String> dataTypeList = new ArrayList<String>();
@@ -169,9 +203,16 @@ public class HareMetaStoreOperatorTest {
 		dataTypeList.add(DataType.HIVE_DATATYPE_STRING);
 		dataTypeList.add(DataType.HIVE_DATATYPE_STRING);
 		dataTypeList.add(DataType.HIVE_DATATYPE_STRING);
+		
+		metaTB.setMetaTableName(metaTableName);
+		metaTB.setHbaseTableName(hbaseTableName);
+		metaTB.setMetaColumnNames(metaColumnNameList);
+		metaTB.setHbaseColumnNames(hbaseColumnNameList);
+		metaTB.setDataTypes(dataTypeList);
+		
 		try {
 			System.out.println("Alter meta table:"+metaTableName+" ,edit MetaName");
-			metaOperator.alterTable(metaTableName, metaColumnNameList, hbaseColumnNameList, dataTypeList);
+			metaOperator.alterTable(metaTB);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());

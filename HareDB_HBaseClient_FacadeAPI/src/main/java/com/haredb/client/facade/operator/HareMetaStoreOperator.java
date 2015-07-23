@@ -43,13 +43,12 @@ public class HareMetaStoreOperator{
 	 * @param dataTypeList
 	 * @return
 	 */
-	public MessageInfo createTable(String hiveTableName, String hbaseTableName, 
-			List<String> hiveColumnNameList, List<String> hbaseColumnNameList, List<String> dataTypeList) {
+	public MessageInfo createTable(MetaTableBean metaTB) {
 		MessageInfo messageInfo = new MessageInfo();
 		try{
 			startTime = System.currentTimeMillis();
 			HiveMetaStoreService metaStoreService = new HiveMetaStoreService(this.connectionBean);
-			metaStoreService.createTable(hiveTableName, hbaseTableName, hiveColumnNameList, hbaseColumnNameList, dataTypeList);
+			metaStoreService.createTable(metaTB.getMetaTableName(), metaTB.getHbaseTableName(), metaTB.getMetaColumnNames(), metaTB.getHbaseColumnNames(),metaTB.getDataTypes());
 			stopTime = System.currentTimeMillis();
 			messageInfo.setStatus(MessageInfo.SUCCESS);
 			messageInfo.setResponseTime(stopTime - startTime);
@@ -94,30 +93,32 @@ public class HareMetaStoreOperator{
 	 * @return
 	 * @throws Exception
 	 */
-	public MessageInfo alterTable(String tableName, List<String> hiveColumnNameList, List<String> hbaseColumnNameList, List<String> dataTypeList) throws Exception{
+	public MessageInfo alterTable(MetaTableBean metaTB) throws Exception{
 		MessageInfo messageInfo = new MessageInfo();
 		try {
 			startTime = System.currentTimeMillis();
-			TableBean tableBean = this.metaStoreBridge.describeTable(tableName);
+			TableBean tableBean = this.metaStoreBridge.describeTable(metaTB.getMetaTableName());
 			/*for sentry:測試是否有刪除的權限。*/
 			if(this.metaStoreBridge.isHiveServer2Instance()){
 				String tmpTableName = "HareTmp"+new Date().getTime();
 				try{
 					this.metaStoreBridge.createTable(tmpTableName, tableBean.getHbaseTableName(), 
-							hiveColumnNameList, hbaseColumnNameList, dataTypeList);
+							metaTB.getMetaColumnNames(), metaTB.getHbaseColumnNames(),metaTB.getDataTypes());
 					this.metaStoreBridge.dropTable(tmpTableName);
 				}catch(Exception e){
-					throw e;
+					messageInfo.setStatus(MessageInfo.ERROR);
+					messageInfo.setException("Alter Table["+metaTB.getMetaTableName()+"/"+metaTB.getHbaseTableName()+"] failed: " + e.getMessage());
+					return messageInfo;
 				}
 			}
-			this.metaStoreBridge.dropTable(tableName);
-			this.createTable(tableName, tableBean.getHbaseTableName(), hiveColumnNameList, hbaseColumnNameList, dataTypeList);
+			this.metaStoreBridge.dropTable(metaTB.getMetaTableName());
+			this.createTable(metaTB);
 			stopTime = System.currentTimeMillis();
 			messageInfo.setStatus(MessageInfo.SUCCESS);
 			messageInfo.setResponseTime(stopTime - startTime);
 		} catch (Exception e) {
 			messageInfo.setStatus(MessageInfo.ERROR);
-			messageInfo.setException("Alter Table["+tableName+"] failed: " + e.getMessage());
+			messageInfo.setException("Alter Table["+metaTB.getMetaTableName()+"/"+metaTB.getHbaseTableName()+"] failed: " + e.getMessage());
 			return messageInfo;
 		} finally{
 			this.metaStoreBridge.close();
@@ -128,21 +129,21 @@ public class HareMetaStoreOperator{
 	/**
 	 * load Meta table info
 	 * 
-	 * @param hTableName
+	 * @param metaTableName
 	 * @return
 	 * @throws Exception
 	 */
-	public MetaTableBean describeTable(String hTableName) throws Exception {
+	public MetaTableBean describeTable(String metaTableName) throws Exception {
 		MetaTableBean metaBean = new MetaTableBean();
 		try{
 			startTime = System.currentTimeMillis();
-			BeanUtils.copyProperties(metaBean, this.metaStoreBridge.describeTable(hTableName));
+			BeanUtils.copyProperties(metaBean, this.metaStoreBridge.describeTable(metaTableName));
 			stopTime = System.currentTimeMillis();
 			metaBean.setStatus(MessageInfo.SUCCESS);
 			metaBean.setResponseTime(stopTime - startTime);
 		} catch (Exception e) {
 			metaBean.setStatus(MessageInfo.ERROR);
-			metaBean.setException("Describe Table["+hTableName+"] failed: " + e.getMessage());
+			metaBean.setException("Describe Table["+metaTableName+"] failed: " + e.getMessage());
 			return metaBean;
 		} finally{
 			this.metaStoreBridge.close();
