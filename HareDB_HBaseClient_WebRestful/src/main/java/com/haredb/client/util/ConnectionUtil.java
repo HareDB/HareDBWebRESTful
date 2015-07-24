@@ -111,7 +111,7 @@ public class ConnectionUtil {
 			this.metaConn.setHiveConnType(connBean.getHiveConnType());
 			this.metaConn.setDbName(connBean.getDbName());
 			this.metaConn.setDbBrand(connBean.getDbBrand());
-			this.metaConn.setHdfsMetaStoreDir(prop.getProperty("nameNodeHostPort")+"/hive/warehouse/");
+			this.metaConn.setHdfsMetaStoreDir(connBean.getNameNodeHostPort()+"/hive/warehouse/");
 			
 			//set connection key
 			info.setConnectionKey(genConnectionKey(10,Mode.ALPHANUMERIC));
