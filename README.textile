@@ -35,6 +35,9 @@ h2. Release Note
 
 * 1.98.05 - Bugs fixed and support kerberos.
 
+* 1.98.06 – Bugs fixed and suport meta table.
+** When a meta table created, Hareql soupport meta table name.
+
 h2. Note 
 
 * Q: When I call the API, return "connection is null,please reconnection".
