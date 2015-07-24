@@ -5,8 +5,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class HareQLResultStatusBean implements IBean{
-	private Long responseTime;
+public class HareQLResultStatusBean extends MessageInfo{
 	private Long rowSize;
 	private Long fileSize;
 	private List<String> results;
@@ -20,12 +19,6 @@ public class HareQLResultStatusBean implements IBean{
 		return this.getClass();
 	}
 	
-	public Long getResponseTime() {
-		return responseTime;
-	}
-	public void setResponseTime(Long responseTime) {
-		this.responseTime = responseTime;
-	}
 	public Long getRowSize() {
 		return rowSize;
 	}

@@ -146,19 +146,21 @@ public class HareBulkLoadDataBySchema extends HareContrivance{
 	
 	protected BulkFileBean getBulkFileBean(){
 		BulkFileBean bulkFileBean = new BulkFileBean();
-		if(this.bulkloadProp.getProperty("bulkloadexistheader").toLowerCase().equals("true")){
+		
+		bulkFileBean.setFileLocation(this.bulkloadProp.getProperty("bulkloadfilelocalhdfs"));
+		
+		if(this.properties.getProperty("bulkloadexistheader").toLowerCase().equals("true")){
 			bulkFileBean.setExistHeader(true);
 		}else{
 			bulkFileBean.setExistHeader(false);
 		}
-		
-		bulkFileBean.setFileLocation(this.bulkloadProp.getProperty("bulkloadfilelocalhdfs"));
 		bulkFileBean.setFileType(this.properties.getProperty("bulkloadfileformat"));
+		bulkFileBean.setOutputFolder(this.properties.getProperty("bulkloadoutputfolder"));
+		bulkFileBean.setSeparator(this.properties.getProperty("bulkloadseparator"));
+		
 		bulkFileBean.setInfoFilePath("/tmp");
 		bulkFileBean.setLogFilePath("/tmp");
 		bulkFileBean.setFilePath(this.uploadSchemaBean.getDataPath());
-		bulkFileBean.setOutputFolder(this.properties.getProperty("bulkloadoutputfolder"));
-		bulkFileBean.setSeparator(this.properties.getProperty("bulkloadseparator"));
 		bulkFileBean.setBkResultFilePath(this.uploadSchemaBean.getResultPath());
 		return bulkFileBean;
 	}

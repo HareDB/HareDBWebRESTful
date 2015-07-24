@@ -87,6 +87,7 @@ public class HareQueryHareQL extends HareContrivance{
 	 */
 	public HareQLResultStatusBean getHareQLStatus(String tempFilePath) {
 		HareQLResultStatusBean resultStatus = new HareQLResultStatusBean();
+		long startTime = System.currentTimeMillis();
 		try {
 			if (tempFilePath == null) {
 				resultStatus.setStatus(MessageInfo.ERROR);
@@ -100,10 +101,13 @@ public class HareQueryHareQL extends HareContrivance{
 					resultStatus.setStatus(MessageInfo.SUCCESS);
 				}
 			}
+			
 		} catch (Exception e) {
 			resultStatus.setStatus(MessageInfo.ERROR);
 			resultStatus.setException(e.getMessage());
 		}
+		long endTime = System.currentTimeMillis();
+		resultStatus.setResponseTime(endTime - startTime);
 		return resultStatus;
 	}
 	
