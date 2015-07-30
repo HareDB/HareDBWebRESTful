@@ -41,7 +41,7 @@ public class HareBulkLoadDataBySchema extends HareContrivance{
 		} catch (Exception e) {
 			MessageInfo info = new MessageInfo();
 			info.setStatus(MessageInfo.ERROR);
-			info.setException(e.getMessage());
+			info.setException(printStackTrace(e));
 			writeFileToHdfs(info, uploadSchemaBean.getResultPath(),true);
 		}
 		rBean.setJobName(this.jobName);

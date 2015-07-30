@@ -105,6 +105,8 @@ public class ConnectionUtil {
 				this.metaConn.setMetaStoreConnectPassword(connBean.getMetaStoreConnectPassword());
 			}else if(connBean.getHiveConnType().toString().equals(EnumHiveMetaStoreConnectType.REMOTE.toString())){
 				this.metaConn.setMetaUris(connBean.getMetaUris());
+			}else if(connBean.getHiveConnType().toString().equals(EnumHiveMetaStoreConnectType.SERVER2.toString())){
+				this.metaConn.setHiveServer2Url(connBean.getHiveServer2Url());
 			}else{
 				this.metaConn.setEmbedPath(connBean.getEmbedPath());
 			}
@@ -269,12 +271,17 @@ public class ConnectionUtil {
 			checkItem.add("mrJobhistoryAddress");
 			
 			checkItem.add("hiveConnType");
+			if(connBean.getHiveConnType().toString().equals(EnumHiveMetaStoreConnectType.SERVER2.toString())) {
+				checkItem.add("hiveServer2Url");
+			}
 			checkItem.add("metaStoreConnectDriver");
 			checkItem.add("metaStoreConnectURL");
 			checkItem.add("metaStoreConnectUserName");
 			checkItem.add("metaStoreConnectPassword");
 			
 			checkItem.add("enableKerberos");
+			checkItem.add("dbBrand");
+			checkItem.add("dbName");
 			
 		}
 		

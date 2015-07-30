@@ -71,7 +71,7 @@ public class HareBulkLoadData extends HareContrivance{
 			}
 			
 		} catch (Exception e) {
-			throw new RuntimeException("Changing the columnFamily object : " + e.getMessage());
+			throw new RuntimeException("Changing the columnFamily object : " + printStackTrace(e));
 		}
 		tableInfoBean.setCompression(bulkTableBean.getCompression().equals("true")? Algorithm.GZ:Algorithm.NONE);
 		tableInfoBean.setPreSplit(bulkTableBean.isPreSplit());
@@ -127,7 +127,7 @@ public class HareBulkLoadData extends HareContrivance{
 			bulkloadInvoker.doBulkload(fileInfoBean, tableInfoBean, bulkInfoBean);
 		} catch (Exception e)
 		{
-			throw new RuntimeException("BulkloadInvoker exception:"+e.getMessage());
+			throw new RuntimeException("BulkloadInvoker exception:"+printStackTrace(e));
 		}
 		
 		return bulkInfoBean.getJobName();

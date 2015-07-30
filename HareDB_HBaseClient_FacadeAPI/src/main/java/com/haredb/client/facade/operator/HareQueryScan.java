@@ -17,12 +17,10 @@ import com.haredb.hbaseclient.core.HareTable;
 import com.haredb.hbaseclient.core.QueryCriterion;
 import com.haredb.hbaseclient.core.QueryResult;
 
-public class HareQueryScan {
-	private Connection connection;
+public class HareQueryScan extends HareContrivance{
 	
 	public HareQueryScan(Connection connection){
-		this.connection = connection;
-		this.connection.create();
+		super(connection);
 	}
 	
 	public ScanResultStatusBean scanHTable(String tableName, int pageSize, int limit){
@@ -63,7 +61,6 @@ public class HareQueryScan {
 			DataCellBean cellBean;
 						
 			for(Result r : rs){
-//				if(rowCount >= pageSize && limitCount <= limit){
 				if(rowCount > (pageSize-1)*limit && limitCount <= limit){
 					List<String> data = new ArrayList<String>();
 					KeyValue keyvalues[] = r.raw();
@@ -78,7 +75,6 @@ public class HareQueryScan {
 						cellBean = new DataCellBean();
 						cellBean.setColumnFamily(Bytes.toString(keyvalue.getFamily()));
 						cellBean.setQualifier(Bytes.toString(keyvalue.getQualifier()));
-//						cellBean.setRowkey(Bytes.toString(keyvalue.get));
 						if(!cellHeads.equals(cellBean)){
 							cellHeads.add(cellBean);
 						}
@@ -122,7 +118,7 @@ public class HareQueryScan {
 			resultStatusBean.setStatus(MessageInfo.SUCCESS);
 		}catch(Exception e){
 			resultStatusBean.setStatus(MessageInfo.ERROR);
-			resultStatusBean.setException(e.getMessage());
+			resultStatusBean.setException(printStackTrace(e));
 			return resultStatusBean;
 		}
 		return resultStatusBean;

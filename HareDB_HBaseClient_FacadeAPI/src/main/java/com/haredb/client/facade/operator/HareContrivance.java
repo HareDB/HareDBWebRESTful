@@ -27,6 +27,9 @@ public abstract class HareContrivance {
 	protected Connection connection;
 	private Configuration config;
 	
+	public HareContrivance() {
+	}
+	
 	public HareContrivance(Connection connection){
 		this.connection = connection;
 		this.config = this.connection.getConfig();

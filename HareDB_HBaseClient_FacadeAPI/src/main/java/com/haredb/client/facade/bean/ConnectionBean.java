@@ -37,6 +37,7 @@ public class ConnectionBean {
 	private String metaStoreConnectPassword;
 	private String metaUris;//remote
 	private String hdfsMetaStoreDir;//jack
+	private String hiveServer2Url;//hiveConnType = EnumHiveMetaStoreConnectType.SERVER2
 	
 	//Kerberos Principal
 	private boolean enableKerberos;
@@ -214,6 +215,13 @@ public class ConnectionBean {
 	}
     
     
+	public String getHiveServer2Url() {
+		return hiveServer2Url;
+	}
+	public void setHiveServer2Url(String hiveServer2Url) {
+		this.hiveServer2Url = hiveServer2Url;
+	}
+	
 	public boolean isEnableKerberos() {
 		return enableKerberos;
 	}

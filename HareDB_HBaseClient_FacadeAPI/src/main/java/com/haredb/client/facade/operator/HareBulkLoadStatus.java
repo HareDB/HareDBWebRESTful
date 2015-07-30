@@ -6,13 +6,12 @@ import com.haredb.hbase.bulkload.BulkloadObserver;
 import com.haredb.hbase.bulkload.bean.BulkloadStatus;
 import com.haredb.hbaseclient.core.Connection;
 
-public class HareBulkLoadStatus {
+public class HareBulkLoadStatus extends HareContrivance{
 
 	private BulkloadStatusBean statusBean = null;
 	private BulkloadStatus serverStatus = null;
-	private Connection connection;
 	public HareBulkLoadStatus(Connection connection){
-		this.connection = connection;
+		super(connection);
 	}
 	
 	public BulkloadStatusBean getBulkLoadStatus(String jobName) {
@@ -33,7 +32,7 @@ public class HareBulkLoadStatus {
 			this.transObject();
 		} catch (Exception e) {
 			this.statusBean.setStatus(MessageInfo.ERROR);
-			this.statusBean.setException(e.getMessage());
+			this.statusBean.setException(printStackTrace(e));
 			return statusBean;
 		}
 		return statusBean;
