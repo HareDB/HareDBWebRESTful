@@ -61,7 +61,7 @@ public class HareQueryHareQL extends HareContrivance{
 				}catch(Exception e) {
 					MessageInfo info = new MessageInfo();
 					info.setStatus(MessageInfo.ERROR);
-					info.setException(e.getMessage());
+					info.setException(printStackTrace(e));
 					try {
 						writeFileToHdfs(info, tempFilePath,fileName,true);
 					} catch (Exception e1) {
@@ -104,7 +104,7 @@ public class HareQueryHareQL extends HareContrivance{
 			
 		} catch (Exception e) {
 			resultStatus.setStatus(MessageInfo.ERROR);
-			resultStatus.setException(e.getMessage());
+			resultStatus.setException(printStackTrace(e));
 		}
 		long endTime = System.currentTimeMillis();
 		resultStatus.setResponseTime(endTime - startTime);

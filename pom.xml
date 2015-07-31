@@ -42,8 +42,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.junit>4.8.2</version.junit>
 		<version.hadoop>2.5.0-cdh5.2.0</version.hadoop>
-		<version.hive>0.13.0</version.hive>
-		<version.hbase>0.98.2-hadoop2</version.hbase>
+		<version.hive>0.13.1</version.hive>
+		<version.hbase>0.98.6-cdh5.2.1</version.hbase>
 		<version.gson>2.3</version.gson>
 		<version.mysql>5.1.18</version.mysql>
 		<version.xstream>1.4.4</version.xstream>
@@ -435,6 +435,12 @@
 		 	<groupId>org.apache.zookeeper</groupId>
   			<artifactId>zookeeper</artifactId>
 			<version>${version.zookeeper}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.hive</groupId>
+		    <artifactId>hive-jdbc</artifactId>
+			<version>${version.hive}</version>
 		</dependency>
 		
 		<dependency>

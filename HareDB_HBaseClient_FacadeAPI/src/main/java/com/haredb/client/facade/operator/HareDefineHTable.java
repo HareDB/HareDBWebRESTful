@@ -51,7 +51,7 @@ public class HareDefineHTable extends HareContrivance{
 			return messageInfo;
 		}catch(Exception e){
 			messageInfo.setStatus(MessageInfo.ERROR);
-			messageInfo.setException(e.getMessage());
+			messageInfo.setException(printStackTrace(e));
 			return messageInfo;
 		}
 		return messageInfo;
@@ -93,7 +93,7 @@ public class HareDefineHTable extends HareContrivance{
 			
 		}catch(Exception e){
 			messageInfo.setStatus(MessageInfo.ERROR);
-			messageInfo.setException(e.getMessage());
+			messageInfo.setException(printStackTrace(e));
 			return messageInfo;
 		}
 		return messageInfo;

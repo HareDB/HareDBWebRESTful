@@ -15,7 +15,7 @@ import com.haredb.hive.metastore.connection.HiveMetaConnectionBean;
 import com.haredb.hive.metastore.factory.MetaStoreBridgeFactory;
 import com.haredb.hive.metastore.service.HiveMetaStoreService;
 
-public class HareMetaStoreOperator{
+public class HareMetaStoreOperator extends HareContrivance{
 
 	private static Log LOG = LogFactory.getLog(HareMetaStoreOperator.class.getName());
 	private MetaStoreBridge metaStoreBridge;
@@ -28,7 +28,7 @@ public class HareMetaStoreOperator{
 		try {
 			this.metaStoreBridge = MetaStoreBridgeFactory.getMetaStoreBridger(connectionBean);
 		} catch(Exception e){
-			LOG.error("Create Hive Meta Store Client failed: "+e.getMessage());
+			LOG.error("Create Meta Store Client failed: "+printStackTrace(e));
 			throw e;
 		}
 	}
@@ -54,7 +54,7 @@ public class HareMetaStoreOperator{
 			messageInfo.setResponseTime(stopTime - startTime);
 		}catch(Exception e){
 			messageInfo.setStatus(MessageInfo.ERROR);
-			messageInfo.setException(e.getMessage());
+			messageInfo.setException(printStackTrace(e));
 			return messageInfo;
 		}
 		return messageInfo;
@@ -77,7 +77,7 @@ public class HareMetaStoreOperator{
 			messageInfo.setResponseTime(stopTime - startTime);
 		}catch(Exception e){
 			messageInfo.setStatus(MessageInfo.ERROR);
-			messageInfo.setException(e.getMessage());
+			messageInfo.setException(printStackTrace(e));
 			return messageInfo;
 		}
 		return messageInfo;
@@ -107,7 +107,7 @@ public class HareMetaStoreOperator{
 					this.metaStoreBridge.dropTable(tmpTableName);
 				}catch(Exception e){
 					messageInfo.setStatus(MessageInfo.ERROR);
-					messageInfo.setException("Alter Table["+metaTB.getMetaTableName()+"/"+metaTB.getHbaseTableName()+"] failed: " + e.getMessage());
+					messageInfo.setException("Alter Table["+metaTB.getMetaTableName()+"/"+metaTB.getHbaseTableName()+"] failed: " + printStackTrace(e));
 					return messageInfo;
 				}
 			}
@@ -118,7 +118,7 @@ public class HareMetaStoreOperator{
 			messageInfo.setResponseTime(stopTime - startTime);
 		} catch (Exception e) {
 			messageInfo.setStatus(MessageInfo.ERROR);
-			messageInfo.setException("Alter Table["+metaTB.getMetaTableName()+"/"+metaTB.getHbaseTableName()+"] failed: " + e.getMessage());
+			messageInfo.setException("Alter Table["+metaTB.getMetaTableName()+"/"+metaTB.getHbaseTableName()+"] failed: " + printStackTrace(e));
 			return messageInfo;
 		} finally{
 			this.metaStoreBridge.close();
@@ -143,7 +143,7 @@ public class HareMetaStoreOperator{
 			metaBean.setResponseTime(stopTime - startTime);
 		} catch (Exception e) {
 			metaBean.setStatus(MessageInfo.ERROR);
-			metaBean.setException("Describe Table["+metaTableName+"] failed: " + e.getMessage());
+			metaBean.setException("Describe Table["+metaTableName+"] failed: " + printStackTrace(e));
 			return metaBean;
 		} finally{
 			this.metaStoreBridge.close();
@@ -161,7 +161,7 @@ public class HareMetaStoreOperator{
 		try{
 			return this.metaStoreBridge.listHiveTableNames();
 		} catch (Exception e) {
-			LOG.error("Find all Hive Tables failed: " + e.getMessage());
+			LOG.error("Find all Meta Tables failed: " + printStackTrace(e));
 			throw e;
 		} finally{
 			this.metaStoreBridge.close();
