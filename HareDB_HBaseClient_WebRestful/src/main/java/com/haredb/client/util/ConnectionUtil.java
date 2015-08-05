@@ -18,6 +18,7 @@ import com.haredb.hive.metastore.connection.HiveMetaConnectionBean.EnumHiveMetaS
 import com.haredb.hive.metastore.connection.HiveMetaConnectionBean.EnumSQLType;
 
 public class ConnectionUtil {
+	final String HDFSMETASTOREDIR="/tmp/hive/warehouse";
 	public static String connectionSessionName = "connection";
 	public static String hiveMetaDataSessionName = "hiveMetaConnection";
 	public static Properties prop = new Properties();
@@ -113,7 +114,7 @@ public class ConnectionUtil {
 			this.metaConn.setHiveConnType(connBean.getHiveConnType());
 			this.metaConn.setDbName(connBean.getDbName());
 			this.metaConn.setDbBrand(connBean.getDbBrand());
-			this.metaConn.setHdfsMetaStoreDir(connBean.getNameNodeHostPort()+"/hive/warehouse/");
+			this.metaConn.setHdfsMetaStoreDir(connBean.getNameNodeHostPort()+HDFSMETASTOREDIR);
 			
 			//set connection key
 			info.setConnectionKey(genConnectionKey(10,Mode.ALPHANUMERIC));
@@ -172,15 +173,19 @@ public class ConnectionUtil {
 				hiveMetaConnectionBean = new HiveMetaConnectionBean();
 				String connectionType = prop.getProperty("connectionType");
 				EnumHiveMetaStoreConnectType connectionTypeEnum = null;
-				if(connectionType.equals("LOCAL")){
+				if(connectionType.equals(EnumHiveMetaStoreConnectType.LOCAL.toString())){
 					connectionTypeEnum = EnumHiveMetaStoreConnectType.LOCAL;
 					hiveMetaConnectionBean.setHiveConnType(connectionTypeEnum);
 					hiveMetaConnectionBean.setMetaStoreConnectDriver(prop.getProperty("connectionDriver"));
 					hiveMetaConnectionBean.setMetaStoreConnectURL(prop.getProperty("connectionURL"));
 					hiveMetaConnectionBean.setMetaStoreConnectUserName(prop.getProperty("connectionUserName"));
 					hiveMetaConnectionBean.setMetaStoreConnectPassword(prop.getProperty("connectionPassword"));
-				}else if(connectionType.equals("REMOTE")){
+				}else if(connectionType.equals(EnumHiveMetaStoreConnectType.REMOTE.toString())){
 					connectionTypeEnum = EnumHiveMetaStoreConnectType.REMOTE;
+				}else if(connectionType.equals(EnumHiveMetaStoreConnectType.SERVER2.toString())){
+					connectionTypeEnum = EnumHiveMetaStoreConnectType.SERVER2;
+					//TODO set property to profile
+					hiveMetaConnectionBean.setHiveServer2Url(prop.getProperty("hiveServer2Url"));
 				}else{
 					connectionTypeEnum = EnumHiveMetaStoreConnectType.EMBED;
 				}
@@ -189,7 +194,7 @@ public class ConnectionUtil {
 				if(sqlType.equals("MYSQL")) {
 					hiveMetaConnectionBean.setDbBrand(EnumSQLType.MYSQL);
 				}
-				hiveMetaConnectionBean.setHdfsMetaStoreDir(prop.getProperty("nameNodeHostPort")+"/hive/warehouse/");
+				hiveMetaConnectionBean.setHdfsMetaStoreDir(prop.getProperty("nameNodeHostPort")+HDFSMETASTOREDIR);
 			}
 			return hiveMetaConnectionBean;
 		} catch (Exception e) {

@@ -192,6 +192,8 @@ public class HareQueryHareQL extends HareContrivance{
 		} else if (this.hiveMetaConnectionBean.getHiveConnType().equals(HiveMetaConnectionBean.EnumHiveMetaStoreConnectType.REMOTE)) {
 			hiveConf.setVar(HiveConf.ConfVars.METASTOREURIS, this.hiveMetaConnectionBean.getMetaUris());
 			hiveConf.setBoolVar(HiveConf.ConfVars.METASTORE_EXECUTE_SET_UGI, false);
+		} else if (this.hiveMetaConnectionBean.getHiveConnType().equals(HiveMetaConnectionBean.EnumHiveMetaStoreConnectType.SERVER2)){
+			hiveConf.set(HiveMetaConnectionBean.HIVESERVER2URL, this.hiveMetaConnectionBean.getHiveServer2Url());
 		} else {
 			hiveConf.setBoolean(HiveConf.ConfVars.HIVE_WAREHOUSE_SUBDIR_INHERIT_PERMS.varname, true);
 			hiveConf.set("hive.metastore.authorization.storage.checks", "false");
