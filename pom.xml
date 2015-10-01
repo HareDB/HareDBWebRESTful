@@ -484,6 +484,17 @@
 		    <artifactId>HareDB_Hadoop_RPC</artifactId>
 		    <version>${project.version}</version>
 		</dependency>
+		<dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>HareDB_HBaseClient_UIAdapter</artifactId>
+		    <version>${project.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>HareDB_HBase_Index</artifactId>
+		    <version>${project.version}</version>
+		</dependency>
+		
 		
 		
 		<dependency>
@@ -516,6 +527,53 @@
 		    <artifactId>jersey-json</artifactId>
              <version>${version.jersey.test.framework}</version>
 		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+			<version>4.10.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-core</artifactId>
+			<version>4.10.2</version>
+			<exclusions>
+					<exclusion>
+					 	<groupId>org.apache.hadoop</groupId>
+	  					<artifactId>hadoop-common</artifactId>
+					</exclusion>
+					<exclusion>
+					 	<groupId>org.apache.hadoop</groupId>
+	  					<artifactId>hadoop-annotations</artifactId>
+					</exclusion>
+					<exclusion>
+					 	<groupId>org.apache.hadoop</groupId>
+	  					<artifactId>hadoop-auth</artifactId>
+					</exclusion>
+					<exclusion>
+					 	<groupId>org.apache.hadoop</groupId>
+	  					<artifactId>hadoop-hdfs</artifactId>
+					</exclusion>
+        			<exclusion>  <!-- declare the exclusion here -->
+          				<groupId>org.ow2.asm</groupId>
+						<artifactId>asm</artifactId>
+        			</exclusion>
+			</exclusions>
+		</dependency>
+
+
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>4.3.1</version>
+	</dependency>
+		
+		<dependency>
+	<groupId>org.apache.httpcomponents</groupId>
+	<artifactId>httpcore</artifactId>
+	<version>4.3</version>
+</dependency>
 		
 		</dependencies>
 </dependencyManagement>

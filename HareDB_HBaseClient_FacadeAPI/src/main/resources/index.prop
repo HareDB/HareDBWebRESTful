@@ -1,0 +1,3 @@
+zktmppath=/indexTmp
+#改為在 .haredb中取得
+#indexjarpath=/WEB-INF/classes/HareDB_Index.jar

@@ -132,24 +132,31 @@ public class ConnectionUtil {
 		try {
 			Connection connection = (Connection)request.getSession().getAttribute(connectionSessionName);
 			if(connection == null) {
-				/* hard code for connect
-				throw new Exception("Connection is null, please reconnect!");
-				*/
-				Properties prop = new Properties();
-				prop.load(ConnectionUtil.class.getResourceAsStream("/connection.property"));
-				String zookeeperHostName = prop.getProperty("zookeeperHostName");
-				String zookeeperPort = prop.getProperty("zookeeperHostPort");
-				String nameNodeHostPort = prop.getProperty("nameNodeHostPort");
-				connection = new Connection(zookeeperHostName, zookeeperPort);
-				connection.setNameNodeHostPort(nameNodeHostPort);
-				connection.setRmAddressHostPort(prop.getProperty("rmAddressHostPort"));
-				connection.setRmSchedulerAddressHostPort(prop.getProperty("rmSchedulerAddressHostPort"));
-				connection.setRmResourceTrackerAddressHostPort(prop.getProperty("rmResourceTrackerAddressHostPort"));
-				connection.setRmAdminAddressHostPort(prop.getProperty("rmAdminAddressHostPort"));
-				connection.setMrJobhistoryAddress(prop.getProperty("mrJobhistoryAddress"));
-				connection.setYarnNodeManagerAuxServices("mapreduce_shuffle");
-				connection.setYarnApplicationClasspath(prop.getProperty("yarnApplicationClasspath"));
-				connection.create();
+//				System.out.println("cannot find session that have connection, create connection by prop file.");
+//				/* hard code for connect
+//				throw new Exception("Connection is null, please reconnect!");
+//				*/
+//				Properties prop = new Properties();
+//				prop.load(ConnectionUtil.class.getResourceAsStream("/connection.property"));
+//				String zookeeperHostName = prop.getProperty("zookeeperHostName");
+//				String zookeeperPort = prop.getProperty("zookeeperHostPort");
+//				String nameNodeHostPort = prop.getProperty("nameNodeHostPort");
+//				connection = new Connection(zookeeperHostName, zookeeperPort);
+//				connection.setNameNodeHostPort(nameNodeHostPort);
+//				connection.setRmAddressHostPort(prop.getProperty("rmAddressHostPort"));
+//				connection.setRmSchedulerAddressHostPort(prop.getProperty("rmSchedulerAddressHostPort"));
+//				connection.setRmResourceTrackerAddressHostPort(prop.getProperty("rmResourceTrackerAddressHostPort"));
+//				connection.setRmAdminAddressHostPort(prop.getProperty("rmAdminAddressHostPort"));
+//				connection.setMrJobhistoryAddress(prop.getProperty("mrJobhistoryAddress"));
+//				connection.setYarnNodeManagerAuxServices("mapreduce_shuffle");
+//				connection.setYarnApplicationClasspath(prop.getProperty("yarnApplicationClasspath"));
+//				
+//				/* 15 08 19 frank add index host path*/
+//				connection.setSolrZKHosts(prop.getProperty("solrZKHosts"));
+//				
+//				connection.create();
+				
+				throw new Exception("Session time out, or session not found. please reconnect.");
 				
 			}
 			return connection;
@@ -164,37 +171,40 @@ public class ConnectionUtil {
 		try {
 			HiveMetaConnectionBean hiveMetaConnectionBean = (HiveMetaConnectionBean)request.getSession().getAttribute(hiveMetaDataSessionName);
 			if(hiveMetaConnectionBean == null) {
-				/* hard code for connect
-				throw new Exception("Connection is null, please reconnect!");
-				*/
-				Properties prop = new Properties();
-				prop.load(ConnectionUtil.class.getResourceAsStream("/hiveMetaDataConnection.property"));
-				prop.load(ConnectionUtil.class.getResourceAsStream("/connection.property"));
-				hiveMetaConnectionBean = new HiveMetaConnectionBean();
-				String connectionType = prop.getProperty("connectionType");
-				EnumHiveMetaStoreConnectType connectionTypeEnum = null;
-				if(connectionType.equals(EnumHiveMetaStoreConnectType.LOCAL.toString())){
-					connectionTypeEnum = EnumHiveMetaStoreConnectType.LOCAL;
-					hiveMetaConnectionBean.setHiveConnType(connectionTypeEnum);
-					hiveMetaConnectionBean.setMetaStoreConnectDriver(prop.getProperty("connectionDriver"));
-					hiveMetaConnectionBean.setMetaStoreConnectURL(prop.getProperty("connectionURL"));
-					hiveMetaConnectionBean.setMetaStoreConnectUserName(prop.getProperty("connectionUserName"));
-					hiveMetaConnectionBean.setMetaStoreConnectPassword(prop.getProperty("connectionPassword"));
-				}else if(connectionType.equals(EnumHiveMetaStoreConnectType.REMOTE.toString())){
-					connectionTypeEnum = EnumHiveMetaStoreConnectType.REMOTE;
-				}else if(connectionType.equals(EnumHiveMetaStoreConnectType.SERVER2.toString())){
-					connectionTypeEnum = EnumHiveMetaStoreConnectType.SERVER2;
-					//TODO set property to profile
-					hiveMetaConnectionBean.setHiveServer2Url(prop.getProperty("hiveServer2Url"));
-				}else{
-					connectionTypeEnum = EnumHiveMetaStoreConnectType.EMBED;
-				}
-				hiveMetaConnectionBean.setDbName(prop.getProperty("dbname"));
-				String sqlType = prop.getProperty("dbBrand");
-				if(sqlType.equals("MYSQL")) {
-					hiveMetaConnectionBean.setDbBrand(EnumSQLType.MYSQL);
-				}
-				hiveMetaConnectionBean.setHdfsMetaStoreDir(prop.getProperty("nameNodeHostPort")+HDFSMETASTOREDIR);
+//				/* hard code for connect
+//				throw new Exception("Connection is null, please reconnect!");
+//				*/
+//				Properties prop = new Properties();
+//				prop.load(ConnectionUtil.class.getResourceAsStream("/hiveMetaDataConnection.property"));
+//				prop.load(ConnectionUtil.class.getResourceAsStream("/connection.property"));
+//				hiveMetaConnectionBean = new HiveMetaConnectionBean();
+//				String connectionType = prop.getProperty("connectionType");
+//				EnumHiveMetaStoreConnectType connectionTypeEnum = null;
+//				if(connectionType.equals(EnumHiveMetaStoreConnectType.LOCAL.toString())){
+//					connectionTypeEnum = EnumHiveMetaStoreConnectType.LOCAL;
+//					hiveMetaConnectionBean.setHiveConnType(connectionTypeEnum);
+//					hiveMetaConnectionBean.setMetaStoreConnectDriver(prop.getProperty("connectionDriver"));
+//					hiveMetaConnectionBean.setMetaStoreConnectURL(prop.getProperty("connectionURL"));
+//					hiveMetaConnectionBean.setMetaStoreConnectUserName(prop.getProperty("connectionUserName"));
+//					hiveMetaConnectionBean.setMetaStoreConnectPassword(prop.getProperty("connectionPassword"));
+//				}else if(connectionType.equals(EnumHiveMetaStoreConnectType.REMOTE.toString())){
+//					connectionTypeEnum = EnumHiveMetaStoreConnectType.REMOTE;
+//				}else if(connectionType.equals(EnumHiveMetaStoreConnectType.SERVER2.toString())){
+//					connectionTypeEnum = EnumHiveMetaStoreConnectType.SERVER2;
+//					//TODO set property to profile
+//					hiveMetaConnectionBean.setHiveServer2Url(prop.getProperty("hiveServer2Url"));
+//				}else{
+//					connectionTypeEnum = EnumHiveMetaStoreConnectType.EMBED;
+//				}
+//				hiveMetaConnectionBean.setDbName(prop.getProperty("dbname"));
+//				String sqlType = prop.getProperty("dbBrand");
+//				if(sqlType.equals("MYSQL")) {
+//					hiveMetaConnectionBean.setDbBrand(EnumSQLType.MYSQL);
+//				}
+//				hiveMetaConnectionBean.setHdfsMetaStoreDir(prop.getProperty("nameNodeHostPort")+HDFSMETASTOREDIR);
+//				
+				
+				throw new Exception("Session time out, or session not found. please reconnect.");
 			}
 			return hiveMetaConnectionBean;
 		} catch (Exception e) {
