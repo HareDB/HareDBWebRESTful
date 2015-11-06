@@ -93,7 +93,18 @@ subprojects {
         compile configurations.hadoopConf
         compile configurations.hbaseConf
         compile configurations.hiveConf
-        compile fileTree(dir:'libs/haredb', include:'*.jar')
+        compile fileTree(dir:'libs/haredb/HareDB_Hadoop_RPC/1.98.06.01', include:'*.jar')
+	compile fileTree(dir:'libs/haredb/HareDB_HBase_Bulkload/1.98.06.01', include:'*.jar')
+	compile fileTree(dir:'libs/haredb/HareDB_HBaseClient_Core/1.98.06.01', include:'*.jar')
+	compile fileTree(dir:'libs/haredb/HareDB_HBaseClient_UIAdapter/1.98.06.01', include:'*.jar')
+	compile fileTree(dir:'libs/haredb/HareDB_HBase_Coprocessor/1.98.06.01', include:'*.jar')
+	compile fileTree(dir:'libs/haredb/HareDB_HBase_Hive/1.98.06.01', include:'*.jar')
+	compile fileTree(dir:'libs/haredb/HareDB_HBase_Index/1.98.06.01', include:'*.jar')
+	compile fileTree(dir:'libs/haredb/HareDB_HBase_MetaStore/1.98.06.01', include:'*.jar')
+	compile fileTree(dir:'libs/haredb/HareDB_Hive_MetaStore/1.98.06.01', include:'*.jar')
+	compile fileTree(dir:'libs/haredb', include:'*.jar')
+
+
         compile('junit:junit:4.12')
 	compile('org.scala-lang:scala-library:2.10.5')
         compile('org.apache.spark:spark-core_2.10:1.4.0')
