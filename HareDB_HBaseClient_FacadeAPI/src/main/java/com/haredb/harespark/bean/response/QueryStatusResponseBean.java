@@ -7,7 +7,7 @@ public class QueryStatusResponseBean extends ResponseInfoBean implements IRespon
 
 	public static String RUNNING = "RUNNING";
 	public static String PREP = "PREP";
-	public static String SUCCEEDED = "SUCCEEDED";
+	public static String FINISHED = "FINISHED";
 	public static String FAILED = "FAILED";
 	public static String KILLED = "KILLED";
 

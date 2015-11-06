@@ -20,13 +20,10 @@
  
   <property>
      <name>fs.defaultFS</name>
-     <value>hdfs://server-a1:9000</value>
+     <value>hdfs://host1:8020</value>
   </property>
   
-  <property>
-      <name>hadoop.tmp.dir</name>
-      <value>/dfs/1/tmp</value>
-  </property>
+ 
 
   <!--<property>
       <name>hadoop.http.staticuser.user</name>
