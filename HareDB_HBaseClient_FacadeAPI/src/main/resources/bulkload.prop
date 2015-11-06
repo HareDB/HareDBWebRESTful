@@ -1,7 +1,8 @@
 bulkloadtype=HFile
 bulkloadskipbadline=true
 bulkloadcompression=false
-bulkloadjarpath=/WEB-INF/classes/HareDB_Bulkload.jar
+#改為在 .haredb中取得
+#bulkloadjarpath=/WEB-INF/classes/HareDB_Bulkload.jar
 bulkloadfilelocalhdfs=HDFS
 bulkloadStartkey=
 bulkloadStopkey=
