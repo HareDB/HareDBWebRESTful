@@ -7,8 +7,10 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.hadoop.hbase.TableExistsException;
 import org.apache.hadoop.hbase.TableNotFoundException;
 
+import com.haredb.client.facade.bean.IndexBean;
 import com.haredb.client.facade.bean.MessageInfo;
 import com.haredb.client.facade.bean.MetaColumnFamilyBean;
+import com.haredb.client.facade.bean.QueueBean;
 import com.haredb.client.facade.bean.TableInfoBean;
 import com.haredb.hbaseclient.core.Connection;
 import com.haredb.hbaseclient.core.HareTable;
@@ -64,6 +66,20 @@ public class HareDefineHTable extends HareContrivance{
 			HareTable hareTable = new HareTable(connection);
 			hareTable.setName(tableName);
 			hareTable.dropHTable();
+			
+			/* drop index */
+			IndexBean indexBean = new IndexBean();
+			indexBean.setTableName(tableName);
+			HareIndexOperator indexOperator = new HareIndexOperator(connection, indexBean);
+			indexOperator.dropIndex();
+			
+			/* drop queue */
+			QueueBean qBean = new QueueBean();
+			qBean.setTableName(tableName);
+			HareQueueOperator queueOperator = new HareQueueOperator(connection, qBean);
+			queueOperator.dropQueue();
+			
+			
 			long stopTime = System.currentTimeMillis();
 			messageInfo.setStatus(MessageInfo.SUCCESS);
 			messageInfo.setResponseTime(stopTime - startTime);
