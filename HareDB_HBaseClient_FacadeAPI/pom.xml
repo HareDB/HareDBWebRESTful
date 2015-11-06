@@ -10,7 +10,7 @@
     
     <groupId>haredb</groupId>
 	<artifactId>HareDB_HBaseClient_FacadeAPI</artifactId>
-    <version>1.98.6</version>
+    <version>1.98.06.01</version>
 	<packaging>jar</packaging>
 	<name>FacadeAPI</name>
 
@@ -121,6 +121,56 @@
 		    <groupId>${project.groupId}</groupId>
 		    <artifactId>HareDB_Hadoop_RPC</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>HareDB_HBaseClient_UIAdapter</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>HareDB_HBase_Index</artifactId>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-core</artifactId>
+			<exclusions>
+					<exclusion>
+					 	<groupId>org.apache.hadoop</groupId>
+	  					<artifactId>hadoop-common</artifactId>
+					</exclusion>
+					<exclusion>
+					 	<groupId>org.apache.hadoop</groupId>
+	  					<artifactId>hadoop-annotations</artifactId>
+					</exclusion>
+					<exclusion>
+					 	<groupId>org.apache.hadoop</groupId>
+	  					<artifactId>hadoop-auth</artifactId>
+					</exclusion>
+					<exclusion>
+					 	<groupId>org.apache.hadoop</groupId>
+	  					<artifactId>hadoop-hdfs</artifactId>
+					</exclusion>
+        			<exclusion>  <!-- declare the exclusion here -->
+          				<groupId>org.ow2.asm</groupId>
+						<artifactId>asm</artifactId>
+        			</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+	</dependency>
+	<dependency>
+	<groupId>org.apache.httpcomponents</groupId>
+	<artifactId>httpcore</artifactId>
+</dependency>
+	
 		
 	</dependencies>
 	
