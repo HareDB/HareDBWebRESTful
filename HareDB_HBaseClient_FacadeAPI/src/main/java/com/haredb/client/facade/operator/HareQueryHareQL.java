@@ -202,7 +202,11 @@ public class HareQueryHareQL extends HareContrivance{
 			hiveConf.set("hive.querylog.location", this.hiveMetaConnectionBean.getEmbedPath() + "/hive/tmp/user/");
 			hiveConf.set("hive.log.dir", this.hiveMetaConnectionBean.getEmbedPath() + "/hive/tmp/user/");
 		}
-
+		
+		/* for join use hive */
+		hiveConf.set("hadoop.bin.path",System.getProperty("user.home")+"/.haredb/exec/hadoop/bin/hadoop");
+		/* **** */
+		
 		hiveConf.set("hbase.rpc.timeout", "9999999");
 		hiveConf.set("hbase.client.retries.number", "1");
 		hiveConf.set(HareQLConfiguration.SECONDRESULTBEANSPLITSIZE, "500");

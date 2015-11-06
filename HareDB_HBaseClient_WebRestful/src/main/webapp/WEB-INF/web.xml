@@ -18,4 +18,9 @@
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/webapi/*</url-pattern>
     </servlet-mapping>
+
+
+	<listener>
+		<listener-class>com.haredb.client.listener.WebRestAppListener</listener-class>
+	</listener>
 </web-app>
