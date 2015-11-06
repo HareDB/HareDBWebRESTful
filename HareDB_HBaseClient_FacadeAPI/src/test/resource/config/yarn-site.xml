@@ -31,17 +31,17 @@
 
   <property>
       <name>yarn.resourcemanager.address</name>
-      <value>server-a1:8032</value>
+      <value>host1:8032</value>
   </property>
 
   <property>
       <name>yarn.resourcemanager.resource-tracker.address</name>
-      <value>server-a1:8031</value>
+      <value>host1:8031</value>
   </property>
 
   <property>
        <name>yarn.resourcemanager.scheduler.address</name>
-       <value>server-a1:8030</value>
+       <value>host1:8030</value>
   </property>
 
   <property>
@@ -51,12 +51,12 @@
 
   <property>
        <name>yarn.resourcemanager.hostname</name>
-       <value>server-a1</value>
+       <value>host1</value>
   </property>
 
   <property>
        <name>yarn.resourcemanager.webapp.address</name>
-       <value>server-a1:8088</value>
+       <value>host1:8088</value>
   </property>
  <!-- 
  <property>
@@ -80,7 +80,7 @@
   </property>-->
  <!-- <property>
      <name>yarn.web-proxy.address</name>
-     <value>server-a1:9046</value>
+     <value>host1:9046</value>
   </property> -->
 
 </configuration>

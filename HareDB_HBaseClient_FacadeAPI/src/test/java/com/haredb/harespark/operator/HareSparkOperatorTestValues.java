@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
@@ -150,13 +151,17 @@ public class HareSparkOperatorTestValues {
 		FileSystem hdfs;
 		try {
 			hdfs = FileSystem.get(config);
-			BufferedReader br=new BufferedReader(new InputStreamReader(hdfs.open(new Path(resultFolderPath))));
-            String line;
-            line=br.readLine();
-            while (line != null){
-                    System.out.println(line);
-                    line=br.readLine();
-            }
+			FileStatus[] fileStatus = hdfs.listStatus(new Path(resultFolderPath));
+			for (int i = 0; i < fileStatus.length; i++) {
+				BufferedReader br=new BufferedReader(new InputStreamReader(hdfs.open(fileStatus[i].getPath())));
+	            String line;
+	            line=br.readLine();
+	            while (line != null){
+	                    System.out.println(line);
+	                    line=br.readLine();
+	            }
+			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

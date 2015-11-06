@@ -2,6 +2,9 @@ package com.haredb.harespark.operator;
 
 import static org.junit.Assert.*;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.junit.Test;
 
 import com.haredb.harespark.bean.input.AlterTableBean;
@@ -21,6 +24,7 @@ import com.haredb.harespark.bean.response.QuerySubmitResponseBean;
 import com.haredb.harespark.bean.response.ResponseInfoBean;
 import com.haredb.harespark.bean.response.UploadDataFileResponseBean;
 import com.haredb.harespark.bean.response.UploadDataFileStatusResponseBean;
+import com.haredb.harespark.util.HareSparkFacade;
 
 public class HareSparkOperatorIT {
 
@@ -188,11 +192,11 @@ public class HareSparkOperatorIT {
 			assertEquals(bean.SUCCESS, querySubmitResponseBean.getStatus());
 			
 			flag = false;
-			while (!flag) {
+			while (!flag) {				
 				QueryStatusBean queryStatusBean = new QueryStatusBean(querySubmitResponseBean.getQueryJobName());
 				QueryStatusResponseBean queryStatusResponseBean = operator.queryStatus(queryStatusBean);
 				System.out.println(queryStatusResponseBean.toString());
-				if (queryStatusResponseBean.getStatus().equals(queryStatusResponseBean.SUCCESS)) {
+				if (queryStatusResponseBean.getJobStatus().equals(queryStatusResponseBean.FINISHED)) {
 					flag = true;
 				}
 				Thread.sleep(1000);
@@ -234,8 +238,8 @@ public class HareSparkOperatorIT {
 //		UploadDataFileResponseBean uploadDataFileResponseBean = operator.uploadDataFile(uploadDataFileBean);
 //		PreviewBean previewBean = new PreviewBean(values.getTableName(), "0", "10");
 //		PreviewResponseBean previewResponseBean = operator.preview(previewBean);
-		DropTableBean dropTableBean = new DropTableBean(values.getTableName());
-		operator.dropTable(dropTableBean);
+//		DropTableBean dropTableBean = new DropTableBean(values.getTableName());
+//		operator.dropTable(dropTableBean);
 	}
 	
 	
@@ -249,6 +253,8 @@ public class HareSparkOperatorIT {
 		}	
 				
 	}
+	
+	
 	
 	
 }
