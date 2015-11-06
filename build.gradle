@@ -14,6 +14,9 @@ subprojects {
         maven {
             url "https://repository.cloudera.com/artifactory/cloudera-repos/"
         }
+	/*maven {
+            url "http://repo1.maven.org/maven2/"
+        }*/
     }
 }
 subprojects {
@@ -40,6 +43,9 @@ subprojects {
         options.charSet = 'UTF-8'
     }
 
+   sourceSets.main.resources {
+       exclude 'sysconfig.properties'
+   }
    /*sourceSets.main.scala.srcDir "src/main/java"
    sourceSets.test.scala.srcDir "src/test/java"
    sourceSets.main.java.srcDirs = []
@@ -53,28 +59,32 @@ subprojects {
      hiveConf
   }
     dependencies {
-        hadoopConf 'org.apache.hadoop:hadoop-annotations:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-hdfs:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-common:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-client:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-auth:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-app:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-common:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-core:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-jobclient:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-shuffle:2.3.0-cdh5.1.0'
+        hadoopConf 'org.apache.hadoop:hadoop-annotations:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-hdfs:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-common:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-client:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-auth:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-app:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-common:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-core:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-jobclient:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-shuffle:2.5.0-cdh5.2.0'
 
-        hadoopConf 'org.apache.hadoop:hadoop-yarn-api:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-yarn-client:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-yarn-common:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-yarn-server-common:2.3.0-cdh5.1.0'
-        hadoopConf 'org.apache.hadoop:hadoop-yarn-server-nodemanager:2.3.0-cdh5.1.0'
+        hadoopConf 'org.apache.hadoop:hadoop-yarn-api:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-yarn-client:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-yarn-common:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-yarn-server-common:2.5.0-cdh5.2.0'
+        hadoopConf 'org.apache.hadoop:hadoop-yarn-server-nodemanager:2.5.0-cdh5.2.0'
 
-        hbaseConf 'org.apache.hbase:hbase-common:0.98.1-cdh5.1.0'
-        hbaseConf 'org.apache.hbase:hbase-protocol:0.98.1-cdh5.1.0'
-        hbaseConf 'org.apache.hbase:hbase-client:0.98.1-cdh5.1.0'
-        hbaseConf 'org.apache.hbase:hbase-hadoop2-compat:0.98.1-cdh5.1.0'
-        hbaseConf 'org.apache.hbase:hbase-server:0.98.1-cdh5.1.0'
+
+
+        hbaseConf 'org.apache.hbase:hbase-common:0.98.6-cdh5.2.1'
+        hbaseConf 'org.apache.hbase:hbase-protocol:0.98.6-cdh5.2.1'
+        hbaseConf 'org.apache.hbase:hbase-client:0.98.6-cdh5.2.1'
+        hbaseConf 'org.apache.hbase:hbase-hadoop2-compat:0.98.6-cdh5.2.1'
+        hbaseConf 'org.apache.hbase:hbase-server:0.98.6-cdh5.2.1'
+        
+
 
         hiveConf 'org.apache.hive:hive-cli:0.13.1'
         hiveConf 'org.apache.hive:hive-service:0.13.1'
@@ -85,13 +95,14 @@ subprojects {
         compile configurations.hiveConf
         compile fileTree(dir:'libs/haredb', include:'*.jar')
         compile('junit:junit:4.12')
-	 compile('org.scala-lang:scala-library:2.10.5')
-         compile('org.apache.spark:spark-core_2.10:1.4.0')
-         compile('org.apache.spark:spark-yarn_2.10:1.4.0')
-         compile('org.apache.spark:spark-sql_2.10:1.4.0')
-         compile('com.databricks:spark-csv_2.10:1.2.0')
-         compile('org.apache.commons:commons-csv:1.2')
+	compile('org.scala-lang:scala-library:2.10.5')
+        compile('org.apache.spark:spark-core_2.10:1.4.0')
+        compile('org.apache.spark:spark-yarn_2.10:1.4.0')
+        compile('org.apache.spark:spark-sql_2.10:1.4.0')
+        compile('com.databricks:spark-csv_2.10:1.2.0')
+        compile('org.apache.commons:commons-csv:1.2')
 
+        compile('com.alibaba:druid:1.0.10')
     }
     dependencies {
         testCompile 'junit:junit:4.12'
@@ -134,5 +145,7 @@ project(":HareDB_HBaseClient_WebRestful"){
 
            compile project(":HareDB_HBaseClient_FacadeAPI")
     }
+    
+
 }
 
