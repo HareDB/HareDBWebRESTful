@@ -203,11 +203,11 @@ public class ConnectionUtil {
 		
 	}
 	
-	private enum Mode {
+	public enum Mode {
 	    ALPHA, ALPHANUMERIC, NUMERIC 
 	}
 	
-	private String genConnectionKey(int length, Mode mode) throws Exception {
+	public String genConnectionKey(int length, Mode mode) throws Exception {
 
 		StringBuffer buffer = new StringBuffer();
 		String characters = "";
