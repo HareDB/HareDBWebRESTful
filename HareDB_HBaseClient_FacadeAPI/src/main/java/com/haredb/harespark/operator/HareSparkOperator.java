@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.haredb.client.facade.until.HareSparkSysConfig;
 import com.haredb.harespark.bean.TableColumn;
 import com.haredb.harespark.bean.TableInfo;
 import com.haredb.harespark.bean.input.AlterTableBean;
@@ -24,6 +25,7 @@ import com.haredb.harespark.bean.response.QuerySubmitResponseBean;
 import com.haredb.harespark.bean.response.ResponseInfoBean;
 import com.haredb.harespark.bean.response.UploadDataFileResponseBean;
 import com.haredb.harespark.bean.response.UploadDataFileStatusResponseBean;
+import com.haredb.harespark.common.SysConfig;
 import com.haredb.harespark.util.HareSparkFacade;
 
 public class HareSparkOperator {
@@ -31,15 +33,17 @@ public class HareSparkOperator {
 	private long startTime = 0;
 	private long stopTime = 0;
 
+	private SysConfig sysConfig;
 	private UserSessionBean userSessionBean;
 	private HareSparkFacade hareSparkFacade;
 	
 	public HareSparkOperator() {
-		
+	
 	}
 	
-	public HareSparkOperator(UserSessionBean userSessionBean) {
+	public HareSparkOperator(UserSessionBean userSessionBean, HareSparkSysConfig hareSparkSysConfig) {
 		this.userSessionBean = userSessionBean;
+		this.sysConfig = hareSparkSysConfig.getSysConfig();
 	}
 	
 	
@@ -66,8 +70,8 @@ public class HareSparkOperator {
 		
 		startTime = System.currentTimeMillis();
 		try {
-			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath());
-			hareSparkFacade.createTable(createTableBean.getTableName(), createTableBean.getColumnNames(), createTableBean.getDataType());
+			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
+			hareSparkFacade.createTable(createTableBean.getTablename(), createTableBean.getColumnNames(), createTableBean.getDataTypes());
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
@@ -84,7 +88,7 @@ public class HareSparkOperator {
 		startTime = System.currentTimeMillis();		
 		// Todo : change to thread	
 		try {			
-			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath());
+			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
 			boolean skipHeader = false;
 			try {
 				skipHeader = Boolean.valueOf(uploadDataFileBean.getSkipHeader());
@@ -112,7 +116,7 @@ public class HareSparkOperator {
 		UploadDataFileStatusResponseBean bean = new UploadDataFileStatusResponseBean();
 		startTime = System.currentTimeMillis();		
 		try {
-			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath());
+			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
 			String response = hareSparkFacade.uploadFileStatus(uploadDataFileStatusBean.getUploadJobName());
 			
 			String[] responseinfo = response.split(",");
@@ -138,7 +142,7 @@ public class HareSparkOperator {
 			String jobname = querySubmitBean.getTablename() + "_" + System.currentTimeMillis();
 			
 			
-			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath());
+			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
 			asychronizeRunnable runnable = new asychronizeRunnable(hareSparkFacade, querySubmitBean, jobname);
 			new Thread(runnable).start();
 //			hareSparkFacade.queryHDFSTable(querySubmitBean.getResultFileFolder(), querySubmitBean.getSql(), querySubmitBean.getTablename(), jobname);
@@ -160,7 +164,7 @@ public class HareSparkOperator {
 		QueryStatusResponseBean bean = new QueryStatusResponseBean();
 		startTime = System.currentTimeMillis();		
 		try {
-			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath());			
+			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);			
 			List<String> responselist = hareSparkFacade.queryHDFSTableStatus(queryStatusBean.getQueryJobName());
 			bean.setJobStatus(responselist.get(0));
 			bean.setJobID(responselist.get(1));
@@ -186,7 +190,7 @@ public class HareSparkOperator {
 		PreviewResponseBean bean = new PreviewResponseBean();
 		startTime = System.currentTimeMillis();		
 		try {
-			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath());
+			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
 			int pagesize = 0;
 			int limit = 0;
 			
@@ -196,13 +200,13 @@ public class HareSparkOperator {
 			}catch (Exception e) {
 				throw new Exception(e.getMessage());
 			}			
-			List<String> responselist = hareSparkFacade.previewData(previewBean.getTableName(), pagesize, limit);
+			List<String> responselist = hareSparkFacade.previewData(previewBean.getTablename(), pagesize, limit);
 			for(String dd :responselist) {
 				System.out.println("hareSparkFacade : " + dd);
 			}			
 			
 			if (responselist == null || responselist.size() == 0) {
-				throw new Exception("table " + previewBean.getTableName() + " is not created");
+				throw new Exception("table " + previewBean.getTablename() + " is not created");
 			}
 			
 			
@@ -239,8 +243,8 @@ public class HareSparkOperator {
 		startTime = System.currentTimeMillis();		
 
 		try {
-			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath());
-			boolean result = hareSparkFacade.deleteDataFile(deleteDataFileBean.getTableName(), deleteDataFileBean.getDeleteDataFileName());			
+			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
+			boolean result = hareSparkFacade.deleteDataFile(deleteDataFileBean.getTablename(), deleteDataFileBean.getDeleteDataFileName());			
 			bean.setStatus(bean.SUCCESS);			
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
@@ -258,8 +262,8 @@ public class HareSparkOperator {
 		startTime = System.currentTimeMillis();		
 
 		try {
-			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath());
-			hareSparkFacade.dropTable(dropTableBean.getTableName());
+			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
+			hareSparkFacade.dropTable(dropTableBean.getTablename());
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
@@ -276,8 +280,8 @@ public class HareSparkOperator {
 		ResponseInfoBean bean = new ResponseInfoBean();
 		startTime = System.currentTimeMillis();		
 		try {
-			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath());
-			hareSparkFacade.alterTable(alterTableBean.getTableName(), alterTableBean.getColumnNames(), alterTableBean.getDataTypes());
+			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
+			hareSparkFacade.alterTable(alterTableBean.getTablename(), alterTableBean.getColumnNames(), alterTableBean.getDataTypes());
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
@@ -294,11 +298,11 @@ public class HareSparkOperator {
 		DescribeTableResponseBean bean = new DescribeTableResponseBean();
 		startTime = System.currentTimeMillis();		
 		try {
-			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath());
-			TableInfo tableinfo = hareSparkFacade.describeTable(describeTableBean.getTableName());			
+			hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
+			TableInfo tableinfo = hareSparkFacade.describeTable(describeTableBean.getTablename());			
 			
 			if (tableinfo == null) {
-				throw new Exception("Table " + describeTableBean.getTableName() + " is not existed");
+				throw new Exception("Table " + describeTableBean.getTablename() + " is not existed");
 			}
 			List<String> listColumns = new ArrayList<String>();
 			List<String> listDataType = new ArrayList<String>();
@@ -323,7 +327,7 @@ public class HareSparkOperator {
 	}
 	
 	public boolean isExists(String tableName){
-		hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath());
+		hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
 		return hareSparkFacade.isExists(tableName);
 	}
 	
@@ -353,7 +357,7 @@ public class HareSparkOperator {
 		@Override
 		public void run() {
 			if (this.actionType == 1) {
-				hareSparkFacade.uploadDataFile(uploadDataFileBean.getDataFilePath(), uploadDataFileBean.getResultPath(), uploadDataFileBean.getCsvSeparator(), uploadDataFileBean.getTableName(), Boolean.valueOf(uploadDataFileBean.getSkipHeader()), uploadDataFileBean.getOperator());			
+				hareSparkFacade.uploadDataFile(uploadDataFileBean.getDataFilePath(), uploadDataFileBean.getResultPath(), uploadDataFileBean.getCsvSeparator(), uploadDataFileBean.getTablename(), Boolean.valueOf(uploadDataFileBean.getSkipHeader()), uploadDataFileBean.getOperator());			
 			}else if (this.actionType == 2) {
 				hareSparkFacade.queryHDFSTable(querySubmitBean.getResultFileFolder(), querySubmitBean.getSql(), querySubmitBean.getTablename(), jobname);
 			}

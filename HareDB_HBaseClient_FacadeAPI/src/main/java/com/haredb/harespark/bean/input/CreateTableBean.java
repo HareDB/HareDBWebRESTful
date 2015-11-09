@@ -9,30 +9,29 @@ public class CreateTableBean implements IInputBean {
 
 	
 	
-	private String tableName;
+	private String tablename;
 	private List<String> columnNames;
-	private List<String> dataType;
+	private List<String> dataTypes;
 	
 	public CreateTableBean() {
 		
 	}
 	
-	public CreateTableBean(String tableName, List<String> columnNames, List<String> dataType) {
+	public CreateTableBean(String tablename, List<String> columnNames, List<String> dataTypes) {
 		super();
-		this.tableName = tableName;
+		this.tablename = tablename;
 		this.columnNames = columnNames;
-		this.dataType = dataType;
+		this.dataTypes = dataTypes;
 	}
 	
-	
-	public String getTableName() {
-		return tableName;
+	public String getTablename() {
+		return tablename;
 	}
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
+	public void setTablename(String tablename) {
+		this.tablename = tablename;
 	}
-	
+
 	public List<String> getColumnNames() {
 		return columnNames;
 	}
@@ -41,12 +40,12 @@ public class CreateTableBean implements IInputBean {
 		this.columnNames = columnNames;
 	}
 
-	public List<String> getDataType() {
-		return dataType;
+	public List<String> getDataTypes() {
+		return dataTypes;
 	}
 
-	public void setDataType(List<String> dataType) {
-		this.dataType = dataType;
+	public void setDataTypes(List<String> dataType) {
+		this.dataTypes = dataType;
 	}
 
 	@Override

@@ -2,11 +2,14 @@ package com.haredb.harespark.operator;
 
 import static org.junit.Assert.*;
 
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.junit.Test;
 
+import com.haredb.client.facade.until.HareSparkSysConfig;
 import com.haredb.harespark.bean.input.AlterTableBean;
 import com.haredb.harespark.bean.input.CreateTableBean;
 import com.haredb.harespark.bean.input.DeleteDataFileBean;
@@ -24,14 +27,24 @@ import com.haredb.harespark.bean.response.QuerySubmitResponseBean;
 import com.haredb.harespark.bean.response.ResponseInfoBean;
 import com.haredb.harespark.bean.response.UploadDataFileResponseBean;
 import com.haredb.harespark.bean.response.UploadDataFileStatusResponseBean;
+import com.haredb.harespark.common.Constants;
+import com.haredb.harespark.common.SysConfig;
 import com.haredb.harespark.util.HareSparkFacade;
 
 public class HareSparkOperatorIT {
+	
+	private  String PRODUCTNAME = "productName";
+	private  String HDFSTABLEFOLDER = "hdfsTableFolderRoot";
+	private  String METAFOLDERNAME = "metaFolderName";
+	private  String SPARKASSEMBLYJAR = "sparkAssemblyJarPath";
+	private  String HARESPARKASSEMBLYPATH = "hareSparkAssemblyJarPath";
+	private  String SPARKCSVJARPATH = "sparkcsvJarPath";
+	private  String SPARKCOMMONCSVJARPATH = "sparkcommoncsvJarPath";
 
 	@Test
 	public void testTableOperator() {
 		HareSparkOperatorTestValues values = new HareSparkOperatorTestValues();
-		HareSparkOperator operator = new HareSparkOperator(values.getUserSessionBean());
+		HareSparkOperator operator = new HareSparkOperator(values.getUserSessionBean(), this.getSysConfig());
 			
 		try {
 			CreateTableBean createTableBean = new CreateTableBean(values.getTableName(), values.getOriginCols(), values.getOriginDataType());
@@ -71,7 +84,7 @@ public class HareSparkOperatorIT {
 	public void testFileOperator() {
 		
 		HareSparkOperatorTestValues values = new HareSparkOperatorTestValues();
-		HareSparkOperator operator = new HareSparkOperator(values.getUserSessionBean());		
+		HareSparkOperator operator = new HareSparkOperator(values.getUserSessionBean(), this.getSysConfig());		
 		
 		try {
 			CreateTableBean createTableBean = new CreateTableBean(values.getTableName(), values.getOriginCols(), values.getOriginDataType());
@@ -149,7 +162,7 @@ public class HareSparkOperatorIT {
 	public void testSQLOperator() {	
 		
 		HareSparkOperatorTestValues values = new HareSparkOperatorTestValues();
-		HareSparkOperator operator = new HareSparkOperator(values.getUserSessionBean());		
+		HareSparkOperator operator = new HareSparkOperator(values.getUserSessionBean(), this.getSysConfig());		
 		
 		try {
 			/*
@@ -221,7 +234,7 @@ public class HareSparkOperatorIT {
 	@Test
 	public void sss() {
 		HareSparkOperatorTestValues values = new HareSparkOperatorTestValues();
-		HareSparkOperator operator = new HareSparkOperator(values.getUserSessionBean());		
+		HareSparkOperator operator = new HareSparkOperator(values.getUserSessionBean(), this.getSysConfig());		
 		try {
 			values.deleteSampleDataFile();
 		} catch (Exception e) {
@@ -253,7 +266,31 @@ public class HareSparkOperatorIT {
 		}	
 				
 	}
-	
+	private HareSparkSysConfig getSysConfig(){
+		try{
+			
+			HareSparkSysConfig hareSparkSysConfig = new HareSparkSysConfig();
+			SysConfig sysConfig = new SysConfig();
+			
+			InputStream inStream = this.getClass().getResourceAsStream(Constants.sysConfigFilePath);
+			Properties properties = new Properties();
+			properties.load(inStream);
+			
+			sysConfig.setProductName(properties.getProperty(PRODUCTNAME));
+			sysConfig.setHdfsDataRoot(properties.getProperty(HDFSTABLEFOLDER));
+			sysConfig.setMetaFolderName(properties.getProperty(METAFOLDERNAME));
+			sysConfig.setSparkAssemblyJar(properties.getProperty(SPARKASSEMBLYJAR));
+			sysConfig.setHareSparkAssemblyPath(properties.getProperty(HARESPARKASSEMBLYPATH));
+			sysConfig.setSparkcsvJarPath(properties.getProperty(SPARKCSVJARPATH));
+			sysConfig.setSparkcommoncsvJarPath(properties.getProperty(SPARKCOMMONCSVJARPATH));
+			
+			hareSparkSysConfig.setSysConfig(sysConfig);
+			return hareSparkSysConfig;
+		}catch(Exception e){
+			throw new RuntimeException(e);
+		}
+		
+	}
 	
 	
 	

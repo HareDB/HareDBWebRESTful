@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AlterTableBean implements IInputBean {
 
 	
-	private String tableName;
+	private String tablename;
 	private List<String> columnNames;
 	private List<String> dataTypes;
 	
@@ -16,20 +16,20 @@ public class AlterTableBean implements IInputBean {
 		
 	}
 	
-	public AlterTableBean(String tableName, List<String> columnNames, List<String> dataTypes) {
+	public AlterTableBean(String tablename, List<String> columnNames, List<String> dataTypes) {
 		super();
-		this.tableName = tableName;
+		this.tablename = tablename;
 		this.columnNames = columnNames;
 		this.dataTypes = dataTypes;
 	}
 	
 	
-	public String getTableName() {
-		return tableName;
+	public String getTablename() {
+		return tablename;
 	}
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
+	public void setTablename(String tableName) {
+		this.tablename = tableName;
 	}
 	
 	public List<String> getColumnNames() {

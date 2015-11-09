@@ -74,7 +74,7 @@ public class HareSparkResourceTest{
 
 		PostMethod method = new PostMethod(httpUrlRoot + "/altertable");
 		AlterTableBean alterTableBean = new AlterTableBean();
-		alterTableBean.setTableName(tableName);
+		alterTableBean.setTablename(tableName);
 		alterTableBean.setColumnNames(Arrays.asList("col1", "col2"));
 		alterTableBean.setDataTypes(Arrays.asList("string", "string"));
 		
@@ -238,7 +238,7 @@ public class HareSparkResourceTest{
 		PreviewBean previewBean = new PreviewBean();
 		previewBean.setLimit("10");
 		previewBean.setPageSize("1");
-		previewBean.setTableName(tableName);
+		previewBean.setTablename(tableName);
 		
 		String json = HareSparkResourceTest.objectToJsonStr(previewBean);
 		StringRequestEntity requestEntity = new StringRequestEntity(json, contentType, charSet);
@@ -250,17 +250,18 @@ public class HareSparkResourceTest{
 		
 		Gson gson = new Gson();
 		PreviewResponseBean response = gson.fromJson(result, PreviewResponseBean.class);
-		String[] results = response.getResults().split(",");
+		
+		/*String[] results = response.getResults().split(",");
 		for(String r : results){
 			System.out.println(r);
-		}
+		}*/
 		
 	}
 	@Test
 	public void testDeteDataFile() throws Exception{
 		PostMethod method = new PostMethod(httpUrlRoot + "/deletedatafile");
 		DeleteDataFileBean deleteDataFileBean = new DeleteDataFileBean();
-		deleteDataFileBean.setTableName("table1");
+		deleteDataFileBean.setTablename("table1");
 		deleteDataFileBean.setDeleteDataFileName("origin.txt");
 		
 		String json = HareSparkResourceTest.objectToJsonStr(deleteDataFileBean);
@@ -290,9 +291,9 @@ public class HareSparkResourceTest{
 	private ResponseInfoBean createTable(String tableName) throws Exception{
 		PostMethod method = new PostMethod(httpUrlRoot + "/createtable");
 		CreateTableBean createTableBean = new CreateTableBean();
-		createTableBean.setTableName(tableName);
+		createTableBean.setTablename(tableName);
 		createTableBean.setColumnNames(Arrays.asList("col1", "col2", "col3", "col4"));
-		createTableBean.setDataType(Arrays.asList("string", "string", "string", "string"));
+		createTableBean.setDataTypes(Arrays.asList("string", "string", "string", "string"));
 		
 		String json = HareSparkResourceTest.objectToJsonStr(createTableBean);
 		StringRequestEntity requestEntity = new StringRequestEntity(json, contentType, charSet);
@@ -309,7 +310,7 @@ public class HareSparkResourceTest{
 		
 		PostMethod method = new PostMethod(httpUrlRoot + "/droptable");
 		DropTableBean dropTableBean = new DropTableBean();
-		dropTableBean.setTableName(tableName);
+		dropTableBean.setTablename(tableName);
 		
 		String json = HareSparkResourceTest.objectToJsonStr(dropTableBean);
 		StringRequestEntity requestEntity = new StringRequestEntity(json, contentType, charSet);
@@ -328,7 +329,7 @@ public class HareSparkResourceTest{
 	private DescribeTableResponseBean tableDescribe(String tableName) throws Exception{
 		PostMethod method = new PostMethod(httpUrlRoot + "/describetable");
 		DescribeTableBean describeTableBean = new DescribeTableBean();
-		describeTableBean.setTableName(tableName);
+		describeTableBean.setTablename(tableName);
 		String json = HareSparkResourceTest.objectToJsonStr(describeTableBean);
 
 		StringRequestEntity requestEntity = new StringRequestEntity(json, contentType, charSet);
@@ -385,7 +386,7 @@ public class HareSparkResourceTest{
 		
 		PostMethod method = new PostMethod(httpUrlRoot + "/uploaddatafile");
 		UploadDataFileBean uploadDataFileBean = new UploadDataFileBean();
-		uploadDataFileBean.setTableName(tableName);
+		uploadDataFileBean.setTablename(tableName);
 		uploadDataFileBean.setDataFilePath("/origin.txt");
 		uploadDataFileBean.setSkipHeader("true");
 		uploadDataFileBean.setCsvSeparator(",");

@@ -1,16 +1,8 @@
 package com.haredb.client.listener;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -23,15 +15,18 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.haredb.client.facade.until.HareEnv;
+import com.haredb.client.facade.until.HareSparkSysConfig;
 
 
 
 public class WebRestAppListener implements ServletContextListener{
-
+	public static String HARESPARKCONFIGSTR = "haresparkenv";
 	private static Logger logger = LoggerFactory.getLogger(WebRestAppListener.class);
-	
+	private ServletContext servletContext;
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		logger.info("context init......");
@@ -153,6 +148,12 @@ public class WebRestAppListener implements ServletContextListener{
 			    Runtime.getRuntime().exec("chmod 777 " + HareEnv.getHadoopCfg());
 			}
 			
+			
+			servletContext = sce.getServletContext();
+			HareSparkSysConfig sysConfig = new HareSparkSysConfig();
+			servletContext.setAttribute(HARESPARKCONFIGSTR, sysConfig);
+			
+			
 		} catch (FileNotFoundException e) {
 			logger.error("Coprocessor jar not found: "+e.getMessage());
 		} catch (IOException e) {
@@ -162,8 +163,7 @@ public class WebRestAppListener implements ServletContextListener{
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		logger.info("context destroyed......");
-		
+		logger.info("context destroyed......");		
 	}
 
 }

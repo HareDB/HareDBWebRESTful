@@ -4,23 +4,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class DescribeTableBean implements IInputBean {
 
-	private String tableName;
+	private String tablename;
 
 	public DescribeTableBean() {
 		
 	}
-	public DescribeTableBean(String tableName) {
+	public DescribeTableBean(String tablename) {
 		super();
-		this.tableName = tableName;
+		this.tablename = tablename;
 	}
 	
 	
-	public String getTableName() {
-		return tableName;
+	public String getTablename() {
+		return tablename;
 	}
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
+	public void setTablename(String tablename) {
+		this.tablename = tablename;
 	}
 
 	@Override

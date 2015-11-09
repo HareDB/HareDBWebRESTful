@@ -8,7 +8,7 @@ public class UploadDataFileBean implements IInputBean {
 	public static String operatorName_Normal = "Normal";
 	public static String operatorName_Replace = "Replace";
 
-	private String tableName;
+	private String tablename;
 	private String dataFilePath;
 	private String resultPath;
 	private String skipHeader;
@@ -19,10 +19,10 @@ public class UploadDataFileBean implements IInputBean {
 
 	}
 
-	public UploadDataFileBean(String tableName, String dataFilePath, String resultPath, String skipHeader, String csvSeparator,
+	public UploadDataFileBean(String tablename, String dataFilePath, String resultPath, String skipHeader, String csvSeparator,
 			String operator) {
 		super();
-		this.tableName = tableName;
+		this.tablename = tablename;
 		this.dataFilePath = dataFilePath;
 		this.resultPath = resultPath;
 		this.skipHeader = skipHeader;
@@ -30,12 +30,12 @@ public class UploadDataFileBean implements IInputBean {
 		this.operator = operator;
 	}
 
-	public String getTableName() {
-		return tableName;
+	public String getTablename() {
+		return tablename;
 	}
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
+	public void setTablename(String tableName) {
+		this.tablename = tableName;
 	}
 
 	public String getDataFilePath() {
