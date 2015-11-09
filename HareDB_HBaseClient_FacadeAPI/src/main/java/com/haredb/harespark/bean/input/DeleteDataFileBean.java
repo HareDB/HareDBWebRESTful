@@ -4,25 +4,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class DeleteDataFileBean implements IInputBean {
 
-	private String tableName;
+	private String tablename;
 	private String deleteDataFileName;
 
 	public DeleteDataFileBean() {
 		
 	}
 	
-	public DeleteDataFileBean(String tableName, String deleteDataFileName) {
+	public DeleteDataFileBean(String tablename, String deleteDataFileName) {
 		super();
-		this.tableName = tableName;
+		this.tablename = tablename;
 		this.deleteDataFileName = deleteDataFileName;
 	}
 	
-	public String getTableName() {
-		return tableName;
+	public String getTablename() {
+		return tablename;
 	}
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
+	public void setTablename(String tableName) {
+		this.tablename = tableName;
 	}
 
 	public String getDeleteDataFileName() {

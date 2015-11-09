@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class PreviewBean implements IInputBean {
 
-	private String tableName;
+	private String tablename;
 	private String pageSize;
 	private String limit;
 
@@ -12,19 +12,19 @@ public class PreviewBean implements IInputBean {
 		
 	}
 	
-	public PreviewBean(String tableName, String pageSize, String limit) {
+	public PreviewBean(String tablename, String pageSize, String limit) {
 		super();
-		this.tableName = tableName;
+		this.tablename = tablename;
 		this.pageSize = pageSize;
 		this.limit = limit;
 	}
 	
-	public String getTableName() {
-		return tableName;
+	public String getTablename() {
+		return tablename;
 	}
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
+	public void setTablename(String tableName) {
+		this.tablename = tableName;
 	}
 
 	public String getPageSize() {

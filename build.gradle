@@ -58,7 +58,14 @@ subprojects {
      hbaseConf
      hiveConf
   }
-    dependencies {
+  configurations {
+     all*.exclude group: 'tomcat'
+     all*.exclude group: 'javax.servlet.jsp'
+     all*.exclude group: 'javax.servlet'
+     all*.exclude group: 'org.mortbay.jetty'
+  }
+
+   dependencies {
         hadoopConf 'org.apache.hadoop:hadoop-annotations:2.5.0-cdh5.2.0'
         hadoopConf 'org.apache.hadoop:hadoop-hdfs:2.5.0-cdh5.2.0'
         hadoopConf 'org.apache.hadoop:hadoop-common:2.5.0-cdh5.2.0'

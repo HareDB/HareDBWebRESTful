@@ -1,0 +1,11 @@
+usersession
+
+curl -H "Content-Type: application/json" -d '{"configurationFolderPath":"/home/dean/dean_dir/workspaceRestful2/HareDBWebRESTful/HareDB_HBaseClient_FacadeAPI/src/test/resource/config"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/usersession
+
+createtable
+curl -H "Content-Type: application/json" -d '{"tablename":"deanpostman","columnNames":["col1","col2","col3"],"dataTypes":["String","String","String"]}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/createtable
+
+altertable
+curl -H "Content-Type: application/json" -d '{"tablename":"deanpostman","columnNames":["col1","col2","col3"],"dataTypes":["Integer","String","String"]}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/altertable
+
+
