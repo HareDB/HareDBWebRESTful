@@ -75,7 +75,7 @@ public class HareSparkOperator {
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
-			bean.setException("Createtable failed : \n" + e.getMessage());
+			bean.setException("Create table "+ createTableBean.getTablename() + " failed : " + e.getMessage());
 			e.printStackTrace();
 		}		
 		stopTime = System.currentTimeMillis();
@@ -103,7 +103,7 @@ public class HareSparkOperator {
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
-			bean.setException("uploadDataFile failed : \n" + e.getMessage());
+			bean.setException("Upload DataFile failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
 		stopTime = System.currentTimeMillis();
@@ -126,7 +126,7 @@ public class HareSparkOperator {
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
-			bean.setException("uploadDataFileStatus failed : \n" + e.getMessage());
+			bean.setException("Query DataFile Status failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
 		stopTime = System.currentTimeMillis();
@@ -150,7 +150,7 @@ public class HareSparkOperator {
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
-			bean.setException("querySubmit failed : \n" + e.getMessage());
+			bean.setException("QuerySubmit failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
 		stopTime = System.currentTimeMillis();
@@ -176,7 +176,7 @@ public class HareSparkOperator {
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
-			bean.setException("queryStatus failed : \n" + e.getMessage());
+			bean.setException("QueryStatus failed : " + e.getMessage());
 			e.printStackTrace();
 		}
 		stopTime = System.currentTimeMillis();
@@ -229,7 +229,7 @@ public class HareSparkOperator {
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
-			bean.setException("querySubmit failed : \n" + e.getMessage());
+			bean.setException("QuerySubmit failed : " + e.getMessage());
 			e.printStackTrace();
 		}
 		stopTime = System.currentTimeMillis();
@@ -248,7 +248,7 @@ public class HareSparkOperator {
 			bean.setStatus(bean.SUCCESS);			
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
-			bean.setException("deleteDataFilefailed : \n" + e.getMessage());
+			bean.setException("Delete DataFile failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
 		stopTime = System.currentTimeMillis();
@@ -267,7 +267,7 @@ public class HareSparkOperator {
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
-			bean.setException("Drop table failed : \n" + e.getMessage());
+			bean.setException("Drop table " + dropTableBean.getTablename() + " failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
 		stopTime = System.currentTimeMillis();
@@ -285,7 +285,7 @@ public class HareSparkOperator {
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
-			bean.setException("Alter table failed : \n" + e.getMessage());
+			bean.setException("Alter table " + alterTableBean.getTablename() +" failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
 		stopTime = System.currentTimeMillis();
@@ -317,7 +317,7 @@ public class HareSparkOperator {
 			bean.setStatus(bean.SUCCESS);
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
-			bean.setException("Describe table failed : \n" + e.getMessage());
+			bean.setException("Describe table " + describeTableBean.getTablename() + " failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
 		stopTime = System.currentTimeMillis();
@@ -333,8 +333,6 @@ public class HareSparkOperator {
 	
 	private class asychronizeRunnable implements Runnable {
 
-//		Runnable runnable = new asychronizeRunnable(hareSparkFacade, uploadDataFileBean); 
-//		new Thread(runnable).start();
 		private HareSparkFacade hareSparkFacade;
 		private UploadDataFileBean uploadDataFileBean;
 		private QuerySubmitBean querySubmitBean;
