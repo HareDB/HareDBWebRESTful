@@ -1,11 +1,38 @@
 usersession
 
-curl -H "Content-Type: application/json" -d '{"configurationFolderPath":"/home/dean/dean_dir/workspaceRestful2/HareDBWebRESTful/HareDB_HBaseClient_FacadeAPI/src/test/resource/config"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/usersession
+curl -H "Content-Type: application/json" -d '{"configurationFolderPath":"/home/dean/dean_dir/workspaceRestful/HareDBWebRESTful/HareDB_HBaseClient_FacadeAPI/src/test/resource/config"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/usersession
 
 createtable
 curl -H "Content-Type: application/json" -d '{"tablename":"deanpostman","columnNames":["col1","col2","col3"],"dataTypes":["String","String","String"]}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/createtable
 
 altertable
 curl -H "Content-Type: application/json" -d '{"tablename":"deanpostman","columnNames":["col1","col2","col3"],"dataTypes":["Integer","String","String"]}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/altertable
+
+describetable
+curl -H "Content-Type: application/json" -d '{"tablename":"deanpostman"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/describetable
+
+droptable
+curl -H "Content-Type: application/json" -d '{"tablename":"deanpostman"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/droptable
+
+uploaddatafile
+curl -H "Content-Type: application/json" -d '{"tablename":"deanpostman","dataFilePath":"/tmp/testfile/fruit1.csv","resultPath":"/tmp/deanpostman","skipHeader":"false","csvSeparator":",","operator":"replace"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/uploaddatafile
+
+uploaddatafile/status
+curl -H "Content-Type: application/json" -d '{"uploadJobName":"/tmp/deanpostman"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/uploaddatafile/status
+
+preview
+curl -H "Content-Type: application/json" -d '{"tablename":"deanpostman","pageSize":"1","limit":"10"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/preview
+
+deletedatafile
+curl -H "Content-Type: application/json" -d '{"tablename":"deanpostman","deleteDataFileName":"fruit1.csv"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/deletedatafile
+
+droptable
+curl -H "Content-Type: application/json" -d '{"tablename":"deanpostman"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/droptable
+
+querysubmit
+curl -H "Content-Type: application/json" -d '{"sql":"select * from deanpostman","tablename":"deanpostman","resultFileFolder":"/tmp/deanpostmanfolder"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/querysubmit
+
+querystatus
+curl -H "Content-Type: application/json" -d '{"queryJobName":"deanpostman_1447121782263"}' http://localhost:8080/HareDB_HBaseClient_WebRestful/webapi/harespark/querystatus
 
 
