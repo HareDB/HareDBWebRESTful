@@ -110,11 +110,12 @@ public class HareSparkOperatorIT {
 			
 			PreviewBean previewBean = new PreviewBean(values.getTableName(), "1", "10");
 			PreviewResponseBean previewResponseBean = operator.preview(previewBean);
-			
-			
-			System.out.println(previewResponseBean.getHeads());
-			print2DimensionalArray(previewResponseBean.getResults());
-			
+						
+			String resultplain = ",id,name,type";
+			assertEquals(resultplain, print1DimensionalArray(previewResponseBean.getHeads()));			
+			resultplain = ",10,apple,fruit,11,banana,fruit,12,cherry,fruit,13,durian,fruit";
+			assertEquals(resultplain, print2DimensionalArray(previewResponseBean.getResults()));
+						
 			uploadDataFileBean = new UploadDataFileBean(values.getTableName(), values.getDataHadoopFile2(), values.getResultFolderPath2(), "", ",", UploadDataFileBean.operatorName_Normal);
 			uploadDataFileResponseBean = operator.uploadDataFile(uploadDataFileBean);
 			assertEquals(bean.SUCCESS, uploadDataFileResponseBean.getStatus());
@@ -132,8 +133,11 @@ public class HareSparkOperatorIT {
 			
 			previewBean = new PreviewBean(values.getTableName(), "1", "10");
 			previewResponseBean = operator.preview(previewBean);
-			System.out.println(previewResponseBean.getHeads());
-			print2DimensionalArray(previewResponseBean.getResults());
+			
+			resultplain = ",id,name,type";
+			assertEquals(resultplain, print1DimensionalArray(previewResponseBean.getHeads()));
+			resultplain = ",10,apple,fruit,11,banana,fruit,12,cherry,fruit,13,durian,fruit,1,starfruitfruit,fruit,2,coconut,fruit,3,guava,fruit,4,grapes,fruit";
+			assertEquals(resultplain, print2DimensionalArray(previewResponseBean.getResults()));
 			
 			DeleteDataFileBean deleteDataFileBean = new DeleteDataFileBean(values.getTableName(), values.getDataFile1());
 			bean = operator.deleteDataFile(deleteDataFileBean);
@@ -141,8 +145,10 @@ public class HareSparkOperatorIT {
 			
 			previewBean = new PreviewBean(values.getTableName(), "1", "10");
 			previewResponseBean = operator.preview(previewBean);
-			System.out.println(previewResponseBean.getHeads());
-			print2DimensionalArray(previewResponseBean.getResults());
+			resultplain = ",id,name,type";
+			assertEquals(resultplain, print1DimensionalArray(previewResponseBean.getHeads()));
+			resultplain = ",1,starfruitfruit,fruit,2,coconut,fruit,3,guava,fruit,4,grapes,fruit";
+			assertEquals(resultplain, print2DimensionalArray(previewResponseBean.getResults()));
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}finally{
@@ -192,8 +198,10 @@ public class HareSparkOperatorIT {
 			
 			PreviewBean previewBean = new PreviewBean(values.getTableName(), "1", "10");
 			PreviewResponseBean previewResponseBean = operator.preview(previewBean);		
-			System.out.println(previewResponseBean.getHeads());
-			print2DimensionalArray(previewResponseBean.getResults());
+			String resultplain = ",id,name,type";
+			assertEquals(resultplain, print1DimensionalArray(previewResponseBean.getHeads()));			
+			resultplain = ",10,apple,fruit,11,banana,fruit,12,cherry,fruit,13,durian,fruit";
+			assertEquals(resultplain, print2DimensionalArray(previewResponseBean.getResults()));
 			
 			values.deleteSampleResultFolder();
 			/*
@@ -231,7 +239,7 @@ public class HareSparkOperatorIT {
 	
 	
 	
-	@Test
+//	@Test
 	public void sss() {
 		HareSparkOperatorTestValues values = new HareSparkOperatorTestValues();
 		HareSparkOperator operator = new HareSparkOperator(values.getUserSessionBean(), this.getSysConfig());		
@@ -256,15 +264,24 @@ public class HareSparkOperatorIT {
 	}
 	
 	
-	private void print2DimensionalArray(String[][] data) {
-		for(int i = 0; i < data.length; i++) {
-			String temp = "";
+	private String print1DimensionalArray(String[] data) {
+		String temp = "";
+		for(int i = 0; i < data.length; i++) {			
+			temp = temp + "," + data[i];						
+		}	
+		System.out.println(temp);
+		return temp;
+	}
+	
+	private String print2DimensionalArray(String[][] data) {
+		String temp = "";
+		for(int i = 0; i < data.length; i++) {			
 			for(int j = 0; j < data[i].length; j++) {
 				temp = temp + "," + data[i][j];
-			}
-			System.out.println(temp);		
+			}			
 		}	
-				
+		System.out.println(temp);		
+		return temp;
 	}
 	private HareSparkSysConfig getSysConfig(){
 		try{

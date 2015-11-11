@@ -200,15 +200,10 @@ public class HareSparkOperator {
 			}catch (Exception e) {
 				throw new Exception(e.getMessage());
 			}			
-			List<String> responselist = hareSparkFacade.previewData(previewBean.getTablename(), pagesize, limit);
-			for(String dd :responselist) {
-				System.out.println("hareSparkFacade : " + dd);
-			}			
-			
+			List<String> responselist = hareSparkFacade.previewData(previewBean.getTablename(), pagesize, limit);				
 			if (responselist == null || responselist.size() == 0) {
 				throw new Exception("table " + previewBean.getTablename() + " is not created");
-			}
-			
+			}		
 			
 			String[] header = responselist.get(0).split(",");
 			
