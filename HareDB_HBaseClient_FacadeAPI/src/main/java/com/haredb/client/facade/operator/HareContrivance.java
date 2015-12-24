@@ -66,35 +66,39 @@ public abstract class HareContrivance {
 	public void writeFileToHdfs(IBean object, String savedPath, String fileName, boolean overwriteFile) throws Exception {
 		byte[] byt = null;
 		Path filePath = new Path(savedPath + "/" + fileName);
-		FSDataOutputStream fsOutStream;
-		String propertyName = null;
-		Object value = null;
-		FileSystem hdfs = FileSystem.get(config);
-		BeanInfo beanInfo = Introspector.getBeanInfo(object.getBeanClass());
-		if (hdfs.exists(filePath)) {
-			if (overwriteFile) {
-				hdfs.delete(filePath, true);
-				fsOutStream = hdfs.create(filePath);
+		FSDataOutputStream fsOutStream = null;
+		FileSystem hdfs =null;
+		try{
+			String propertyName = null;
+			Object value = null;
+			hdfs = FileSystem.get(config);
+			BeanInfo beanInfo = Introspector.getBeanInfo(object.getBeanClass());
+			if (hdfs.exists(filePath)) {
+				if (overwriteFile) {
+					hdfs.delete(filePath, true);
+					fsOutStream = hdfs.create(filePath);
+				} else {
+					fsOutStream = hdfs.append(filePath);
+				}
 			} else {
-				fsOutStream = hdfs.append(filePath);
+				fsOutStream = hdfs.create(filePath);
 			}
-		} else {
-			fsOutStream = hdfs.create(filePath);
-		}
-
-		for (PropertyDescriptor propertyDesc : beanInfo
-				.getPropertyDescriptors()) {
-			propertyName = propertyDesc.getName();
-			if (isOutputToFile(propertyName)) {
-				value = propertyDesc.getReadMethod().invoke(object);
-				if (value != null) {
-					byt = (propertyName + ":" + value + "\n").getBytes();
-					fsOutStream.write(byt, 0, byt.length);// wrap
+			
+			for (PropertyDescriptor propertyDesc : beanInfo
+					.getPropertyDescriptors()) {
+				propertyName = propertyDesc.getName();
+				if (isOutputToFile(propertyName)) {
+					value = propertyDesc.getReadMethod().invoke(object);
+					if (value != null) {
+						byt = (propertyName + ":" + value + "\n").getBytes();
+						fsOutStream.write(byt, 0, byt.length);// wrap
+					}
 				}
 			}
+		}finally{			
+			fsOutStream.close();
+			hdfs.close();
 		}
-		fsOutStream.close();
-		hdfs.close();
 
 	}
 

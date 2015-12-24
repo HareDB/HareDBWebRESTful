@@ -100,16 +100,22 @@ public class HareQueueOperator  extends HareContrivance{
 		QueueStatusBean statusBean = new QueueStatusBean();
 		String tableName 					= qBean.getTableName();
 		statusBean.setTableName(tableName);
-		FileSystem fs = FileSystem.get(connection.getConfig());
-		FileStatus[] tableQueueFiles = fs.listStatus(new Path(UIQueueService.JOB_STATUS_FILE_PATH + tableName));
-		ArrayList<String> queueFiles = new ArrayList<String>();
-		/* get all queue file on single table */
-		for (FileStatus queueFile : tableQueueFiles) {
-			queueFiles.add(queueFile.getPath().toString());
+		FileSystem fs =null; 
+		try{			
+			fs= FileSystem.get(connection.getConfig());
+			FileStatus[] tableQueueFiles = fs.listStatus(new Path(UIQueueService.JOB_STATUS_FILE_PATH + tableName));
+			ArrayList<String> queueFiles = new ArrayList<String>();
+			/* get all queue file on single table */
+			for (FileStatus queueFile : tableQueueFiles) {
+				queueFiles.add(queueFile.getPath().toString());
+			}
+			statusBean.setQueueFiles(queueFiles);
+			statusBean.setStatus(MessageInfo.SUCCESS);
+		}finally{
+			if(fs !=null){				
+				fs.close();
+			}
 		}
-		statusBean.setQueueFiles(queueFiles);
-		statusBean.setStatus(MessageInfo.SUCCESS);
-
 		return statusBean;
 	}
 	

@@ -57,6 +57,7 @@ subprojects {
      hadoopConf
      hbaseConf
      hiveConf
+     solrConf
   }
   configurations {
      all*.exclude group: 'tomcat'
@@ -66,6 +67,13 @@ subprojects {
   }
 
    dependencies {
+   	  compile 'org.apache.solr:solr-solrj:4.10.2'
+   	  compile('org.apache.solr:solr-core:4.10.2'){
+   	  	exclude group: 'org.restlet.jee'
+   	  }
+        //jdbc driver
+        hiveConf 'mysql:mysql-connector-java:5.1.18'
+   
         hadoopConf 'org.apache.hadoop:hadoop-annotations:2.5.0-cdh5.2.0'
         hadoopConf 'org.apache.hadoop:hadoop-hdfs:2.5.0-cdh5.2.0'
         hadoopConf 'org.apache.hadoop:hadoop-common:2.5.0-cdh5.2.0'
@@ -100,6 +108,8 @@ subprojects {
         compile configurations.hadoopConf
         compile configurations.hbaseConf
         compile configurations.hiveConf
+        compile configurations.solrConf
+        
         compile fileTree(dir:'libs/haredb/HareDB_Hadoop_RPC/1.98.06.01', include:'*.jar')
 	compile fileTree(dir:'libs/haredb/HareDB_HBase_Bulkload/1.98.06.01', include:'*.jar')
 	compile fileTree(dir:'libs/haredb/HareDB_HBaseClient_Core/1.98.06.01', include:'*.jar')

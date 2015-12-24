@@ -30,7 +30,9 @@ public class WebRestAppListener implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		logger.info("context init......");
-		
+
+		InputStream is = null;
+		FileOutputStream fos = null;
 		try {			
 			ServletContext context = sce.getServletContext();
 			File libFolder = new File(context.getRealPath("/WEB-INF/lib"));
@@ -66,32 +68,6 @@ public class WebRestAppListener implements ServletContextListener{
 		    bw.write(data);
 		    bw.flush();
 		    bw.close();
-		   
-			
-//			/**
-//			 * copy coprocessor jar from /WEB_INF/lib
-//			 * **/
-//		    File sourceJarFile = null;
-//			String[] libsName = libFolder.list();
-//			
-//			for(String name: libsName){
-//				if(name.indexOf("HareDB_HBase_Coprocessor") >= 0 && name.indexOf("-jar") >=0){
-//					logger.debug("Coprocessor jar found: " + name);
-//					sourceJarFile = new File(libFolder.getPath()+"/"+name);
-//					break;
-//				}
-//			}
-//			File coprocessorJar = new File(HareEnv.getCoprocessorDir(), HareEnv.getCoprocessorJarFileName());
-//			FileInputStream copFis = new FileInputStream(sourceJarFile);
-//			FileOutputStream copFos = new FileOutputStream(coprocessorJar);
-//			byte[] buf = new byte[1024];
-//		    int len;
-//		    while ((len = copFis.read(buf)) > 0){
-//		    	copFos.write(buf, 0, len);
-//		    }
-//		    copFis.close();
-//		    copFos.close();
-			
 		    
 		    byte[] buf = new byte[1024];
 		    int len;
@@ -99,8 +75,8 @@ public class WebRestAppListener implements ServletContextListener{
 			 * copy bulkload jar from resources
 			 * **/
 			File bulkloadJar = new File(HareEnv.getBulkloadDir(), HareEnv.getbulkloadJarFileName());
-			InputStream is = this.getClass().getResourceAsStream("/" + HareEnv.getbulkloadJarFileName());
-			FileOutputStream fos = new FileOutputStream(bulkloadJar);
+			is = this.getClass().getResourceAsStream("/" + HareEnv.getbulkloadJarFileName());
+			fos = new FileOutputStream(bulkloadJar);
 			buf = new byte[is.available()];
 		    
 		    while ((len = is.read(buf)) > 0){
@@ -158,6 +134,15 @@ public class WebRestAppListener implements ServletContextListener{
 			logger.error("Coprocessor jar not found: "+e.getMessage());
 		} catch (IOException e) {
 			logger.error(e.getMessage());
+		}finally{
+			try {
+				if (fos != null)
+					fos.close();
+				if (is != null)
+					is.close();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 

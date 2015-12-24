@@ -1,5 +1,6 @@
 package com.haredb.client.facade.until;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -10,10 +11,11 @@ public class HareSparkSysConfig {
 	private SysConfig sysConfig;
 	
 	public HareSparkSysConfig(){
+		InputStream inStream =null;
 		try{
 			SysConfig sysConfig = new SysConfig();
 			
-			InputStream inStream = this.getClass().getResourceAsStream(Constants.sysConfigFilePath);
+			 inStream = this.getClass().getResourceAsStream(Constants.sysConfigFilePath);
 			if(inStream != null){
 				Properties properties = new Properties();
 				properties.load(inStream);
@@ -32,6 +34,14 @@ public class HareSparkSysConfig {
 		    
 		}catch(Exception e){
 			throw new RuntimeException(e);
+		}finally{
+			if(inStream != null){
+				try {
+					inStream.close();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 		}
 	}
 

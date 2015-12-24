@@ -16,6 +16,12 @@ public class BulkloadStatusBean extends MessageInfo{
 	private String mapProgress;
 	private String reduceProgress;
 		
+	
+	@Override
+	public <T> Class<?> getBeanClass() {
+		return this.getClass();
+	}
+	
 	/**
 	 * @return the bulkloadStartTime
 	 */
