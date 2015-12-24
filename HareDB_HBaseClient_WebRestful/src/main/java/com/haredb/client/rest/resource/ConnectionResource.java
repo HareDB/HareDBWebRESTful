@@ -10,6 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.log4j.Logger;
+
 import com.haredb.hbaseclient.core.Connection;
 import com.haredb.hbaseclient.core.KerberosPrincipal;
 import com.haredb.adapter.bean.QueueSettingObjBean;
@@ -27,6 +29,7 @@ import com.haredb.hbase.metastore.service.HareDBTaskQueueService;
 @Path("connect")
 public class ConnectionResource {
 
+	private static Logger logger = Logger.getLogger(ConnectionResource.class);
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -61,26 +64,29 @@ public class ConnectionResource {
 	 *check queue file's path , and if job not running . fix queue status. 
 	 */
 	private void checkClusterQueueStatus(ConnectionBean cBean) throws Exception {
-		System.out.println("====== Start to check queue status");
 		/* change fade cBean to conn */
 		Connection conn = getHBaseClientCoreConnection(cBean);
 		conn.create();
 		UIQueueService uiQueueService = new UIQueueService(conn.getConfig());
-//		Properties prop = new Properties();
-//		prop.load(ConnectionUtil.class.getResourceAsStream("/connection.property"));
 		
+		logger.info("== start to get all queue info ==");
 		List<QueueTableStatusBean> queueList = uiQueueService.getAllFileListMapTable(UIQueueService.JOB_STATUS_FILE_PATH);
+		logger.info("== Get queue info finish ==");
 		
 		HareDBTaskQueueService metaService = new HareDBTaskQueueService();
 		
 		/* check meta is exists*/
-		if(!metaService.IsHBaseMetaTableExist(conn)){			
+		logger.info("== Start to check meta ==");
+		if(!metaService.IsHBaseMetaTableExist(conn)){
+			logger.info("== meta table not exist, start to create ==");
 			metaService.createHBaseMetaTable(conn);
+			logger.info("== meta table create finish ==");
 		}
 		
 		
+		logger.info("== Start to check queue status ==");
 		for (QueueTableStatusBean singleQueue : queueList) {
-			System.out.println("=== Table: "+singleQueue.getTableName()+" ===");
+			logger.info("== Table: "+singleQueue.getTableName()+" ==");
 			HareDBTaskQueueBean metaBean = metaService.LoadData(conn, singleQueue.getTableName());
 			if(metaBean.getStatus().equals(HareDBTaskQueueBean.StatusProcess)){
 				String jobName = "";
@@ -93,18 +99,18 @@ public class ConnectionResource {
 				BulkloadObserver observer = new BulkloadObserver(conn);
 				BulkloadStatus status = observer.getJobStatus(jobName);
 				if(status.getJobStatus()!=null && status.getJobStatus().equals(BulkloadObserver.RUNNING)){
-					System.out.println("====== Another client running this queue. ======");
+					logger.info("== Another client running this queue. ==");
 					continue;
 				}else{
-					System.out.println("====== Queue stopped, change status to Failed. ======");
+					logger.info("== Queue stopped, change status to Failed. ==");
 					metaBean.setStatus(HareDBTaskQueueBean.StatusFailed);
 					metaService.changeTaskStatus(conn, metaBean);					
 				}
 			}else{
-				System.out.println("====== status OK ======");
+				logger.info("== status OK ==");
 			}	
 		}
-		System.out.println("====== check queue status end.");
+		logger.info("== check queue status end. ==");
 	}
 	
 	/** 

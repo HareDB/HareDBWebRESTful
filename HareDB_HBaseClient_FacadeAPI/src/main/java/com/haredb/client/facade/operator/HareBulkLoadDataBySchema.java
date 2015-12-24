@@ -73,12 +73,18 @@ public class HareBulkLoadDataBySchema extends HareContrivance{
 	
 	protected void loadSchemaProperties(Connection connection) throws Exception{
 		Configuration config = connection.getConfig();
+		FileSystem fs = null;
+		FSDataInputStream inStream = null;
+		try{
+			fs = FileSystem.get(config);
+			inStream = fs.open(new Path(this.uploadSchemaBean.getSchemaFilePath()));
+			this.properties.load(inStream);
+			this.bulkloadProp.load(HareBulkLoadDataBySchema.class.getResourceAsStream("/bulkload.prop"));
+		}finally{
+			inStream.close();
+			fs.close();
+		}
 			
-		FileSystem fs = FileSystem.get(config);
-	    FSDataInputStream inStream = fs.open(new Path(this.uploadSchemaBean.getSchemaFilePath()));
-			
-		this.properties.load(inStream);
-		this.bulkloadProp.load(HareBulkLoadDataBySchema.class.getResourceAsStream("/bulkload.prop"));
 		
 	}
 	

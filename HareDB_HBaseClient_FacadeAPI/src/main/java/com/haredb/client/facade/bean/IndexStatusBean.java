@@ -10,7 +10,10 @@ public class IndexStatusBean extends MessageInfo{
 	private String jobName;
 
 	
-	
+	@Override
+	public <T> Class<?> getBeanClass() {
+		return this.getClass();
+	}
 	
 	public String getIndexStartTime() {
 		return indexStartTime;

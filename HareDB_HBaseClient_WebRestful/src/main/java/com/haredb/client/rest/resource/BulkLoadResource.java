@@ -23,7 +23,7 @@ import com.haredb.client.util.ConnectionUtil;
 public class BulkLoadResource {
 
 	
-	private static Logger logger = Logger.getLogger(IndexResource.class);
+	private static Logger logger = Logger.getLogger(BulkLoadResource.class);
 	
 	@POST
 	@Path("schema/upload")

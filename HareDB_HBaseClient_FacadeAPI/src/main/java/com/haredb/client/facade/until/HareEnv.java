@@ -1,6 +1,7 @@
 package com.haredb.client.facade.until;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -219,28 +220,13 @@ public class HareEnv {
     	}
     }
     
-
-//	public static String getVersion() {
-//    	try{
-//	    	InputStream inStream = HareEnv.class.getResourceAsStream(INFO_FILE);
-//	    	Properties systemInfoProp = new Properties();
-//	    	systemInfoProp.load(inStream);
-//	    	String version = systemInfoProp.get("version").toString();
-//	    	if(version.equals("${haredbversion}")){
-//	    		version = "1.94.3";
-//	    	}
-//	    	return version;
-//	    	
-//    	}catch(Exception e){
-//    		throw new RuntimeException(e);
-//    	}
-//    }
 	
 	public static int getNodeCount(){
 		if(NODE_COUNT != -1) return NODE_COUNT;
 		else{
+			InputStream inStream =null;
 			try{
-		    	InputStream inStream = HareEnv.class.getResourceAsStream(INFO_FILE);
+		    	inStream = HareEnv.class.getResourceAsStream(INFO_FILE);
 		    	Properties systemInfoProp = new Properties();
 		    	systemInfoProp.load(inStream);
 		    	String count = systemInfoProp.get("nodeCount").toString();
@@ -249,6 +235,14 @@ public class HareEnv {
 		    	
 	    	}catch(Exception e){
 	    		throw new RuntimeException(e);
+	    	}finally{
+	    		if(inStream !=null){
+	    			try {
+						inStream.close();
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+	    		}
 	    	}
 		}
 	}

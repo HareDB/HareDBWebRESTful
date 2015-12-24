@@ -8,6 +8,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.log4j.Logger;
 
 import com.haredb.adapter.bean.BulkColumn;
 import com.haredb.adapter.bean.BulkFileBean;
@@ -34,6 +35,7 @@ public class HareBulkLoadInQueueOperator extends HareContrivance {
 	private String containerRealPath;
 	private String jobName = null;
 	
+	private static Logger logger = Logger.getLogger(HareBulkLoadInQueueOperator.class);
 	
 	public HareBulkLoadInQueueOperator(Connection connection, UploadSchemaBean uploadSchemaBean){
 		super(connection);
@@ -48,12 +50,13 @@ public class HareBulkLoadInQueueOperator extends HareContrivance {
 		this.jobName = "application_" + timestamp;
 		BulkloadStatusBean rBean = new BulkloadStatusBean();
 		
-		
+		logger.info("start to run bulkload in queue.");
 		
 		try {
 			this.loadSchemaProperties(connection);
 			connection.getConfig().set(JobDriver.BULK_LOG_DEFAULT_ROOT_PATH, "/tmp");
 		} catch (Exception e) {
+			logger.error("Excption when load schema properties.");
 			MessageInfo info = new MessageInfo();
 			info.setStatus(MessageInfo.ERROR);
 			info.setException(printStackTrace(e));
@@ -194,11 +197,18 @@ public class HareBulkLoadInQueueOperator extends HareContrivance {
 	
 	protected void loadSchemaProperties(Connection connection) throws Exception{
 		Configuration config = connection.getConfig();
-		FileSystem fs = FileSystem.get(config);
-	   FSDataInputStream inStream = fs.open(new Path(this.uploadSchemaBean.getSchemaFilePath()));
-		this.properties.load(inStream);
-		this.bulkloadProp.load(HareBulkLoadInQueueOperator.class.getResourceAsStream("/bulkload.prop"));
-		this.indexProp.load(HareBulkLoadInQueueOperator.class.getResourceAsStream("/index.prop"));
+		FileSystem fs =null;
+		FSDataInputStream inStream =null;
+		try{
+			fs = FileSystem.get(config);
+			inStream = fs.open(new Path(this.uploadSchemaBean.getSchemaFilePath()));
+			this.properties.load(inStream);
+			this.bulkloadProp.load(HareBulkLoadInQueueOperator.class.getResourceAsStream("/bulkload.prop"));
+			this.indexProp.load(HareBulkLoadInQueueOperator.class.getResourceAsStream("/index.prop"));
+		}finally{
+			inStream.close();
+			fs.close();
+		}
 		
 	}
 	public String getContainerRealPath() {
