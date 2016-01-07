@@ -79,7 +79,7 @@ public class HareBulkLoadInQueueOperator extends HareContrivance {
 					/* for error  */
 					MessageInfo info = new MessageInfo();
 					info.setStatus(MessageInfo.ERROR);
-					info.setException(e.getMessage());
+					info.setException(printStackTrace(e));
 					try {
 						writeFileToHdfs(info, uploadSchemaBean.getResultPath(),true);
 					} catch (Exception e1) {
