@@ -34,12 +34,14 @@ public class HareIndexOperator extends HareContrivance{
 	
 	
 	public IndexStatusBean createIndex() throws Exception{
+		jobName = "Index_create_";
 		IndexStatusBean statusBean = indexFunction(HareIndexOperator.TYPE_CREATE);
 		return statusBean;
 	}
+	
 	public IndexStatusBean updateIndex(){
-		IndexStatusBean statusBean;
-		statusBean = indexFunction(HareIndexOperator.TYPE_UPDATE);
+		jobName = "Index_update_";
+		IndexStatusBean statusBean = indexFunction(HareIndexOperator.TYPE_UPDATE);
 		return statusBean;
 	}
 	
@@ -55,6 +57,8 @@ public class HareIndexOperator extends HareContrivance{
 			statusBean.setException(printStackTrace(e));
 			return statusBean;
 		}
+		jobName = jobName + startTime;
+		
 		Thread indexThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -62,6 +66,7 @@ public class HareIndexOperator extends HareContrivance{
 				String jarPath = getIndexJarPath();
 				
 				try {
+					String inputJobName = jobName;
 					String tableName 					= getTableName();
 					String collectionName			= tableName;
 					List<String> collectionList 	= getCollectionList();
@@ -71,11 +76,11 @@ public class HareIndexOperator extends HareContrivance{
 					ErrorBean errorBean;
 					switch (type) {
 					case HareIndexOperator.TYPE_CREATE:
-						errorBean = operator.startCreateIndexJob(collectionName, collectionList);						
+						errorBean = operator.startCreateIndexJob(collectionName, collectionList,inputJobName);						
 						break;
 
 					case HareIndexOperator.TYPE_UPDATE:
-						errorBean = operator.startUpdateIndexJob(collectionName, collectionList, new ArrayList<String>());						
+						errorBean = operator.startUpdateIndexJob(collectionName, collectionList, new ArrayList<String>(),inputJobName);						
 						break;
 					default:
 						errorBean = new ErrorBean();
@@ -101,7 +106,8 @@ public class HareIndexOperator extends HareContrivance{
 			
 		});
 		indexThread.start();
-		
+		statusBean.setJobName(jobName);
+		statusBean.setIndexStartTime(String.format("%d", startTime));
 		statusBean.setStatus(MessageInfo.SUCCESS);
 		long endTime = System.currentTimeMillis();
 		statusBean.setResponseTime(endTime - startTime);
