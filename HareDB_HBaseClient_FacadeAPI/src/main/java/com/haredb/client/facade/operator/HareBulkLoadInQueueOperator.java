@@ -153,10 +153,6 @@ public class HareBulkLoadInQueueOperator extends HareContrivance {
 		bulkloadBean.setJobName(jobName);
 		bulkloadBean.setIndexJarPath(HareEnv.getIndexJar().getPath());
 		bulkloadBean.setBulkloadType(this.bulkloadProp.getProperty("bulkloadtype"));
-		if(this.containerRealPath == null) {
-			throw new RuntimeException("Exception: Container Real Path is null!");
-		}
-//		bulkloadBean.setJarPath(this.containerRealPath+this.bulkloadProp.getProperty("bulkloadjarpath"));
 		bulkloadBean.setJarPath(HareEnv.getBulkloadJar().getPath());
 		
 		if(this.bulkloadProp.getProperty("bulkloadskipbadline").toLowerCase().equals("true")){
