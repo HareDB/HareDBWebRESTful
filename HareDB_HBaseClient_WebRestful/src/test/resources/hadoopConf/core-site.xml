@@ -20,7 +20,7 @@
  
   <property>
      <name>fs.defaultFS</name>
-     <value>hdfs://server-a1:9000</value>
+     <value>hdfs://host1:8020</value>
   </property>
   
   <property>
