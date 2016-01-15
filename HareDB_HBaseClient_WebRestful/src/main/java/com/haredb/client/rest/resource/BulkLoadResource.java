@@ -34,7 +34,6 @@ public class BulkLoadResource {
 		try {
 			ConnectionUtil connectionUtil = new ConnectionUtil();
 			HareBulkLoadDataBySchema bulkloadData = new HareBulkLoadDataBySchema(connectionUtil.getConnection(request),uplodSchemaBean);
-			bulkloadData.setContainerRealPath((new File(request.getRealPath("/")).getPath()));
 			bReturn=bulkloadData.runSchemaBulkload();
 			logger.info("bulkload finish");
 		} catch (Exception e) {

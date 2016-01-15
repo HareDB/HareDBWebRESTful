@@ -23,6 +23,7 @@ public class HareBulkLoadStatus extends HareContrivance{
 		}
 		
 		BulkloadObserver obServer = new BulkloadObserver(this.connection);
+		
 		try {
 			this.statusBean.setJobName(jobName);
 			long startTime = System.currentTimeMillis();
