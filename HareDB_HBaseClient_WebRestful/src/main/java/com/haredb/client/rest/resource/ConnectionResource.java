@@ -1,7 +1,6 @@
 package com.haredb.client.rest.resource;
 
 import java.util.List;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.POST;
@@ -37,21 +36,21 @@ public class ConnectionResource {
 		
 		ConnectionUtil connUtil = new ConnectionUtil(connectionBean);
 		MessageInfo info = connUtil.resolveBean();
+		if(info.getStatus().equals(MessageInfo.SUCCESS)) {
+			request.getSession().setAttribute(ConnectionUtil.connectionSessionName, connUtil.getConn());
+			request.getSession().setAttribute(ConnectionUtil.hiveMetaDataSessionName, connUtil.getMetaConn());
+		}
 		
 		
 		/* add queue control check----------------*/
 		try {
-			checkClusterQueueStatus(connectionBean);
+			checkClusterQueueStatus(connUtil.getConnection(request));
 		} catch (Exception e) {
 			info.setStatus(MessageInfo.ERROR);
 			info.setException(e.getMessage());
 		}
 		/* queue control check end----------------*/
 		
-		if(info.getStatus().equals(MessageInfo.SUCCESS)) {
-			request.getSession().setAttribute(ConnectionUtil.connectionSessionName, connUtil.getConn());
-			request.getSession().setAttribute(ConnectionUtil.hiveMetaDataSessionName, connUtil.getMetaConn());
-		}
 		return info;
 	}
 	
@@ -63,10 +62,11 @@ public class ConnectionResource {
 	 * 
 	 *check queue file's path , and if job not running . fix queue status. 
 	 */
-	private void checkClusterQueueStatus(ConnectionBean cBean) throws Exception {
+	private void checkClusterQueueStatus(Connection conn) throws Exception {
 		/* change fade cBean to conn */
-		Connection conn = getHBaseClientCoreConnection(cBean);
-		conn.create();
+//		Connection conn = getHBaseClientCoreConnection(cBean);
+//		conn.create();
+		
 		UIQueueService uiQueueService = new UIQueueService(conn.getConfig());
 		
 		logger.info("== start to get all queue info ==");
@@ -127,8 +127,9 @@ public class ConnectionResource {
 		hbaseConn.setRmResourceTrackerAddressHostPort(connectionBean.getRmResourceTrackerAddressHostPort());
 		hbaseConn.setRmSchedulerAddressHostPort(connectionBean.getRmSchedulerAddressHostPort());
 		hbaseConn.setMrJobhistoryAddress(connectionBean.getMrJobhistoryAddress());
-		hbaseConn.setSolrZKHosts(connectionBean.getSolrZKHosts());
 		hbaseConn.setRegisterCoprocessorHdfsPath(connectionBean.getRegisterCoprocessorHdfsPath());
+		hbaseConn.setSolrZKHosts(connectionBean.getSolrZKHosts());
+		hbaseConn.setRmMRFrameWorkName(connectionBean.getRmMRFrameWorkName());
 		if(connectionBean.isEnableKerberos()){
 			KerberosPrincipal kerberosPrincipal = new KerberosPrincipal(
 					connectionBean.getHbaseMasterPrincipal(), connectionBean.getHbaseRegionServerPrincipal(),
