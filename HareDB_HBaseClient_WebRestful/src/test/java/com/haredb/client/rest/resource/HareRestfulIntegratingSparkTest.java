@@ -312,4 +312,5 @@ private static final Logger logger = LoggerFactory.getLogger(HareRestfulIntegrat
 			throw new RuntimeException(e);
 		}
 	}
+	
 }
