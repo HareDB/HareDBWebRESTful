@@ -190,7 +190,42 @@ project(":HareDB_HBaseClient_WebRestful"){
 
            compile project(":HareDB_HBaseClient_FacadeAPI")
     }
-    
 
+    /*into(new File('libs')){
+        from configurations.hadoopConf
+    }*/
+   /*task copyDeps(type: Copy){
+        from configurations.compile
+        into "${buildDir}/lib"
+   }
+   //jar.dependsOn('copyDeps')
+   */
+   /*war{
+      from configurations.compile
+       into "${buildDir}/lib"
+   }*/
+    task copyTestJar(type: Copy){
+        from configurations.compile
+        into "${buildDir}/lib"
+    }
+    task createTestPropertiesFile(){
+        String commonCsv = "commons-csv-1.2.jar"
+        String sparkCsv = "spark-csv_2.10-1.2.0.jar"
+
+        Properties props = new Properties()
+        FileWriter writer = new FileWriter(file("${project.projectDir}/src/test/resources/sysconfig.properties"))
+        props.setProperty("productName", "harespark")
+        props.setProperty("hdfsTableFolderRoot", "/home/user1")
+        props.setProperty("metaFolderName", ".meta")
+        props.setProperty("sparkcommoncsvJarPath", "$buildDir/lib/" + commonCsv)
+        props.setProperty("sparkcsvJarPath", "$buildDir/lib/" + sparkCsv)
+        props.setProperty("hareSparkAssemblyJarPath", "$buildDir/lib/HareSpark.jar")
+        props.setProperty("sparkAssemblyJarPath", 'hdfs://host1:8020/sparkjar/spark-assembly-1.4.0-hadoop2.3.0.jar')
+
+        props.store(writer, null)
+        writer.flush()
+    }
+    build.dependsOn(copyTestJar)
+    build.dependsOn(createTestPropertiesFile)
 }
 
