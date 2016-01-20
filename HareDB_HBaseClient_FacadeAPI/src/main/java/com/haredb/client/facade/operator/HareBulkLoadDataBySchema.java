@@ -15,6 +15,7 @@ import com.haredb.client.facade.bean.BulkloadBean;
 import com.haredb.client.facade.bean.BulkloadStatusBean;
 import com.haredb.client.facade.bean.MessageInfo;
 import com.haredb.client.facade.bean.UploadSchemaBean;
+import com.haredb.client.facade.until.HareEnv;
 import com.haredb.hbase.bulkload.domain.BulkColumn;
 import com.haredb.hbase.bulkload.domain.BulkTable.PreSplitAlgo;
 import com.haredb.hbaseclient.core.Connection;
@@ -31,6 +32,11 @@ public class HareBulkLoadDataBySchema extends HareContrivance{
 		this.uploadSchemaBean=uploadSchemaBean;
 	}
 		
+	/**
+	 * Executing Bulkload with new thread
+	 * @return
+	 * @throws Exception
+	 */
 	public BulkloadStatusBean runSchemaBulkload() throws Exception{
 		long timestamp = System.currentTimeMillis();
 		long startTime = System.currentTimeMillis();
@@ -71,6 +77,42 @@ public class HareBulkLoadDataBySchema extends HareContrivance{
 		return rBean;
 	}
 	
+	/**
+	 * Excuting bkload
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public BulkloadStatusBean  Bulkload() throws Exception{
+		long timestamp = System.currentTimeMillis();
+		long startTime = System.currentTimeMillis();
+		this.jobName = "application_" + timestamp;
+		BulkloadStatusBean rBean = new BulkloadStatusBean();
+		try {
+			this.loadSchemaProperties(connection);
+		} catch (Exception e) {
+			MessageInfo info = new MessageInfo();
+			info.setStatus(MessageInfo.ERROR);
+			info.setException(printStackTrace(e));
+			writeFileToHdfs(info, uploadSchemaBean.getResultPath(),true);
+		}
+		rBean.setJobName(this.jobName);
+		
+		HareBulkLoadData bulkload = new HareBulkLoadData(connection);
+		try {
+			bulkload.runbulkload(getBulkloadBean(), getBulkTableBean(), getBulkFileBean());
+			rBean.setStatus(MessageInfo.SUCCESS);
+		}catch(Exception e) {
+			rBean.setStatus(MessageInfo.ERROR);
+			rBean.setException(printStackTrace(e));
+		}	
+		
+		long endTime = System.currentTimeMillis();
+		rBean.setResponseTime(endTime - startTime);
+		return rBean;
+		
+	}
+	
 	protected void loadSchemaProperties(Connection connection) throws Exception{
 		Configuration config = connection.getConfig();
 		FileSystem fs = null;
@@ -92,11 +134,8 @@ public class HareBulkLoadDataBySchema extends HareContrivance{
 		BulkloadBean bulkLoadBean = new BulkloadBean();
 		bulkLoadBean.setJobName(this.jobName);
 		bulkLoadBean.setBulkloadType(this.bulkloadProp.getProperty("bulkloadtype"));
-		if(this.containerRealPath == null) {
-			throw new RuntimeException("Exception: Container Real Path is null!");
-		}
-		bulkLoadBean.setJarPath(this.containerRealPath+this.bulkloadProp.getProperty("bulkloadjarpath"));
 		
+		bulkLoadBean.setJarPath(HareEnv.getBulkloadJar().getPath());
 		if(this.bulkloadProp.getProperty("bulkloadskipbadline").toLowerCase().equals("true")){
 			bulkLoadBean.setSkipBadLine(true);
 		}else{

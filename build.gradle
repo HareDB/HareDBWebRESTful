@@ -67,23 +67,19 @@ subprojects {
   }
 
    dependencies {
-   	  compile 'org.apache.solr:solr-solrj:4.10.2'
-   	  compile('org.apache.solr:solr-core:4.10.2'){
-   	  	exclude group: 'org.restlet.jee'
-   	  }
+   	    compile 'org.apache.solr:solr-solrj:4.10.2'
+   	    compile('org.apache.solr:solr-core:4.10.2'){
+   	        exclude group: 'org.restlet.jee'
+   	  	    exclude group: 'org.apache.hadoop'
+   	  	    exclude group: 'org.ow2.asm', module: 'asm'
+   	    }
         //jdbc driver
         hiveConf 'mysql:mysql-connector-java:5.1.18'
    
         hadoopConf 'org.apache.hadoop:hadoop-annotations:2.5.0-cdh5.2.0'
         hadoopConf 'org.apache.hadoop:hadoop-hdfs:2.5.0-cdh5.2.0'
-        hadoopConf 'org.apache.hadoop:hadoop-common:2.5.0-cdh5.2.0'
+        hadoopConf('org.apache.hadoop:hadoop-common:2.5.0-cdh5.2.0')
         hadoopConf 'org.apache.hadoop:hadoop-client:2.5.0-cdh5.2.0'
-        hadoopConf 'org.apache.hadoop:hadoop-auth:2.5.0-cdh5.2.0'
-        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-app:2.5.0-cdh5.2.0'
-        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-common:2.5.0-cdh5.2.0'
-        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-core:2.5.0-cdh5.2.0'
-        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-jobclient:2.5.0-cdh5.2.0'
-        hadoopConf 'org.apache.hadoop:hadoop-mapreduce-client-shuffle:2.5.0-cdh5.2.0'
 
         hadoopConf 'org.apache.hadoop:hadoop-yarn-api:2.5.0-cdh5.2.0'
         hadoopConf 'org.apache.hadoop:hadoop-yarn-client:2.5.0-cdh5.2.0'
@@ -93,17 +89,28 @@ subprojects {
 
 
 
-        hbaseConf 'org.apache.hbase:hbase-common:0.98.6-cdh5.2.1'
+        hbaseConf('org.apache.hbase:hbase-common:0.98.6-cdh5.2.1') {
+            exclude group: 'org.apache.hadoop', module: 'hadoop-core'
+        }
         hbaseConf 'org.apache.hbase:hbase-protocol:0.98.6-cdh5.2.1'
-        hbaseConf 'org.apache.hbase:hbase-client:0.98.6-cdh5.2.1'
-        hbaseConf 'org.apache.hbase:hbase-hadoop2-compat:0.98.6-cdh5.2.1'
-        hbaseConf 'org.apache.hbase:hbase-server:0.98.6-cdh5.2.1'
-        
+        hbaseConf('org.apache.hbase:hbase-client:0.98.6-cdh5.2.1') {
+            exclude group: 'org.apache.hadoop', module: 'hadoop-core'
+        }
+        hbaseConf('org.apache.hbase:hbase-hadoop2-compat:0.98.6-cdh5.2.1') {
+            exclude group: 'org.apache.hadoop', module: 'hadoop-core'
+        }
+        hbaseConf('org.apache.hbase:hbase-server:0.98.6-cdh5.2.1') {
+            exclude group: 'org.apache.hadoop', module: 'hadoop-core'
+        }
 
 
-        hiveConf 'org.apache.hive:hive-cli:0.13.1'
+        hiveConf('org.apache.hive:hive-cli:0.13.1')
         hiveConf 'org.apache.hive:hive-service:0.13.1'
-        hiveConf 'org.apache.hive:hive-metastore:0.13.1'
+        hiveConf('org.apache.hive:hive-metastore:0.13.1')
+        
+        hiveConf 'org.apache.hive:hive-exec:0.13.1'
+        hiveConf 'org.apache.hive:hive-jdbc:0.13.1'
+        hiveConf('org.apache.hive:hive-hbase-handler:0.13.1')
 
         compile configurations.hadoopConf
         compile configurations.hbaseConf
@@ -111,30 +118,40 @@ subprojects {
         compile configurations.solrConf
         
         compile fileTree(dir:'libs/haredb/HareDB_Hadoop_RPC/1.98.06.01', include:'*.jar')
-	compile fileTree(dir:'libs/haredb/HareDB_HBase_Bulkload/1.98.06.01', include:'*.jar')
-	compile fileTree(dir:'libs/haredb/HareDB_HBaseClient_Core/1.98.06.01', include:'*.jar')
-	compile fileTree(dir:'libs/haredb/HareDB_HBaseClient_UIAdapter/1.98.06.01', include:'*.jar')
-	compile fileTree(dir:'libs/haredb/HareDB_HBase_Coprocessor/1.98.06.01', include:'*.jar')
-	compile fileTree(dir:'libs/haredb/HareDB_HBase_Hive/1.98.06.01', include:'*.jar')
-	compile fileTree(dir:'libs/haredb/HareDB_HBase_Index/1.98.06.01', include:'*.jar')
-	compile fileTree(dir:'libs/haredb/HareDB_HBase_MetaStore/1.98.06.01', include:'*.jar')
-	compile fileTree(dir:'libs/haredb/HareDB_Hive_MetaStore/1.98.06.01', include:'*.jar')
-	compile fileTree(dir:'libs/haredb', include:'*.jar')
+	    compile fileTree(dir:'libs/haredb/HareDB_HBase_Bulkload/1.98.06.01', include:'*.jar')
+	    compile fileTree(dir:'libs/haredb/HareDB_HBaseClient_Core/1.98.06.01', include:'*.jar')
+	    compile fileTree(dir:'libs/haredb/HareDB_HBaseClient_UIAdapter/1.98.06.01', include:'*.jar')
+	    compile fileTree(dir:'libs/haredb/HareDB_HBase_Coprocessor/1.98.06.01', include:'*.jar')
+	    compile fileTree(dir:'libs/haredb/HareDB_HBase_Hive/1.98.06.01', include:'*.jar')
+	    compile fileTree(dir:'libs/haredb/HareDB_HBase_Index/1.98.06.01', include:'*.jar')
+	    compile fileTree(dir:'libs/haredb/HareDB_HBase_MetaStore/1.98.06.01', include:'*.jar')
+	    compile fileTree(dir:'libs/haredb/HareDB_Hive_MetaStore/1.98.06.01', include:'*.jar')
+	    compile fileTree(dir:'libs/haredb', include:'*.jar')
 
 
         compile('junit:junit:4.12')
-	compile('org.scala-lang:scala-library:2.10.5')
-        compile('org.apache.spark:spark-core_2.10:1.4.0')
+        compile('com.jayway.restassured:rest-assured:2.8.0')
+        
+	    compile('org.scala-lang:scala-library:2.10.5')
+        compile('org.apache.spark:spark-core_2.10:1.4.0') {
+            exclude group: 'org.apache.hadoop', module: 'hadoop-client'
+        }
         compile('org.apache.spark:spark-yarn_2.10:1.4.0')
         compile('org.apache.spark:spark-sql_2.10:1.4.0')
         compile('com.databricks:spark-csv_2.10:1.2.0')
         compile('org.apache.commons:commons-csv:1.2')
 
         compile('com.alibaba:druid:1.0.10')
+        
+        compile('com.google.protobuf:protobuf-java:2.5.0')
+        compile('org.apache.zookeeper:zookeeper:3.4.6')
+        
     }
     dependencies {
         testCompile 'junit:junit:4.12'
         testCompile 'org.apache.httpcomponents:httpclient:4.5.1'
+        
+        testCompile 'com.jayway.restassured:rest-assured:2.8.0'
     }
 }
 
@@ -173,7 +190,29 @@ project(":HareDB_HBaseClient_WebRestful"){
 
            compile project(":HareDB_HBaseClient_FacadeAPI")
     }
-    
 
+    task copyTestJar(type: Copy){
+        from configurations.compile
+        into "${buildDir}/lib"
+    }
+    task createTestPropertiesFile(){
+        String commonCsv = "commons-csv-1.2.jar"
+        String sparkCsv = "spark-csv_2.10-1.2.0.jar"
+
+        Properties props = new Properties()
+        FileWriter writer = new FileWriter(file("${project.projectDir}/src/test/resources/sysconfig.properties"))
+        props.setProperty("productName", "harespark")
+        props.setProperty("hdfsTableFolderRoot", "/home/user1")
+        props.setProperty("metaFolderName", ".meta")
+        props.setProperty("sparkcommoncsvJarPath", "$buildDir/lib/" + commonCsv)
+        props.setProperty("sparkcsvJarPath", "$buildDir/lib/" + sparkCsv)
+        props.setProperty("hareSparkAssemblyJarPath", "$buildDir/lib/HareSpark.jar")
+        props.setProperty("sparkAssemblyJarPath", 'hdfs://host1:8020/sparkjar/spark-assembly-1.4.0-hadoop2.3.0.jar')
+
+        props.store(writer, null)
+        writer.flush()
+    }
+    build.dependsOn(copyTestJar)
+    build.dependsOn(createTestPropertiesFile)
 }
 
