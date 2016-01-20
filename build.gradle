@@ -191,19 +191,6 @@ project(":HareDB_HBaseClient_WebRestful"){
            compile project(":HareDB_HBaseClient_FacadeAPI")
     }
 
-    /*into(new File('libs')){
-        from configurations.hadoopConf
-    }*/
-   /*task copyDeps(type: Copy){
-        from configurations.compile
-        into "${buildDir}/lib"
-   }
-   //jar.dependsOn('copyDeps')
-   */
-   /*war{
-      from configurations.compile
-       into "${buildDir}/lib"
-   }*/
     task copyTestJar(type: Copy){
         from configurations.compile
         into "${buildDir}/lib"
