@@ -79,7 +79,7 @@ public class HareBulkLoadInQueueOperator extends HareContrivance {
 					/* for error  */
 					MessageInfo info = new MessageInfo();
 					info.setStatus(MessageInfo.ERROR);
-					info.setException(e.getMessage());
+					info.setException(printStackTrace(e));
 					try {
 						writeFileToHdfs(info, uploadSchemaBean.getResultPath(),true);
 					} catch (Exception e1) {
@@ -153,10 +153,6 @@ public class HareBulkLoadInQueueOperator extends HareContrivance {
 		bulkloadBean.setJobName(jobName);
 		bulkloadBean.setIndexJarPath(HareEnv.getIndexJar().getPath());
 		bulkloadBean.setBulkloadType(this.bulkloadProp.getProperty("bulkloadtype"));
-		if(this.containerRealPath == null) {
-			throw new RuntimeException("Exception: Container Real Path is null!");
-		}
-//		bulkloadBean.setJarPath(this.containerRealPath+this.bulkloadProp.getProperty("bulkloadjarpath"));
 		bulkloadBean.setJarPath(HareEnv.getBulkloadJar().getPath());
 		
 		if(this.bulkloadProp.getProperty("bulkloadskipbadline").toLowerCase().equals("true")){

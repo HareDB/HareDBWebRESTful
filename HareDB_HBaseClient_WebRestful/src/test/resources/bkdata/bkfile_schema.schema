@@ -1,0 +1,8 @@
+bulkloadfileformat=NORMAL
+bulkloadseparator=|
+bulkloadtablename=@tablename
+bulkloadoutputfolder=@outputfolder
+bulkloadcolumn=:key,cf:column1,cf:column2,cf:column3,cf:column4,cf:column5,cf:column6
+bulkloadcolumnrowkey=true,false,false,false,false,false,false
+bulkloadcolumnfamily=cf
+bulkloadexistheader=true
