@@ -270,8 +270,12 @@ public class HareSparkResource {
 		HareSparkSysConfig hareSparkSysConfig = (HareSparkSysConfig)request.getServletContext().getAttribute(WebRestAppListener.HARESPARKCONFIGSTR);
 		
 		UserSessionBean userSessionBean = (UserSessionBean) request.getSession().getAttribute(UserSessionBean.sessionKey);
-		HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
-		return String.valueOf(operator.isExists(tableName));
+		if(userSessionBean != null){
+			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
+			return String.valueOf(operator.isExists(tableName));
+		}else{
+			return HareSparkOperator.USERSESSIONNULLMSG;
+		}
 	}
 	
 }
