@@ -191,13 +191,18 @@ public class HareSparkOperator {
 			}else{
 				hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);			
 				List<String> responselist = hareSparkFacade.queryHDFSTableStatus(queryStatusBean.getQueryJobName());
-				bean.setJobStatus(responselist.get(0));
-				bean.setJobID(responselist.get(1));
-				bean.setJobName(responselist.get(2));
-				bean.setJobFinishTime(responselist.get(3));
-				bean.setJobStartTime(responselist.get(4));
-				bean.setJobProgress(responselist.get(5));
-				bean.setStatus(bean.SUCCESS);
+				if(responselist != null){	
+					bean.setJobStatus(responselist.get(0));
+					bean.setJobID(responselist.get(1));
+					bean.setJobName(responselist.get(2));
+					bean.setJobFinishTime(responselist.get(3));
+					bean.setJobStartTime(responselist.get(4));
+					bean.setJobProgress(responselist.get(5));
+					bean.setStatus(bean.SUCCESS);
+				}else{
+					bean.setStatus(bean.ERROR);
+					bean.setException("QueryStatus failed : This is JobID not running");
+				}
 			}
 		}catch(Exception e) {
 			bean.setStatus(bean.ERROR);
