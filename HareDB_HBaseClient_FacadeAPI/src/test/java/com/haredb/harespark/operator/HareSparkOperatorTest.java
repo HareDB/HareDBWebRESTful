@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.haredb.client.facade.bean.MessageInfo;
 import com.haredb.harespark.bean.input.CreateTableBean;
 import com.haredb.harespark.bean.input.DropTableBean;
 import com.haredb.harespark.bean.input.UserSessionBean;
@@ -23,12 +24,12 @@ public class HareSparkOperatorTest {
 		operator = new HareSparkOperator();
 		
 		ResponseInfoBean bean = operator.createUserSession(getUserSessionBean());		
-		assertEquals(bean.getStatus(),bean.SUCCESS);
+		assertEquals(bean.getStatus(),MessageInfo.SUCCESS);
 		
 		UserSessionBean session = getUserSessionBean();
 		session.setConfigurationFolderPath("/home/ssss/");
 		bean = operator.createUserSession(session);
-		assertEquals(bean.getStatus(),bean.ERROR);
+		assertEquals(bean.getStatus(),MessageInfo.ERROR);
 		
 	}
 

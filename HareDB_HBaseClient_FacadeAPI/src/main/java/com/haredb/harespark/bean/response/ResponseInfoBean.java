@@ -5,10 +5,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class ResponseInfoBean implements IResponseBean {
 
-	public final String ERROR = "error";
+	/*public final String ERROR = "error";
 	public final String SUCCESS = "success";
 	public final String OTHER = "other";
-	public final String RUNNING = "running";
+	public final String RUNNING = "running";*/
 
 	private long responseTime;
 	private String status;

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.haredb.client.facade.bean.MessageInfo;
 import com.haredb.client.facade.until.HareSparkSysConfig;
 import com.haredb.harespark.bean.TableColumn;
 import com.haredb.harespark.bean.TableInfo;
@@ -55,9 +56,9 @@ public class HareSparkOperator {
 		String folder = userSessionBean.getConfigurationFolderPath();
 		File file = new File(folder);
 		if (file.exists()) {
-			bean.setStatus(bean.SUCCESS);
+			bean.setStatus(MessageInfo.SUCCESS);
 		}else {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException("Folder path '" + folder +"' is not exist. " );
 		}
 		stopTime = System.currentTimeMillis();
@@ -73,16 +74,16 @@ public class HareSparkOperator {
 		try {
 			
 			if(userSessionBean == null){
-				bean.setStatus(bean.ERROR);
+				bean.setStatus(MessageInfo.ERROR);
 				bean.setException(USERSESSIONNULLMSG);
 			}else{
 				hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
 				hareSparkFacade.createTable(createTableBean.getTablename(), createTableBean.getColumnNames(), createTableBean.getDataTypes());
-				bean.setStatus(bean.SUCCESS);
+				bean.setStatus(MessageInfo.SUCCESS);
 			}
 			
 		}catch(Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException("Create table "+ createTableBean.getTablename() + " failed : " + e.getMessage());
 			e.printStackTrace();
 		}		
@@ -97,7 +98,7 @@ public class HareSparkOperator {
 		// Todo : change to thread	
 		try {		
 			if(userSessionBean == null){
-				bean.setStatus(bean.ERROR);
+				bean.setStatus(MessageInfo.ERROR);
 				bean.setException(USERSESSIONNULLMSG);
 			}else{
 				hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
@@ -112,10 +113,10 @@ public class HareSparkOperator {
 	//			hareSparkFacade.uploadDataFile(uploadDataFileBean.getDataFilePath(), uploadDataFileBean.getResultPath(), uploadDataFileBean.getCsvSeparator(), uploadDataFileBean.getTableName(), skipHeader, uploadDataFileBean.getOperator());
 				
 				bean.setUploadJobName(uploadDataFileBean.getResultPath());
-				bean.setStatus(bean.SUCCESS);
+				bean.setStatus(MessageInfo.SUCCESS);
 			}
 		}catch(Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException("Upload DataFile failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
@@ -130,7 +131,7 @@ public class HareSparkOperator {
 		startTime = System.currentTimeMillis();		
 		try {
 			if(userSessionBean == null){
-				bean.setStatus(bean.ERROR);
+				bean.setStatus(MessageInfo.ERROR);
 				bean.setException(USERSESSIONNULLMSG);
 			}else{
 				hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
@@ -140,10 +141,10 @@ public class HareSparkOperator {
 				bean.setStartTime(responseinfo[0]);
 				bean.setFinishTime(responseinfo[1]);
 				bean.setDataStatus(responseinfo[2]);
-				bean.setStatus(bean.SUCCESS);
+				bean.setStatus(MessageInfo.SUCCESS);
 			}
 		}catch(Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException("Query DataFile Status failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
@@ -159,7 +160,7 @@ public class HareSparkOperator {
 		try {
 			String jobname = querySubmitBean.getTablename() + "_" + System.currentTimeMillis();
 			if(userSessionBean == null){
-				bean.setStatus(bean.ERROR);
+				bean.setStatus(MessageInfo.ERROR);
 				bean.setException(USERSESSIONNULLMSG);
 			}else{
 				hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
@@ -167,10 +168,10 @@ public class HareSparkOperator {
 				new Thread(runnable).start();
 	//			hareSparkFacade.queryHDFSTable(querySubmitBean.getResultFileFolder(), querySubmitBean.getSql(), querySubmitBean.getTablename(), jobname);
 				bean.setQueryJobName(jobname);
-				bean.setStatus(bean.SUCCESS);
+				bean.setStatus(MessageInfo.SUCCESS);
 			}
 		}catch(Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException("QuerySubmit failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
@@ -186,7 +187,7 @@ public class HareSparkOperator {
 		startTime = System.currentTimeMillis();		
 		try {
 			if(userSessionBean == null){
-				bean.setStatus(bean.ERROR);
+				bean.setStatus(MessageInfo.ERROR);
 				bean.setException(USERSESSIONNULLMSG);
 			}else{
 				hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);			
@@ -198,14 +199,14 @@ public class HareSparkOperator {
 					bean.setJobFinishTime(responselist.get(3));
 					bean.setJobStartTime(responselist.get(4));
 					bean.setJobProgress(responselist.get(5));
-					bean.setStatus(bean.SUCCESS);
+					bean.setStatus(MessageInfo.SUCCESS);
 				}else{
-					bean.setStatus(bean.ERROR);
+					bean.setStatus(MessageInfo.ERROR);
 					bean.setException("QueryStatus failed : This is JobID not running");
 				}
 			}
 		}catch(Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException("QueryStatus failed : " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -221,7 +222,7 @@ public class HareSparkOperator {
 		startTime = System.currentTimeMillis();		
 		try {
 			if(userSessionBean == null){
-				bean.setStatus(bean.ERROR);
+				bean.setStatus(MessageInfo.ERROR);
 				bean.setException(USERSESSIONNULLMSG);
 			}else{
 				hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
@@ -253,10 +254,10 @@ public class HareSparkOperator {
 				}
 				bean.setHeads(header);
 				bean.setResults(results);
-				bean.setStatus(bean.SUCCESS);
+				bean.setStatus(MessageInfo.SUCCESS);
 			}
 		}catch(Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException("QuerySubmit failed : " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -272,16 +273,16 @@ public class HareSparkOperator {
 
 		try {
 			if(userSessionBean == null){
-				bean.setStatus(bean.ERROR);
+				bean.setStatus(MessageInfo.ERROR);
 				bean.setException(USERSESSIONNULLMSG);
 			}else{
 				hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
 				boolean result = hareSparkFacade.deleteDataFile(deleteDataFileBean.getTablename(), deleteDataFileBean.getDeleteDataFileName());			
-				bean.setStatus(bean.SUCCESS);
+				bean.setStatus(MessageInfo.SUCCESS);
 			}
 			
 		}catch(Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException("Delete DataFile failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
@@ -297,15 +298,15 @@ public class HareSparkOperator {
 
 		try {
 			if(userSessionBean == null){
-				bean.setStatus(bean.ERROR);
+				bean.setStatus(MessageInfo.ERROR);
 				bean.setException(USERSESSIONNULLMSG);
 			}else{
 				hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
 				hareSparkFacade.dropTable(dropTableBean.getTablename());
-				bean.setStatus(bean.SUCCESS);
+				bean.setStatus(MessageInfo.SUCCESS);
 			}
 		}catch(Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException("Drop table " + dropTableBean.getTablename() + " failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
@@ -320,15 +321,15 @@ public class HareSparkOperator {
 		startTime = System.currentTimeMillis();		
 		try {
 			if(userSessionBean == null){
-				bean.setStatus(bean.ERROR);
+				bean.setStatus(MessageInfo.ERROR);
 				bean.setException(USERSESSIONNULLMSG);	
 			}else{
 				hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
 				hareSparkFacade.alterTable(alterTableBean.getTablename(), alterTableBean.getColumnNames(), alterTableBean.getDataTypes());
-				bean.setStatus(bean.SUCCESS);
+				bean.setStatus(MessageInfo.SUCCESS);
 			}
 		}catch(Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException("Alter table " + alterTableBean.getTablename() +" failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
@@ -343,7 +344,7 @@ public class HareSparkOperator {
 		startTime = System.currentTimeMillis();		
 		try {
 			if(userSessionBean == null){
-				bean.setStatus(bean.ERROR);
+				bean.setStatus(MessageInfo.ERROR);
 				bean.setException(USERSESSIONNULLMSG);
 			}else{
 				hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
@@ -362,10 +363,10 @@ public class HareSparkOperator {
 				
 				bean.setColumnNames(listColumns);
 				bean.setDataTypes(listDataType);
-				bean.setStatus(bean.SUCCESS);
+				bean.setStatus(MessageInfo.SUCCESS);
 			}
 		}catch(Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException("Describe table " + describeTableBean.getTablename() + " failed : " + e.getMessage());
 			e.printStackTrace();
 		}	
