@@ -9,8 +9,8 @@ public class QueueStatusBean extends MessageInfo{
 
 	private String tableName;
 	private String queueStatus;
+	private String runningJobName;
 	private List<String> queueFiles;
-	
 	
 	
 	@Override
@@ -42,6 +42,12 @@ public class QueueStatusBean extends MessageInfo{
 		this.queueFiles = queueFiles;
 	}
 
+	public String getRunningJobName() {
+		return runningJobName;
+	}
 
+	public void setRunningJobName(String runningJobName) {
+		this.runningJobName = runningJobName;
+	}
 	
 }
