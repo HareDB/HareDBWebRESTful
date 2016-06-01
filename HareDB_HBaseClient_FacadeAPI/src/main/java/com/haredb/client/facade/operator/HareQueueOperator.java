@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -145,7 +146,7 @@ public class HareQueueOperator  extends HareContrivance{
 		
 		List<String> queueFiles = this.getQueueFiles();
 		if(queueFiles == null || queueFiles.size() == 0){
-			statusBean.setRunningJobName("This job is not running, Please check your table queue status");
+			statusBean.setRunningJobName("This queue is not job running, Please check your table queue status");
 			return statusBean;
 		}
 			
@@ -153,7 +154,7 @@ public class HareQueueOperator  extends HareContrivance{
 		QueueSettingObjBean queueSettingObjBean = service.getSettingObj(tableName);
 		String jobName = queueSettingObjBean.getBulkInfo().getJobName();
 		if(jobName == null){
-			statusBean.setRunningJobName("This queue have job");
+			statusBean.setRunningJobName("This queue have not finish job");
 			return statusBean;
 		}
 			
@@ -172,22 +173,21 @@ public class HareQueueOperator  extends HareContrivance{
 	private List<String> getQueueFiles() throws Exception{
 		FileSystem fs =null; 
 		ArrayList<String> queueFiles = new ArrayList<String>();
-		try{
-			String tableName = qBean.getTableName();
-			fs= FileSystem.get(connection.getConfig());
-			Path jobQueuePath = new Path(UIQueueService.JOB_STATUS_FILE_PATH + tableName);
-			if(fs.exists(jobQueuePath)){
-				FileStatus[] tableQueueFiles = fs.listStatus(jobQueuePath);
-				/* get all queue file on single table */
-				for (FileStatus queueFile : tableQueueFiles) {
-					queueFiles.add(queueFile.getPath().toString());
-				}
-			}
-		}finally{
-			if(fs !=null){				
-				fs.close();
+		
+		String tableName = qBean.getTableName();
+		Configuration config = connection.getConfig();
+		config.setBoolean("fs.hdfs.impl.disable.cache", true);
+		
+		fs = FileSystem.get(config);
+		Path jobQueuePath = new Path(UIQueueService.JOB_STATUS_FILE_PATH + tableName);
+		if(fs.exists(jobQueuePath)){
+			FileStatus[] tableQueueFiles = fs.listStatus(jobQueuePath);
+			/* get all queue file on single table */
+			for (FileStatus queueFile : tableQueueFiles) {
+				queueFiles.add(queueFile.getPath().toString());
 			}
 		}
+		fs.close();
 		return queueFiles;
 	}
 }
