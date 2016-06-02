@@ -8,8 +8,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.junit.Test;
-
 import com.haredb.client.facade.bean.MessageInfo;
+
 import com.haredb.client.facade.until.HareSparkSysConfig;
 import com.haredb.harespark.bean.input.AlterTableBean;
 import com.haredb.harespark.bean.input.CreateTableBean;
@@ -50,6 +50,7 @@ public class HareSparkOperatorIT {
 		try {
 			CreateTableBean createTableBean = new CreateTableBean(values.getTableName(), values.getOriginCols(), values.getOriginDataType());
 			ResponseInfoBean bean = operator.createTable(createTableBean);		
+
 			assertEquals(MessageInfo.SUCCESS, bean.getStatus());
 			
 			DescribeTableBean describeTableBean = new DescribeTableBean(values.getTableName());
@@ -67,6 +68,7 @@ public class HareSparkOperatorIT {
 			assertEquals(values.getAlterCols(), describeTableResponseBean.getColumnNames());
 			assertEquals(values.getAlterDataType(), describeTableResponseBean.getDataTypes());
 			assertEquals(MessageInfo.SUCCESS, describeTableResponseBean.getStatus());
+
 		}catch (Exception ex) {
 			ex.printStackTrace();
 		}finally {
@@ -119,6 +121,7 @@ public class HareSparkOperatorIT {
 						
 			uploadDataFileBean = new UploadDataFileBean(values.getTableName(), values.getDataHadoopFile2(), values.getResultFolderPath2(), "", ",", UploadDataFileBean.operatorName_Normal);
 			uploadDataFileResponseBean = operator.uploadDataFile(uploadDataFileBean);
+
 			assertEquals(MessageInfo.SUCCESS, uploadDataFileResponseBean.getStatus());
 			
 			flag = false;
@@ -178,19 +181,23 @@ public class HareSparkOperatorIT {
 			
 			CreateTableBean createTableBean = new CreateTableBean(values.getTableName(), values.getOriginCols(), values.getOriginDataType());
 			ResponseInfoBean bean = operator.createTable(createTableBean);		
+
 			assertEquals(MessageInfo.SUCCESS, bean.getStatus());
 			
-				values.uploadSampleDataFile();
+			values.uploadSampleDataFile();
 			
 			UploadDataFileBean uploadDataFileBean = new UploadDataFileBean(values.getTableName(), values.getDataHadoopFile1(), values.getResultFolderPath1(), "", ",", UploadDataFileBean.operatorName_Normal);
 			UploadDataFileResponseBean uploadDataFileResponseBean = operator.uploadDataFile(uploadDataFileBean);
+
 			assertEquals(MessageInfo.SUCCESS, uploadDataFileResponseBean.getStatus());
+
 			
 			boolean flag = false;
 			while (!flag) {
 				UploadDataFileStatusBean uploadDataFileStatusBean = new UploadDataFileStatusBean("", "", values.getResultFolderPath1());
 				UploadDataFileStatusResponseBean uploadDataFileStatusResponseBean = operator.uploadDataFileStatus(uploadDataFileStatusBean);
 				System.out.println(uploadDataFileStatusResponseBean.toString());
+
 				if (uploadDataFileStatusResponseBean.getStatus().equals(MessageInfo.SUCCESS)) {
 					flag = true;
 				}
@@ -233,6 +240,7 @@ public class HareSparkOperatorIT {
 			
 			DropTableBean dropTableBean = new DropTableBean(values.getTableName());
 			ResponseInfoBean bean = operator.dropTable(dropTableBean);
+
 			assertEquals(MessageInfo.SUCCESS, bean.getStatus());
 		}		
 		

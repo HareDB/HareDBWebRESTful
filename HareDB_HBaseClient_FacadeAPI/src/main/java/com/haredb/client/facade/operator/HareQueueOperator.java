@@ -8,7 +8,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-
 import com.haredb.adapter.bean.QueueSettingObjBean;
 import com.haredb.adapter.jobstatus.QueueService;
 import com.haredb.adapter.jobstatus.UIQueueService;
@@ -59,6 +58,7 @@ public class HareQueueOperator  extends HareContrivance{
 		return statusBean;
 	}
 	
+
 	public QueueStatusBean forceChangeToComplete() throws Exception{
 		String tableName 					= qBean.getTableName();
 		String collectionName			= tableName;
@@ -136,7 +136,6 @@ public class HareQueueOperator  extends HareContrivance{
 		statusBean.setStatus(MessageInfo.SUCCESS);
 		return statusBean;
 	}
-	
 	
 	public QueueStatusBean runningJobName() throws Exception{
 		String tableName				   = qBean.getTableName();

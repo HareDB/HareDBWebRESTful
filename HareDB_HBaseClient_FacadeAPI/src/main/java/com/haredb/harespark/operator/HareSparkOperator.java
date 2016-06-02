@@ -3,7 +3,6 @@ package com.haredb.harespark.operator;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.haredb.client.facade.bean.MessageInfo;
 import com.haredb.client.facade.until.HareSparkSysConfig;
 import com.haredb.harespark.bean.TableColumn;
@@ -37,7 +36,6 @@ public class HareSparkOperator {
 	private SysConfig sysConfig;
 	private UserSessionBean userSessionBean;
 	private HareSparkFacade hareSparkFacade;
-	
 	public final static String USERSESSIONNULLMSG = "usersession is null, please connect to usersession restful";
 	public HareSparkOperator() {
 	
@@ -72,7 +70,7 @@ public class HareSparkOperator {
 		
 		startTime = System.currentTimeMillis();
 		try {
-			
+
 			if(userSessionBean == null){
 				bean.setStatus(MessageInfo.ERROR);
 				bean.setException(USERSESSIONNULLMSG);
@@ -379,7 +377,6 @@ public class HareSparkOperator {
 	public boolean isExists(String tableName){
 		hareSparkFacade = new HareSparkFacade(userSessionBean.getConfigurationFolderPath(), sysConfig);
 		return hareSparkFacade.isExists(tableName);
-		
 	}
 	
 	private class asychronizeRunnable implements Runnable {

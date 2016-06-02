@@ -1,16 +1,12 @@
 package com.haredb.harespark.operator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Test;
 
 import com.haredb.client.facade.bean.MessageInfo;
-import com.haredb.harespark.bean.input.CreateTableBean;
-import com.haredb.harespark.bean.input.DropTableBean;
 import com.haredb.harespark.bean.input.UserSessionBean;
 import com.haredb.harespark.bean.response.ResponseInfoBean;
 
@@ -24,6 +20,7 @@ public class HareSparkOperatorTest {
 		operator = new HareSparkOperator();
 		
 		ResponseInfoBean bean = operator.createUserSession(getUserSessionBean());		
+
 		assertEquals(bean.getStatus(),MessageInfo.SUCCESS);
 		
 		UserSessionBean session = getUserSessionBean();

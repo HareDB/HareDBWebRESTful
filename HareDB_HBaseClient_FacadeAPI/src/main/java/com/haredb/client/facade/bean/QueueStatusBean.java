@@ -12,7 +12,6 @@ public class QueueStatusBean extends MessageInfo{
 	private String runningJobName;
 	private List<String> queueFiles;
 	
-	
 	@Override
 	public <T> Class<?> getBeanClass() {
 		return this.getClass();

@@ -6,7 +6,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
 import com.haredb.client.facade.bean.MessageInfo;
 import com.haredb.client.facade.until.HareSparkSysConfig;
 import com.haredb.client.listener.WebRestAppListener;
