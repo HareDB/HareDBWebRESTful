@@ -6,12 +6,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
-import com.haredb.client.facade.bean.IndexBean;
 import com.haredb.client.facade.bean.MessageInfo;
 import com.haredb.client.facade.bean.QueueBean;
 import com.haredb.client.facade.bean.QueueStatusBean;
-import com.haredb.client.facade.operator.HareIndexOperator;
 import com.haredb.client.facade.operator.HareQueueOperator;
 import com.haredb.client.util.ConnectionUtil;
 
@@ -111,14 +108,14 @@ public class JobQueueResource {
 	}
 	
 	@POST
-	@Path("schema/froceCompelect")
+	@Path("schema/forceComplete")
 	@Produces(MediaType.APPLICATION_JSON)
-	public QueueStatusBean froceCompelect(@Context HttpServletRequest request, QueueBean qBean){
+	public QueueStatusBean forceComplete(@Context HttpServletRequest request, QueueBean qBean){
 		QueueStatusBean qReturn = null;
 		ConnectionUtil connectionUtil = new ConnectionUtil();
 		HareQueueOperator operator = new HareQueueOperator(connectionUtil.getConnection(request), qBean);
 		try {
-			qReturn = operator.froceChangeToComplete();
+			qReturn = operator.forceChangeToComplete();
 		} catch (Exception e) {
 			qReturn = new QueueStatusBean();
 			qReturn.setStatus(MessageInfo.ERROR);
@@ -126,8 +123,21 @@ public class JobQueueResource {
 		}
 		return qReturn;
 	}
-	
-	
-	
-	
+
+	@POST
+	@Path("schema/runningJobName")
+	@Produces(MediaType.APPLICATION_JSON)
+	public QueueStatusBean runningJobName(@Context HttpServletRequest request, QueueBean qBean){
+		QueueStatusBean qReturn = null;
+		ConnectionUtil connectionUtil = new ConnectionUtil();
+		HareQueueOperator operator = new HareQueueOperator(connectionUtil.getConnection(request), qBean);
+		try {
+			qReturn = operator.runningJobName();
+		} catch (Exception e) {
+			qReturn = new QueueStatusBean();
+			qReturn.setStatus(MessageInfo.ERROR);
+			qReturn.setException(e.getMessage());
+		}
+		return qReturn;
+	}
 }

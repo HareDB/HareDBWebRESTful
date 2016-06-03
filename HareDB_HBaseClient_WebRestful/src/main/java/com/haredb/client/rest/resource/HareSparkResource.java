@@ -6,7 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
+import com.haredb.client.facade.bean.MessageInfo;
 import com.haredb.client.facade.until.HareSparkSysConfig;
 import com.haredb.client.listener.WebRestAppListener;
 import com.haredb.client.util.ConnectionUtil;
@@ -49,11 +49,11 @@ public class HareSparkResource {
 			bean = operator.createUserSession(userSessionBean);
 			ConnectionUtil util = new ConnectionUtil();		
 			bean.setConnectionKey(util.genConnectionKey(10, Mode.ALPHANUMERIC));
-			if(bean.getStatus().equals(bean.SUCCESS)) {
+			if(bean.getStatus().equals(MessageInfo.SUCCESS)) {
 				request.getSession().setAttribute(userSessionBean.sessionKey, userSessionBean);
 			}			
 		} catch (Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException(e.getMessage());			
 			e.printStackTrace();
 		}		
@@ -73,7 +73,7 @@ public class HareSparkResource {
 			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
 			bean = operator.createTable(createTableBean);
 		} catch (Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException(e.getMessage());			
 			e.printStackTrace();
 		}		
@@ -93,7 +93,7 @@ public class HareSparkResource {
 			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
 			bean = operator.uploadDataFile(uploadDataFileBean);
 		} catch (Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException(e.getMessage());			
 			e.printStackTrace();
 		}		
@@ -113,7 +113,7 @@ public class HareSparkResource {
 			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
 			bean = operator.uploadDataFileStatus(uploadDataFileStatusBean);
 		} catch (Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException(e.getMessage());			
 			e.printStackTrace();
 		}		
@@ -133,7 +133,7 @@ public class HareSparkResource {
 			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
 			bean = operator.querySubmit(querySubmitBean);
 		} catch (Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException(e.getMessage());			
 			e.printStackTrace();
 		}		
@@ -153,7 +153,7 @@ public class HareSparkResource {
 			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
 			bean = operator.queryStatus(queryStatusBean);
 		} catch (Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException(e.getMessage());			
 			e.printStackTrace();
 		}		
@@ -175,7 +175,7 @@ public class HareSparkResource {
 			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
 			bean = operator.preview(previewBean);
 		} catch (Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException(e.getMessage());			
 			e.printStackTrace();
 		}		
@@ -195,7 +195,7 @@ public class HareSparkResource {
 			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
 			bean = operator.deleteDataFile(deleteDataFileBean);
 		} catch (Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException(e.getMessage());			
 			e.printStackTrace();
 		}		
@@ -216,7 +216,7 @@ public class HareSparkResource {
 			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
 			bean = operator.dropTable(dropTableBean);
 		} catch (Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException(e.getMessage());			
 			e.printStackTrace();
 		}		
@@ -236,7 +236,7 @@ public class HareSparkResource {
 			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
 			bean = operator.alterTable(alterTableBean);
 		} catch (Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException(e.getMessage());			
 			e.printStackTrace();
 		}		
@@ -256,7 +256,7 @@ public class HareSparkResource {
 			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
 			bean = operator.describeTable(describeTableBean);
 		} catch (Exception e) {
-			bean.setStatus(bean.ERROR);
+			bean.setStatus(MessageInfo.ERROR);
 			bean.setException(e.getMessage());			
 			e.printStackTrace();
 		}		
@@ -270,8 +270,12 @@ public class HareSparkResource {
 		HareSparkSysConfig hareSparkSysConfig = (HareSparkSysConfig)request.getServletContext().getAttribute(WebRestAppListener.HARESPARKCONFIGSTR);
 		
 		UserSessionBean userSessionBean = (UserSessionBean) request.getSession().getAttribute(UserSessionBean.sessionKey);
-		HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
-		return String.valueOf(operator.isExists(tableName));
+		if(userSessionBean != null){
+			HareSparkOperator operator = new HareSparkOperator(userSessionBean, hareSparkSysConfig);
+			return String.valueOf(operator.isExists(tableName));
+		}else{
+			return HareSparkOperator.USERSESSIONNULLMSG;
+		}
 	}
 	
 }
