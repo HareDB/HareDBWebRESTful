@@ -200,7 +200,11 @@ public class HareSparkOperator {
 					bean.setStatus(MessageInfo.SUCCESS);
 				}else{
 					bean.setStatus(MessageInfo.ERROR);
-					bean.setException("QueryStatus failed : This is JobID not running");
+					if(responselist.get(0) != null){
+						bean.setException("QueryStatus failed : " + responselist.get(0));
+					}else{
+						bean.setException("QueryStatus failed : This is JobID not running, ");
+					}
 				}
 			}
 		}catch(Exception e) {
