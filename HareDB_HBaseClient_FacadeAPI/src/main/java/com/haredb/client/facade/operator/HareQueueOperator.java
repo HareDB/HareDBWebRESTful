@@ -174,10 +174,7 @@ public class HareQueueOperator  extends HareContrivance{
 		ArrayList<String> queueFiles = new ArrayList<String>();
 		
 		String tableName = qBean.getTableName();
-		Configuration config = connection.getConfig();
-		config.setBoolean("fs.hdfs.impl.disable.cache", true);
-		
-		fs = FileSystem.get(config);
+		fs = FileSystem.get(connection.getConfig());
 		Path jobQueuePath = new Path(UIQueueService.JOB_STATUS_FILE_PATH + tableName);
 		if(fs.exists(jobQueuePath)){
 			FileStatus[] tableQueueFiles = fs.listStatus(jobQueuePath);
