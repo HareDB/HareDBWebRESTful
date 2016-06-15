@@ -140,4 +140,31 @@ public class JobQueueResource {
 		}
 		return qReturn;
 	}
+	
+	@POST
+	@Path("schema/queueSFR")
+	@Produces(MediaType.APPLICATION_JSON)
+	public QueueStatusBean queueStatusFilesRunningJobName(@Context HttpServletRequest request, QueueBean qBean){
+		QueueStatusBean qReturn = new QueueStatusBean();
+		ConnectionUtil connectionUtil = new ConnectionUtil();
+		HareQueueOperator operator = new HareQueueOperator(connectionUtil.getConnection(request), qBean);
+		try {
+			QueueStatusBean statusQueueStatus = operator.getStatus();
+			QueueStatusBean jobFilesQueueStatus = operator.getQueueJobFiles();
+			QueueStatusBean runningJobNameQueueStatus = operator.runningJobName();
+			
+			qReturn.setQueueStatus(statusQueueStatus.getQueueStatus());
+			qReturn.setTableName(statusQueueStatus.getTableName());
+			qReturn.setQueueFiles(jobFilesQueueStatus.getQueueFiles());
+			qReturn.setRunningJobName(runningJobNameQueueStatus.getRunningJobName());
+			qReturn.setStatus(MessageInfo.SUCCESS);
+	
+		} catch (Exception e) {
+			qReturn = new QueueStatusBean();
+			qReturn.setStatus(MessageInfo.ERROR);
+			qReturn.setException(e.getCause().toString());
+		}
+		return qReturn;
+		
+	}
 }

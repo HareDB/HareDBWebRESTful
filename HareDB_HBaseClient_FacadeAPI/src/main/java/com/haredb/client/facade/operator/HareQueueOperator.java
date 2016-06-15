@@ -145,7 +145,7 @@ public class HareQueueOperator  extends HareContrivance{
 		
 		List<String> queueFiles = this.getQueueFiles();
 		if(queueFiles == null || queueFiles.size() == 0){
-			statusBean.setRunningJobName("This queue is not job running, Please check your table queue status");
+			statusBean.setRunningJobName("This queue is not job running!");
 			return statusBean;
 		}
 			
@@ -163,7 +163,7 @@ public class HareQueueOperator  extends HareContrivance{
 		if(jobStatus != null && jobStatus.equals(BulkloadObserver.RUNNING)){
 			statusBean.setRunningJobName(jobName);//set running job name
 		}else{
-			statusBean.setRunningJobName("This queue job is failed, Please check your table queue status or clean your job queue");
+			statusBean.setRunningJobName("This queue is not job running!");
 		}
 		return statusBean;
 	}
