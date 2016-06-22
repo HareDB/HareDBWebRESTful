@@ -31,8 +31,8 @@ public class HTableResource {
 	@POST
 	@Path("scan")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ScanResultStatusBean scanHTable(@Context HttpServletRequest request, ScanConditionBean bean){
-		ScanResultStatusBean mReturn;
+	public MessageInfo scanHTable(@Context HttpServletRequest request, ScanConditionBean bean){
+		MessageInfo mReturn;
 		try {
 			ConnectionUtil connectionUtil = new ConnectionUtil();
 			HareQueryScan queryScan = new HareQueryScan(connectionUtil.getConnection(request));

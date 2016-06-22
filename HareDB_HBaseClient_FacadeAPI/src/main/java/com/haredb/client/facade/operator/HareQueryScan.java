@@ -3,7 +3,13 @@ package com.haredb.client.facade.operator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hbase.util.Bytes;
+
 import com.haredb.ResolveSymbolConstant;
 import com.haredb.client.facade.bean.DataCellBean;
 import com.haredb.client.facade.bean.MessageInfo;
@@ -13,12 +19,13 @@ import com.haredb.hbaseclient.core.TableObject;
 import com.haredb.hbaseclient.core.data.QueryData;
 
 public class HareQueryScan extends HareContrivance{
+	private static final Log LOG = LogFactory.getLog(HareQueryScan.class);
 	
 	public HareQueryScan(Connection connection){
 		super(connection);
 	}
 	
-	public ScanResultStatusBean scanHTable(String tableName, int pageSize, int limit){
+	public MessageInfo scanHTable(String tableName, int pageSize, int limit){
 		ScanResultStatusBean resultStatusBean = new ScanResultStatusBean();
 		try{
 			long startTime = System.currentTimeMillis();
@@ -66,6 +73,16 @@ public class HareQueryScan extends HareContrivance{
 			resultStatusBean.setHeads(cellHeads);
 			resultStatusBean.setResults(results);
 			resultStatusBean.setStatus(MessageInfo.SUCCESS);
+			
+			if(cellHeads.size() == 1  && results.length == 0){
+				EmptyScanResultStatusBean emptyResultScanner = new EmptyScanResultStatusBean();
+				List<String> heads = new ArrayList<String>();
+				heads.add("");
+				emptyResultScanner.setHeads(heads);
+				emptyResultScanner.setStatus(MessageInfo.SUCCESS);
+				return emptyResultScanner;
+			}
+			
 		}catch(Exception e){
 			resultStatusBean.setStatus(MessageInfo.ERROR);
 			resultStatusBean.setException(printStackTrace(e));
@@ -74,4 +91,19 @@ public class HareQueryScan extends HareContrivance{
 		return resultStatusBean;
 		
 	}
+
 }
+
+@XmlRootElement
+class EmptyScanResultStatusBean extends MessageInfo{
+	private List<String> heads;
+	
+	public List<String> getHeads() {
+		return heads;
+	}
+
+	public void setHeads(List<String> heads) {
+		this.heads = heads;
+	}
+}
+
