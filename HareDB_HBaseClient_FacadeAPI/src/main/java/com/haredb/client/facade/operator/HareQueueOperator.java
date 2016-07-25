@@ -151,7 +151,16 @@ public class HareQueueOperator  extends HareContrivance{
 			
 		QueueService service = new QueueService(connection.getConfig());
 		QueueSettingObjBean queueSettingObjBean = service.getSettingObj(tableName);
-		String jobName = queueSettingObjBean.getBulkInfo().getJobName();
+		
+		String jobName = null;
+		if(queueSettingObjBean.getBulkInfo() != null){
+			jobName = queueSettingObjBean.getBulkInfo().getJobName();
+		}
+		
+		if(queueSettingObjBean.getIndexSetting() != null){//if Bulkload job name is null then query index job name
+			jobName = queueSettingObjBean.getIndexSetting().getJobName();
+		}
+		
 		if(jobName == null){
 			statusBean.setRunningJobName("The queue have not finish job");
 			return statusBean;
