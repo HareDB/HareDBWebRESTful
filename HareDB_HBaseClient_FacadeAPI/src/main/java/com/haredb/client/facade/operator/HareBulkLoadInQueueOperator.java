@@ -61,6 +61,7 @@ public class HareBulkLoadInQueueOperator extends HareContrivance {
 			info.setStatus(MessageInfo.ERROR);
 			info.setException(printStackTrace(e));
 			writeFileToHdfs(info, uploadSchemaBean.getResultPath(),true);
+			throw new RuntimeException(e);
 		}
 		rBean.setJobName(this.jobName);
 		
