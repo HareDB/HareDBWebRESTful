@@ -142,7 +142,8 @@ public class HareBulkLoadInQueueOperator extends HareContrivance {
 		if(this.uploadSchemaBean.getResultPath() == null || this.uploadSchemaBean.getResultPath().trim() == "") {
 			throw new RuntimeException("Parameter is empty: resultPath");
 		} else {
-			bulkFileBean.setBkResultFilePath(this.uploadSchemaBean.getResultPath());
+			//bulkFileBean.setBkResultFilePath(this.uploadSchemaBean.getResultPath());
+			bulkFileBean.setFilePath(this.uploadSchemaBean.getResultPath());
 		}
 		
 		return bulkFileBean;
