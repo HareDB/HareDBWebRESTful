@@ -126,8 +126,8 @@ public class WebRestAppListener implements ServletContextListener{
 			
 			
 			servletContext = sce.getServletContext();
-			HareSparkSysConfig sysConfig = new HareSparkSysConfig();
-			servletContext.setAttribute(HARESPARKCONFIGSTR, sysConfig);
+			//HareSparkSysConfig sysConfig = new HareSparkSysConfig();
+			//servletContext.setAttribute(HARESPARKCONFIGSTR, sysConfig);
 			
 			
 		} catch (FileNotFoundException e) {
