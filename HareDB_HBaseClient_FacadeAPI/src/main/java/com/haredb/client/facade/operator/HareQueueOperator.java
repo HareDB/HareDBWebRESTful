@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+
 import com.haredb.adapter.bean.QueueSettingObjBean;
 import com.haredb.adapter.jobstatus.QueueService;
 import com.haredb.adapter.jobstatus.UIQueueService;
@@ -127,7 +127,7 @@ public class HareQueueOperator  extends HareContrivance{
 	}
 	
 	
-	public QueueStatusBean deleteQueueJob() throws IOException{
+	public QueueStatusBean deleteQueueJob() throws Exception{
 		String tableName 					= qBean.getTableName();
 		QueueStatusBean statusBean = new QueueStatusBean();
 		statusBean.setTableName(tableName);

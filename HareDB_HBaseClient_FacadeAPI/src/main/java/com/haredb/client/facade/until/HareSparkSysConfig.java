@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.haredb.harespark.common.Constants;
 import com.haredb.harespark.common.SysConfig;
 
 public class HareSparkSysConfig {
+	private static Logger logger = LoggerFactory.getLogger(HareSparkSysConfig.class);
 	private SysConfig sysConfig;
 	
 	public HareSparkSysConfig(){
@@ -29,7 +32,8 @@ public class HareSparkSysConfig {
 				sysConfig.setSparkcommoncsvJarPath(properties.getProperty(Constants.SPARKCOMMONCSVJARPATH));
 			    this.setSysConfig(sysConfig);
 			}else{
-				throw new RuntimeException(Constants.sysConfigFilePath + " file is not found, please set CLASSPATH");
+				logger.info("If your use HareSpark, please setting " + Constants.sysConfigFilePath + " classpath");
+				logger.info(Constants.sysConfigFilePath + " file is not found, please set CLASSPATH");
 			}
 		    
 		}catch(Exception e){
