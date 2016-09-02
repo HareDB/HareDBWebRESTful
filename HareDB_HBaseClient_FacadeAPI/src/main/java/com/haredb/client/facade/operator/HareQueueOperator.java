@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+
 import com.haredb.adapter.bean.QueueSettingObjBean;
 import com.haredb.adapter.jobstatus.QueueService;
 import com.haredb.adapter.jobstatus.UIQueueService;
@@ -127,7 +127,7 @@ public class HareQueueOperator  extends HareContrivance{
 	}
 	
 	
-	public QueueStatusBean deleteQueueJob() throws IOException{
+	public QueueStatusBean deleteQueueJob() throws Exception{
 		String tableName 					= qBean.getTableName();
 		QueueStatusBean statusBean = new QueueStatusBean();
 		statusBean.setTableName(tableName);
@@ -145,15 +145,24 @@ public class HareQueueOperator  extends HareContrivance{
 		
 		List<String> queueFiles = this.getQueueFiles();
 		if(queueFiles == null || queueFiles.size() == 0){
-			statusBean.setRunningJobName("This queue is not job running, Please check your table queue status");
+			statusBean.setRunningJobName("The queue is not job running!");
 			return statusBean;
 		}
 			
 		QueueService service = new QueueService(connection.getConfig());
 		QueueSettingObjBean queueSettingObjBean = service.getSettingObj(tableName);
-		String jobName = queueSettingObjBean.getBulkInfo().getJobName();
+		
+		String jobName = null;
+		if(queueSettingObjBean.getBulkInfo() != null){
+			jobName = queueSettingObjBean.getBulkInfo().getJobName();
+		}
+		
+		if(queueSettingObjBean.getIndexSetting() != null){//if Bulkload job name is null then query index job name
+			jobName = queueSettingObjBean.getIndexSetting().getJobName();
+		}
+		
 		if(jobName == null){
-			statusBean.setRunningJobName("This queue have not finish job");
+			statusBean.setRunningJobName("The queue have not finish job");
 			return statusBean;
 		}
 			
@@ -163,7 +172,7 @@ public class HareQueueOperator  extends HareContrivance{
 		if(jobStatus != null && jobStatus.equals(BulkloadObserver.RUNNING)){
 			statusBean.setRunningJobName(jobName);//set running job name
 		}else{
-			statusBean.setRunningJobName("This queue job is failed, Please check your table queue status or clean your job queue");
+			statusBean.setRunningJobName("The queue is not job running!");
 		}
 		return statusBean;
 	}
@@ -174,10 +183,7 @@ public class HareQueueOperator  extends HareContrivance{
 		ArrayList<String> queueFiles = new ArrayList<String>();
 		
 		String tableName = qBean.getTableName();
-		Configuration config = connection.getConfig();
-		config.setBoolean("fs.hdfs.impl.disable.cache", true);
-		
-		fs = FileSystem.get(config);
+		fs = FileSystem.get(connection.getConfig());
 		Path jobQueuePath = new Path(UIQueueService.JOB_STATUS_FILE_PATH + tableName);
 		if(fs.exists(jobQueuePath)){
 			FileStatus[] tableQueueFiles = fs.listStatus(jobQueuePath);
