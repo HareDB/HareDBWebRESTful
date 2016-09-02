@@ -68,10 +68,10 @@ public class HareDefineHTable extends HareContrivance{
 			hareTable.dropHTable();
 			
 			/* drop index */
-			IndexBean indexBean = new IndexBean();
+			/*IndexBean indexBean = new IndexBean();
 			indexBean.setTableName(tableName);
 			HareIndexOperator indexOperator = new HareIndexOperator(connection, indexBean);
-			indexOperator.dropIndex();
+			indexOperator.dropIndex();*/
 			
 			/* drop queue */
 			QueueBean qBean = new QueueBean();

@@ -76,11 +76,11 @@ public class HareIndexOperator extends HareContrivance{
 					ErrorBean errorBean;
 					switch (type) {
 					case HareIndexOperator.TYPE_CREATE:
-						errorBean = operator.startCreateIndexJob(collectionName, collectionList,inputJobName);						
+						errorBean = operator.startCreateIndexJob(collectionName, collectionList);	
 						break;
 
 					case HareIndexOperator.TYPE_UPDATE:
-						errorBean = operator.startUpdateIndexJob(collectionName, collectionList, new ArrayList<String>(),inputJobName);						
+						errorBean = operator.startUpdateIndexJob(collectionName, collectionList, new ArrayList<String>());						
 						break;
 					default:
 						errorBean = new ErrorBean();

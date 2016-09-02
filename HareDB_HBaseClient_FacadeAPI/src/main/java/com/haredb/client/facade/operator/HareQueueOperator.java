@@ -97,7 +97,7 @@ public class HareQueueOperator  extends HareContrivance{
 		QueueStatusBean statusBean = new QueueStatusBean();
 		statusBean.setTableName(tableName);
 		QueueService service = new QueueService(connection.getConfig());
-		service.dropQueue(tableName);
+		//service.dropQueue(tableName);
 		statusBean.setStatus(MessageInfo.SUCCESS);
 		return statusBean;
 	}
@@ -132,7 +132,7 @@ public class HareQueueOperator  extends HareContrivance{
 		QueueStatusBean statusBean = new QueueStatusBean();
 		statusBean.setTableName(tableName);
 		QueueService service = new QueueService(connection.getConfig());
-		service.deleteQueueFile(qBean.getQueueFileName());
+		//service.deleteQueueFile(qBean.getQueueFileName());
 		statusBean.setStatus(MessageInfo.SUCCESS);
 		return statusBean;
 	}
