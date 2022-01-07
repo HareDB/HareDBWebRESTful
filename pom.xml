@@ -47,7 +47,7 @@
 		<version.gson>2.3</version.gson>
 		<version.mysql>5.1.18</version.mysql>
 		<version.xstream>1.4.4</version.xstream>
-		<version.protobuf>2.5.0</version.protobuf>
+		<version.protobuf>3.16.1</version.protobuf>
 		<version.alibaba>1.0.10</version.alibaba>
 		<version.zookeeper>3.4.6</version.zookeeper>
 		<version.jersey.test.framework>1.9</version.jersey.test.framework>
