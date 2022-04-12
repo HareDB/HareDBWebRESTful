@@ -41,7 +41,7 @@
 		<web-war.contextName>HareDBClient</web-war.contextName>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.junit>4.8.2</version.junit>
-		<version.hadoop>2.5.0-cdh5.2.0</version.hadoop>
+		<version.hadoop>3.2.3</version.hadoop>
 		<version.hive>0.13.1</version.hive>
 		<version.hbase>0.98.6-cdh5.2.1</version.hbase>
 		<version.gson>2.3</version.gson>
