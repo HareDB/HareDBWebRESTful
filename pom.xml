@@ -44,7 +44,7 @@
 		<version.hadoop>2.5.0-cdh5.2.0</version.hadoop>
 		<version.hive>0.13.1</version.hive>
 		<version.hbase>0.98.6-cdh5.2.1</version.hbase>
-		<version.gson>2.3</version.gson>
+		<version.gson>2.8.9</version.gson>
 		<version.mysql>5.1.18</version.mysql>
 		<version.xstream>1.4.4</version.xstream>
 		<version.protobuf>2.5.0</version.protobuf>
