@@ -45,7 +45,7 @@
 		<version.hive>0.13.1</version.hive>
 		<version.hbase>0.98.6-cdh5.2.1</version.hbase>
 		<version.gson>2.3</version.gson>
-		<version.mysql>5.1.18</version.mysql>
+		<version.mysql>8.0.28</version.mysql>
 		<version.xstream>1.4.4</version.xstream>
 		<version.protobuf>2.5.0</version.protobuf>
 		<version.alibaba>1.0.10</version.alibaba>
